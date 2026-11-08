@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<title>SỰ RƠI TỰ DO — Từ Trực Giác Đến Thực Nghiệm Khoa Học</title>
+<title>SỰ RƠI TRONG KHÔNG KHÍ — Từ Triết Học Cổ Đại Đến Cơ Học Cổ Điển</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#060913">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -142,10 +142,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 .headline{
   font-family:var(--f-cin);font-weight:700;
-  font-size:calc(var(--u)*4.2);line-height:1.16;color:var(--text-main);
+  font-size:calc(var(--u)*3.9);line-height:1.18;color:var(--text-main);
   letter-spacing:0.01em;
 }
-.headline.lg{font-size:calc(var(--u)*5.0)}
+.headline.lg{font-size:calc(var(--u)*4.7)}
 .hline{display:block;perspective:1000px;padding:0.04em 0 0.1em;overflow:visible}
 .wd{display:inline-block;white-space:nowrap}
 
@@ -203,7 +203,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   background:linear-gradient(145deg,rgba(14,22,46,0.88),rgba(8,14,30,0.92));
   border:1px solid var(--border-glass);
   border-radius:calc(var(--u)*1.3);
-  padding:calc(var(--u)*1.9) calc(var(--u)*2.3);
+  padding:calc(var(--u)*1.8) calc(var(--u)*2.2);
   backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   box-shadow:
     0 calc(var(--u)*1.5) calc(var(--u)*4.5) rgba(0,0,0,0.5),
@@ -264,7 +264,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* ===================================================================
    5. SLIDE-SPECIFIC LAYOUTS
    =================================================================== */
-/* Slide 1 Opener */
+/* Welcome / Opener / Thank You Centered Content */
 .hero-opener-content{
   position:absolute;left:50%;top:50%;
   transform:translate(-50%,-50%);width:88%;
@@ -317,17 +317,17 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 @keyframes marqueeScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* Slide 2 Aristotle */
+/* Two-Column Content Layouts */
 .split-layout-2{
   position:absolute;
-  inset:calc(var(--u)*5.2) calc(var(--u)*7) calc(var(--u)*4) calc(var(--u)*7);
-  display:grid;grid-template-columns:1.1fr 1fr;gap:calc(var(--u)*3.5);
+  inset:calc(var(--u)*13.5) calc(var(--u)*7) calc(var(--u)*5.5) calc(var(--u)*7);
+  display:grid;grid-template-columns:1.12fr 0.98fr;gap:calc(var(--u)*3.5);
   align-items:center;
 }
 .parchment-sheet{
   background:linear-gradient(148deg,#fdf9ef 0%,#f5ecda 60%,#ede0c4 100%);
   border:1px solid #c9b98a;border-radius:calc(var(--u)*1.1);
-  padding:calc(var(--u)*2.4);color:#1c1917;
+  padding:calc(var(--u)*2.2);color:#1c1917;
   box-shadow:
     0 calc(var(--u)*2) calc(var(--u)*5) rgba(0,0,0,0.5),
     inset 0 0 calc(var(--u)*3) rgba(205,185,138,0.35),
@@ -341,68 +341,27 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   );
 }
 
-/* Slide 3 Galileo formulas */
-.stat-formula-split{
-  position:absolute;
-  inset:calc(var(--u)*5) calc(var(--u)*7) calc(var(--u)*4) calc(var(--u)*7);
-  display:grid;grid-template-columns:1.15fr 0.95fr;gap:calc(var(--u)*4);
-  align-items:center;
-}
-.counter-box{
-  display:flex;align-items:baseline;gap:calc(var(--u)*1.1);
-  padding:calc(var(--u)*1.2) calc(var(--u)*2);
-  background:rgba(8,16,38,0.92);
-  border:1.5px solid var(--cyan);border-radius:calc(var(--u)*1);
-  box-shadow:0 0 calc(var(--u)*3) var(--cyan-glow),
-             inset 0 0 calc(var(--u)*2) rgba(56,189,248,0.08);
-}
-.counter-num{
-  font:900 calc(var(--u)*7.4)/1 var(--f-mono);color:#fff;
-  text-shadow:0 0 calc(var(--u)*2.5) var(--cyan),
-              0 0 calc(var(--u)*5) rgba(56,189,248,0.4);
-}
-.counter-unit{
-  font:700 calc(var(--u)*2.1) var(--f-mono);color:var(--cyan);
-  text-shadow:0 0 calc(var(--u)*1.5) var(--cyan-glow);
-}
-.formula-list{display:flex;flex-direction:column;gap:calc(var(--u)*1.1)}
-.formula-item{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:calc(var(--u)*1.1) calc(var(--u)*1.7);
-  background:rgba(10,18,42,0.78);
-  border:1px solid var(--border-glass);border-radius:calc(var(--u)*0.8);
-  transition:border-color 0.3s,box-shadow 0.3s;
-}
-.formula-item:hover{
-  border-color:var(--brass);
-  box-shadow:0 0 calc(var(--u)*1.5) var(--brass-glow);
-}
-.formula-eq{
-  font:700 calc(var(--u)*2.0) var(--f-mono);color:var(--brass-light);
-  letter-spacing:0.05em;text-shadow:0 0 calc(var(--u)*1) var(--brass-glow);
-}
-
-/* Slide 4 Pisa */
+/* Slide Pisa */
 .pisa-slide-grid{
   position:absolute;
-  inset:calc(var(--u)*4.8) calc(var(--u)*7) calc(var(--u)*3.5) calc(var(--u)*7);
-  display:grid;grid-template-columns:1.05fr 1fr;gap:calc(var(--u)*3.5);
+  inset:calc(var(--u)*13.5) calc(var(--u)*7) calc(var(--u)*5.5) calc(var(--u)*7);
+  display:grid;grid-template-columns:1.08fr 0.92fr;gap:calc(var(--u)*3.5);
   align-items:center;
 }
 .dual-gallery{
   display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*1.6);
-  height:calc(var(--u)*38);
+  height:calc(var(--u)*36);
 }
 .dual-gallery .media-frame{height:100%}
 
-/* Slide 5 Cinema */
+/* Slide Cinema */
 .cinema-slide-container{
   position:absolute;
-  inset:calc(var(--u)*3.2) calc(var(--u)*7) calc(var(--u)*3.2) calc(var(--u)*7);
-  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  inset:calc(var(--u)*13) calc(var(--u)*7) calc(var(--u)*5) calc(var(--u)*7);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
 }
 .cinema-screen-box{
-  position:relative;width:80%;aspect-ratio:16/9;max-height:calc(var(--u)*36);
+  position:relative;width:78%;aspect-ratio:16/9;max-height:calc(var(--u)*34);
   border-radius:calc(var(--u)*1.2);overflow:hidden;
   border:2px solid var(--brass);background:#000;
   box-shadow:
@@ -427,16 +386,16 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 @keyframes recPulse{50%{opacity:0.15}}
 
-/* Slide 6 Newton */
+/* Slide Newton */
 .newton-slide-grid{
   position:absolute;
-  inset:calc(var(--u)*3.8) calc(var(--u)*6.5) calc(var(--u)*3.5) calc(var(--u)*6.5);
-  display:grid;grid-template-columns:1fr 1.05fr;gap:calc(var(--u)*3.2);
+  inset:calc(var(--u)*13.5) calc(var(--u)*6.5) calc(var(--u)*5.5) calc(var(--u)*6.5);
+  display:grid;grid-template-columns:1.05fr 1fr;gap:calc(var(--u)*3.2);
   align-items:center;
 }
 .newton-media-layout{
   display:grid;grid-template-columns:1.15fr 1fr;gap:calc(var(--u)*1.4);
-  height:calc(var(--u)*38);
+  height:calc(var(--u)*36);
 }
 .newton-media-layout .video-col{
   border-radius:calc(var(--u)*1);overflow:hidden;
@@ -452,31 +411,31 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 .newton-media-layout .photos-col .media-frame{flex:1;min-height:0}
 
-/* Slide 7 Finale */
+/* Slide Conclusion */
 .finale-slide-grid{
   position:absolute;
-  inset:calc(var(--u)*4) calc(var(--u)*7) calc(var(--u)*3.5) calc(var(--u)*7);
-  display:grid;grid-template-columns:1.1fr 0.95fr;gap:calc(var(--u)*3.8);
+  inset:calc(var(--u)*13.5) calc(var(--u)*7) calc(var(--u)*5.5) calc(var(--u)*7);
+  display:grid;grid-template-columns:1.12fr 0.92fr;gap:calc(var(--u)*3.5);
   align-items:center;
 }
 .finale-gallery{
   display:grid;grid-template-columns:1fr 1.1fr;gap:calc(var(--u)*1.6);
-  height:calc(var(--u)*38);
+  height:calc(var(--u)*36);
 }
 .tri-tribute-cards{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*1.1);
-  margin-top:calc(var(--u)*1.6);
+  display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*1.0);
+  margin-top:calc(var(--u)*1.2);
 }
 .tribute-step{
-  padding:calc(var(--u)*1.1) calc(var(--u)*1.3);
+  padding:calc(var(--u)*0.95) calc(var(--u)*1.1);
   background:rgba(10,18,42,0.78);
   border:1px solid var(--border-glass);
   border-radius:calc(var(--u)*0.8);text-align:center;
   transition:transform 0.3s var(--pop),border-color 0.3s;
 }
 .tribute-step:hover{transform:translateY(calc(var(--u)*-0.4));border-color:var(--brass)}
-.tribute-step b{display:block;color:var(--brass);font:700 calc(var(--u)*1.1) var(--f-mono);margin-bottom:4px}
-.tribute-step span{font-size:calc(var(--u)*0.92);color:#cbd5e1}
+.tribute-step b{display:block;color:var(--brass);font:700 calc(var(--u)*1.05) var(--f-mono);margin-bottom:3px}
+.tribute-step span{font-size:calc(var(--u)*0.9);color:#cbd5e1}
 
 /* ===================================================================
    6. SIGNATURE TRANSITION: GRAVITATIONAL CURTAIN
@@ -546,7 +505,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 #progress i{
   display:block;height:100%;width:100%;
   background:linear-gradient(90deg,var(--brass),var(--cyan));
-  transform-origin:left;transform:scaleX(0.14);
+  transform-origin:left;transform:scaleX(0.11);
   transition:transform 0.65s var(--e);
 }
 #scroll-hint{
@@ -562,9 +521,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 @keyframes hintBounce{50%{transform:translateY(calc(var(--u)*0.4)) rotate(45deg)}}
 
-/* Feather canvas */
+/* Feather canvas & Dust canvas */
 #feather-canvas{position:absolute;inset:0;pointer-events:none;z-index:7}
-/* Dust canvas */
 #dust{position:absolute;inset:0;pointer-events:none;z-index:8}
 
 /* ===================================================================
@@ -572,7 +530,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
    =================================================================== */
 .members-panel{
   position:absolute;
-  inset:calc(var(--u)*5) calc(var(--u)*6) calc(var(--u)*5.5) calc(var(--u)*6);
+  inset:calc(var(--u)*13.5) calc(var(--u)*7) calc(var(--u)*5.5) calc(var(--u)*7);
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:calc(var(--u)*1.3);
@@ -593,7 +551,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 .sc.on .member-card{
   animation:cardStampIn 0.65s var(--pop)
-    calc(0.4s + var(--mi,0)*0.07s) both;
+    calc(0.35s + var(--mi,0)*0.06s) both;
 }
 @keyframes cardStampIn{
   0%{opacity:0;transform:scale(0.72) translateY(calc(var(--u)*1.5))}
@@ -627,7 +585,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 
 /* ===================================================================
-   9. LIGHTBOX, GRID, EDITOR
+   9. LIGHTBOX, GRID, EDITOR, SPEAKER NOTES
    =================================================================== */
 #lightbox{
   position:fixed;inset:0;z-index:120;background:rgba(2,4,12,0.96);
@@ -650,8 +608,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 #modal-grid.active{display:grid}
 .grid-shelf{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:2vmin;
-  width:min(92vw,165vh);
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2vmin;
+  width:min(90vw,155vh);
 }
 .grid-thumb{
   aspect-ratio:16/9;border:1.5px solid rgba(212,175,55,0.3);
@@ -661,18 +619,39 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 .grid-thumb:hover{transform:translateY(-4px);border-color:var(--cyan)}
 .grid-thumb.cur{border-color:#fff;box-shadow:0 0 16px var(--brass-glow)}
-.grid-thumb b{font:700 2.6vmin var(--f-mono);color:var(--brass)}
+.grid-thumb b{font:700 2.4vmin var(--f-mono);color:var(--brass)}
 .grid-thumb span{font:600 1.4vmin var(--f-body);color:#fff;margin-top:0.3vmin}
 
-#btn-editor-open{
+/* Floating Action Buttons */
+.floating-btns{
   position:fixed;right:16px;bottom:16px;z-index:90;
+  display:flex;gap:8px;
+}
+.floating-btn{
   padding:7px 14px;border:1px solid var(--brass);border-radius:99px;
   background:rgba(6,9,19,0.9);color:var(--brass);
   font:600 11px var(--f-mono);backdrop-filter:blur(8px);
   cursor:pointer;transition:0.3s;
 }
-#btn-editor-open:hover{background:var(--brass);color:#000}
-body.edit-mode #btn-editor-open{display:none}
+.floating-btn:hover{background:var(--brass);color:#000}
+body.edit-mode .floating-btns{display:none}
+
+/* Teleprompter / Lời dẫn Drawer (N) */
+#notes-drawer{
+  position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(130%);
+  width:min(820px,92vw);max-height:34vh;z-index:95;
+  background:rgba(6,10,24,0.94);border:1.5px solid var(--brass);
+  border-radius:14px;padding:16px 22px;color:#f1f5f9;
+  backdrop-filter:blur(16px);box-shadow:0 16px 48px rgba(0,0,0,0.85);
+  transition:transform 0.4s var(--e);overflow-y:auto;
+}
+#notes-drawer.active{transform:translateX(-50%) translateY(0)}
+#notes-drawer header{
+  display:flex;justify-content:space-between;align-items:center;
+  font:700 12px var(--f-mono);color:var(--brass);letter-spacing:0.15em;
+  margin-bottom:8px;border-bottom:1px solid rgba(212,175,55,0.25);padding-bottom:6px;
+}
+#notes-content{font:400 14px/1.7 var(--f-body);color:#e2e8f0;white-space:pre-line}
 
 #editor-panel{
   position:fixed;top:0;right:0;bottom:0;width:min(420px,94vw);
@@ -708,19 +687,16 @@ body.edit-mode #editor-panel{display:flex}
 .editor-actions input[type="file"]{display:none}
 
 /* ===================================================================
-   10. POINTER PARALLAX & GLOW
+   10. POINTER PARALLAX & STAMP BADGE
    =================================================================== */
 .sc.on .parallax-layer{
   transition:transform 0.08s linear;
   will-change:transform;
 }
 
-/* ===================================================================
-   11. STAMP BADGE (bottom-right decorative)
-   =================================================================== */
 .stamp-badge{
-  position:absolute;right:calc(var(--u)*5.5);bottom:calc(var(--u)*4.5);
-  width:calc(var(--u)*8.5);aspect-ratio:1;border-radius:50%;
+  position:absolute;right:calc(var(--u)*5.2);top:calc(var(--u)*3.2);
+  width:calc(var(--u)*7.8);aspect-ratio:1;border-radius:50%;
   background:conic-gradient(from 0deg,var(--brass-dark),var(--brass),var(--brass-light),var(--brass));
   display:flex;align-items:center;justify-content:center;
   box-shadow:0 0 calc(var(--u)*2.5) var(--brass-glow),
@@ -728,7 +704,7 @@ body.edit-mode #editor-panel{display:flex}
   opacity:0;z-index:10;
 }
 .sc.on .stamp-badge{
-  animation:stampIn 0.7s var(--pop) 1.6s both;
+  animation:stampIn 0.7s var(--pop) 1.2s both;
 }
 @keyframes stampIn{
   0%{opacity:0;scale:0.5;rotate:-15deg}
@@ -740,12 +716,12 @@ body.edit-mode #editor-panel{display:flex}
   background:var(--bg-deep);
   display:flex;align-items:center;justify-content:center;
   text-align:center;padding:calc(var(--u)*0.5);
-  font:700 calc(var(--u)*0.85)/1.2 var(--f-mono);
+  font:700 calc(var(--u)*0.78)/1.2 var(--f-mono);
   color:var(--brass-light);letter-spacing:0.04em;
 }
 
 /* ===================================================================
-   12. FINALE DROP ANIMATION (Slide 7)
+   11. FINALE DROP ANIMATION
    =================================================================== */
 @keyframes finaleStone{
   0%  {transform:translateY(-8%) scale(1.1)}
@@ -761,23 +737,6 @@ body.edit-mode #editor-panel{display:flex}
 @keyframes finaleGlow{
   0%,80%{opacity:0;transform:scaleX(0.2)}
   85%,100%{opacity:1;transform:scaleX(1)}
-}
-
-/* ===================================================================
-   13. SECTION DIVIDER LINE
-   =================================================================== */
-.section-divider{
-  display:flex;align-items:center;gap:calc(var(--u)*1.2);
-  margin:calc(var(--u)*1) 0;
-  opacity:0.45;
-}
-.section-divider::before,.section-divider::after{
-  content:"";flex:1;height:1px;
-  background:linear-gradient(90deg,transparent,var(--brass),transparent);
-}
-.section-divider span{
-  font:600 calc(var(--u)*0.85) var(--f-mono);
-  color:var(--brass);letter-spacing:0.15em;white-space:nowrap;
 }
 </style>
 </head>
@@ -797,20 +756,40 @@ body.edit-mode #editor-panel{display:flex}
   </div>
 
   <div id="ui-chrome">
-    <div id="counter">01 / 07</div>
+    <div id="counter">01 / 09</div>
     <div id="progress"><i></i></div>
     <div id="scroll-hint"><span>CUỘN ĐỂ KHÁM PHÁ</span><i></i></div>
   </div>
 </div>
 
+<!-- Lightbox -->
 <div id="lightbox" role="dialog">
   <button id="lightbox-close" aria-label="Đóng">✕</button>
   <img id="lightbox-img" src="" alt="">
 </div>
+
+<!-- Overview Grid (G) -->
 <div id="modal-grid" role="dialog">
   <div class="grid-shelf" id="grid-shelf"></div>
 </div>
-<button id="btn-editor-open">Chỉnh sửa (S)</button>
+
+<!-- Speaker Notes / Lời dẫn (N) -->
+<div id="notes-drawer" role="region" aria-label="Lời dẫn thuyết trình">
+  <header>
+    <span id="notes-title">LỜI DẪN THUYẾT TRÌNH (PHÍM N)</span>
+    <button id="notes-close" style="color:#fff;font-size:15px;">✕</button>
+  </header>
+  <div id="notes-content"></div>
+</div>
+
+<!-- Floating Controls -->
+<div class="floating-btns">
+  <button class="floating-btn" id="btn-notes-toggle" title="Xem lời dẫn thuyết trình (Phím N)">Lời dẫn (N)</button>
+  <button class="floating-btn" id="btn-grid-toggle" title="Xem tổng quan các slide (Phím G)">Slide (G)</button>
+  <button class="floating-btn" id="btn-editor-open" title="Chỉnh sửa nội dung (Phím S)">Chỉnh sửa (S)</button>
+</div>
+
+<!-- Editor Panel (S) -->
 <aside id="editor-panel">
   <header><span>CHẾ ĐỘ BIÊN TẬP</span><button id="btn-editor-close">✕</button></header>
   <div class="editor-body" id="editor-fields"></div>
@@ -825,7 +804,7 @@ body.edit-mode #editor-panel{display:flex}
 (function(){'use strict';
 
 /* ===================================================================
-   MEMBERS DATA
+   1. HELPERS & MEMBERS DATA
    =================================================================== */
 const MEMBERS=[
   'Phạm Ngọc Minh Châu','Nguyễn Huy Bách','Trần Hoài An','Vũ Thanh Tùng',
@@ -838,337 +817,6 @@ function getInitials(name){
   return parts[parts.length-1].charAt(0).toUpperCase();
 }
 
-/* ===================================================================
-   1. SLIDE DATA
-   =================================================================== */
-const SLIDES=[
-  /* ---- SLIDE 1: MỞ ĐẦU ---- */
-  {
-    id:1,name:'Khởi Nguyên Câu Hỏi',theme:'renaissance',
-    kicker:'Bài Thuyết Trình Vật Lý 10 · Nhóm 12 Thành Viên',
-    title:['SỰ RƠI TỰ DO:','TỪ TRỰC GIÁC ĐẾN THỰC NGHIỆM'],
-    lead:'Khi thả hòn đá và lông chim cùng lúc, hòn đá chạm đất nhanh còn lông chim rơi chậm. Tại sao lại khác nhau? Hiện tượng này tưởng đơn giản nhưng đã theo chân nhân loại hàng nghìn năm.',
-    stamp:'Vật Lý Cổ Điển',
-    renderExtra:()=>{
-      const marq=MEMBERS.map(m=>`<span>${m}</span>`).join('');
-      return `
-      <div class="astrolabe-ring"></div>
-      <div class="astrolabe-ring"></div>
-      <div class="astrolabe-ring"></div>
-      <div class="hero-opener-content" style="z-index:5;">
-        <div class="kicker rv" style="--i:0;">Bài Thuyết Trình Vật Lý 10 · Nhóm 12 Thành Viên</div>
-        <h1 class="headline lg rv" style="margin:calc(var(--u)*1.4) 0 calc(var(--u)*2);">
-          <span class="hline">${splitCharsToSpans('SỰ RƠI TỰ DO:',0)}</span>
-          <span class="hline" style="font-size:calc(var(--u)*3.5); opacity:0.85;">${splitCharsToSpans('TỪ TRỰC GIÁC ĐẾN THỰC NGHIỆM',1)}</span>
-        </h1>
-        <p class="lead-text rv" style="--i:3; max-width:calc(var(--u)*64); font-size:calc(var(--u)*1.42);">${splitWordsToSpans('Khi thả hòn đá và lông chim cùng lúc, hòn đá chạm đất nhanh còn lông chim rơi chậm. Tại sao lại khác nhau? Hiện tượng này tưởng đơn giản nhưng đã theo chân nhân loại hàng nghìn năm. Chúng ta cùng khám phá quy luật đằng sau, từ Aristotle đến Galileo và Newton.')}</p>
-        <div style="margin-top:calc(var(--u)*2); display:flex; gap:calc(var(--u)*2); flex-wrap:wrap; justify-content:center;" class="rv" style="--i:5;">
-          <div class="gold-badge">Khám Phá Chân Lý</div>
-          <div class="gold-badge" style="background:rgba(56,189,248,0.2);border:1px solid var(--cyan);color:var(--cyan);box-shadow:0 0 calc(var(--u)*1.5) var(--cyan-glow);">Aristotle → Galileo → Newton</div>
-        </div>
-      </div>
-      <div class="members-strip">
-        <div class="members-strip-inner">${marq}${marq}</div>
-      </div>
-    `}
-  },
-
-  /* ---- SLIDE 2: ARISTOTLE ---- */
-  {
-    id:2,name:'Quan Niệm Aristotle',theme:'parchment',
-    kicker:'Thế Kỷ IV TCN · Định Kiến Kinh Viện 2000 Năm',
-    title:['QUAN NIỆM CỦA','TRIẾT GIA ARISTOTLE'],
-    lead:'',stamp:'Trực giác cảm tính',
-    renderExtra:()=>`
-      <div class="split-layout-2">
-        <div class="glass-card rv" style="--i:2;">
-          <div class="kicker" style="font-size:calc(var(--u)*0.9);margin-bottom:calc(var(--u)*0.8);">Luận Điểm Kinh Viện</div>
-          <h3 style="font-family:var(--f-ser);font-size:calc(var(--u)*2.1);color:var(--brass-light);margin-bottom:calc(var(--u)*1);line-height:1.3;">
-            Vật nặng rơi nhanh hơn vật nhẹ
-          </h3>
-          <p style="font-size:calc(var(--u)*1.3);color:#cbd5e1;line-height:1.75;margin-bottom:calc(var(--u)*1.2);">
-            Aristotle nhận định vận tốc rơi <b>tỉ lệ thuận với trọng lượng</b> vật và <b>tỉ lệ nghịch với mật độ</b> môi trường. Quan niệm này dựa hoàn toàn vào giác quan thông thường trong điều kiện có không khí.
-          </p>
-          <div style="display:flex;flex-direction:column;gap:calc(var(--u)*0.8);">
-            <div style="padding:calc(var(--u)*0.9) calc(var(--u)*1.2);background:rgba(239,68,68,0.1);border-left:3px solid #ef4444;border-radius:4px;font-size:calc(var(--u)*1.15);">
-              <b style="color:#fca5a5;">❌ Sai lầm:</b> Đồng nhất chuyển động tự nhiên với lực cản môi trường mà không thực nghiệm kiểm chứng.
-            </div>
-            <div style="padding:calc(var(--u)*0.9) calc(var(--u)*1.2);background:rgba(217,119,6,0.12);border-left:3px solid var(--brass);border-radius:4px;font-size:calc(var(--u)*1.15);">
-              <b>Hệ quả:</b> Suốt gần 2000 năm, không ai dám nghi ngờ uy quyền học thuật tuyệt đối của Aristotle.
-            </div>
-          </div>
-        </div>
-        <div class="parchment-sheet rv" style="--i:3;">
-          <div style="font:700 calc(var(--u)*0.85) var(--f-mono);color:#854d0e;letter-spacing:0.2em;margin-bottom:calc(var(--u)*0.8);text-transform:uppercase;">Trích Bản Thảo — De Caelo</div>
-          <h4 style="font-family:var(--f-ser);font-size:calc(var(--u)*1.6);color:#78350f;margin-bottom:calc(var(--u)*0.8);border-bottom:1px solid #d97706;padding-bottom:calc(var(--u)*0.5);">
-            Luận Điểm Về Chuyển Động
-          </h4>
-          <p style="font-style:italic;font-size:calc(var(--u)*1.2);line-height:1.65;color:#3c1a06;margin-bottom:calc(var(--u)*1.2);">
-            "Nếu một trọng lượng di chuyển trong một khoảng cách nhất định trong một thời gian nhất định, thì một trọng lượng lớn hơn sẽ di chuyển cùng một khoảng cách đó trong một thời gian ngắn hơn..."
-          </p>
-          <div style="font-size:calc(var(--u)*1.1);color:#292524;line-height:1.6;">
-            <b>Tác phẩm:</b> <em>De Caelo</em> (Về Bầu Trời) — Thế kỷ IV TCN<br>
-            <b>Thống trị:</b> Từ 350 TCN đến thế kỷ XVII
-          </div>
-          <div style="position:absolute;top:calc(var(--u)*1);right:calc(var(--u)*1.2);font-size:calc(var(--u)*5);opacity:0.1;font-family:serif;line-height:1;">Α</div>
-        </div>
-      </div>
-    `
-  },
-
-  /* ---- SLIDE 3: GALILEO FORMULAS ---- */
-  {
-    id:3,name:'Galileo & Rơi Tự Do',theme:'vacuum',
-    kicker:'Thế Kỷ XVII · Bình Minh Khoa Học Thực Nghiệm',
-    title:['GALILEO GALILEI &','QUY LUẬT RƠI TỰ DO'],
-    lead:'',stamp:'g ≈ 9.8 m/s²',
-    renderExtra:()=>`
-      <div class="stat-formula-split">
-        <div class="glass-card rv" style="--i:2;display:flex;flex-direction:column;gap:calc(var(--u)*1.4);">
-          <div class="kicker" style="font-size:calc(var(--u)*0.9);">Hằng Số Gia Tốc Trọng Trường</div>
-          <div class="counter-box">
-            <span class="counter-num" id="live-counter-g">0.0</span>
-            <span class="counter-unit">m/s²</span>
-          </div>
-          <p style="font-size:calc(var(--u)*1.3);color:#cbd5e1;line-height:1.72;">
-            Tại cùng một vị trí gần mặt đất, khi <b>loại bỏ sức cản không khí</b>, mọi vật từ hạt cát đến tảng đá đều rơi với gia tốc không đổi <em>g = 9,8 m/s²</em>.
-          </p>
-          <div style="padding:calc(var(--u)*0.8) calc(var(--u)*1.2);background:rgba(56,189,248,0.1);border-left:3px solid var(--cyan);border-radius:4px;font-size:calc(var(--u)*1.1);color:#e0f2fe;">
-            <b>Phát hiện đột phá:</b> Lông chim rơi chậm không phải vì nhẹ, mà vì chịu <b>lực cản khí động học lớn hơn</b> tương đối so với trọng lượng.
-          </div>
-        </div>
-        <div class="formula-list rv" style="--i:3;">
-          <div style="font:700 calc(var(--u)*0.9) var(--f-mono);letter-spacing:0.18em;color:var(--brass);margin-bottom:calc(var(--u)*0.5);text-transform:uppercase;">Ba Công Thức Rơi Tự Do</div>
-          <div class="formula-item" style="--i:0;">
-            <div>
-              <b style="display:block;color:#94a3b8;font-size:calc(var(--u)*1.0);margin-bottom:4px;">① Vận tốc tức thời</b>
-              <span class="formula-eq">v = g · t</span>
-            </div>
-            <span style="font-size:calc(var(--u)*0.85);color:var(--cyan);font-family:var(--f-mono);">(v₀ = 0)</span>
-          </div>
-          <div class="formula-item" style="--i:1;">
-            <div>
-              <b style="display:block;color:#94a3b8;font-size:calc(var(--u)*1.0);margin-bottom:4px;">② Quãng đường rơi</b>
-              <span class="formula-eq">h = ½ · g · t²</span>
-            </div>
-            <span style="font-size:calc(var(--u)*0.85);color:var(--cyan);font-family:var(--f-mono);">(∝ t²)</span>
-          </div>
-          <div class="formula-item" style="--i:2;">
-            <div>
-              <b style="display:block;color:#94a3b8;font-size:calc(var(--u)*1.0);margin-bottom:4px;">③ Hệ thức độc lập t</b>
-              <span class="formula-eq">v² = 2 · g · h</span>
-            </div>
-            <span style="font-size:calc(var(--u)*0.85);color:var(--cyan);font-family:var(--f-mono);">(v=√2gh)</span>
-          </div>
-          <div style="margin-top:calc(var(--u)*0.8);padding:calc(var(--u)*0.8) calc(var(--u)*1.2);background:rgba(212,175,55,0.1);border:1px solid var(--border-glass);border-radius:calc(var(--u)*0.6);font-size:calc(var(--u)*1.0);color:#fde68a;text-align:center;font-family:var(--f-mono);">
-            g ≈ 9.8 m/s² · Trái Đất (xích đạo: 9.78 · cực: 9.83)
-          </div>
-        </div>
-      </div>
-    `
-  },
-
-  /* ---- SLIDE 4: THÁP PISA ---- */
-  {
-    id:4,name:'Tháp Nghiêng Pisa',theme:'renaissance',
-    kicker:'Pisa, Ý · Năm 1589 · Thực Nghiệm Lịch Sử',
-    title:['THÍ NGHIỆM TẠI','THÁP NGHIÊNG PISA'],
-    lead:'',stamp:'Bác bỏ Aristotle',
-    renderExtra:()=>`
-      <div class="pisa-slide-grid">
-        <div class="glass-card rv" style="--i:2;">
-          <div class="kicker" style="font-size:calc(var(--u)*0.9);">Ý Nghĩa Thực Nghiệm Lịch Sử</div>
-          <h3 style="font-family:var(--f-ser);font-size:calc(var(--u)*2.1);color:var(--brass-light);margin:calc(var(--u)*0.7) 0 calc(var(--u)*1);line-height:1.3;">
-            Hai Vật Khác Khối Lượng<br>Chạm Đất Cùng Lúc
-          </h3>
-          <p style="font-size:calc(var(--u)*1.3);color:#cbd5e1;line-height:1.72;margin-bottom:calc(var(--u)*1.2);">
-            Galileo đã trèo lên đỉnh tháp nghiêng Pisa, thả rơi đồng thời <b>hai quả cầu kim loại</b> có trọng lượng chênh lệch nhiều lần trước chứng kiến của các giáo sư và sinh viên đại học.
-          </p>
-          <div style="display:flex;flex-direction:column;gap:calc(var(--u)*0.8);">
-            <div style="display:flex;align-items:center;gap:calc(var(--u)*1);padding:calc(var(--u)*0.9) calc(var(--u)*1.2);background:rgba(56,189,248,0.1);border-left:3px solid var(--cyan);border-radius:4px;">
-              <span style="font-size:calc(var(--u)*2);">⚖</span>
-              <span style="font-size:calc(var(--u)*1.15);">Vật A: <b>100g</b> &nbsp;|&nbsp; Vật B: <b>1kg</b> → Chạm đất gần như <em>cùng lúc</em></span>
-            </div>
-            <div style="padding:calc(var(--u)*0.9) calc(var(--u)*1.2);background:rgba(212,175,55,0.1);border-left:3px solid var(--brass);border-radius:4px;font-size:calc(var(--u)*1.15);">
-              <b>Kết luận đột phá:</b> Trọng lượng không quyết định tốc độ rơi tự do. Sự chênh lệch nhỏ chỉ do lực cản khí động học.
-            </div>
-          </div>
-        </div>
-        <div class="dual-gallery rv" style="--i:3;">
-          <div class="media-frame" onclick="openLightbox('12.jpg')">
-            <img src="12.jpg" alt="Thí nghiệm tháp nghiêng Pisa">
-            <div class="media-caption"><span>Tháp Pisa · 1589</span><span class="zoom-hint">⤢</span></div>
-          </div>
-          <div class="media-frame" onclick="openLightbox('13.jpg')">
-            <img src="13.jpg" alt="Thực nghiệm Galileo">
-            <div class="media-caption"><span>Thực nghiệm</span><span class="zoom-hint">⤢</span></div>
-          </div>
-        </div>
-      </div>
-    `
-  },
-
-  /* ---- SLIDE 5: VIDEO GALILEO ---- */
-  {
-    id:5,name:'Video Thực Nghiệm Galileo',theme:'vacuum',
-    kicker:'Tư Liệu Khoa Học Điện Ảnh · HD',
-    title:['QUAN SÁT THÍ NGHIỆM CỦA','GALILEO GALILEI'],
-    lead:'',stamp:'Thước phim tư liệu',
-    renderExtra:()=>`
-      <div class="cinema-slide-container rv" style="--i:2;">
-        <div class="cinema-screen-box">
-          <div class="cinema-rec-badge">
-            <i class="rec-dot"></i>
-            <span>VID01.MP4 · GALILEO GALILEI · THÍ NGHIỆM RƠI TỰ DO</span>
-          </div>
-          <video id="player-vid01" controls playsinline preload="auto">
-            <source src="vid01.mp4" type="video/mp4">
-          </video>
-          <!-- Scanline overlay -->
-          <div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.04) 3px,rgba(0,0,0,0.04) 4px);z-index:3;"></div>
-        </div>
-        <div style="display:flex;justify-content:center;align-items:center;gap:calc(var(--u)*2.5);margin-top:calc(var(--u)*1.4);">
-          <div class="gold-badge" style="background:rgba(56,189,248,0.2);border:1px solid var(--cyan);color:var(--cyan);box-shadow:0 0 calc(var(--u)*1.5) var(--cyan-glow);">
-            📁 vid01.mp4
-          </div>
-          <div class="gold-badge">🎬 Thực nghiệm thực tế</div>
-          <div class="gold-badge" style="background:rgba(99,102,241,0.2);border:1px solid #818cf8;color:#a5b4fc;box-shadow:none;">
-            g = 9.8 m/s²
-          </div>
-        </div>
-      </div>
-    `
-  },
-
-  /* ---- SLIDE 6: ỐNG NEWTON ---- */
-  {
-    id:6,name:'Thí Nghiệm Ống Newton',theme:'vacuum',
-    kicker:'Isaac Newton · Thí Nghiệm Chân Không Thế Kỷ',
-    title:['THÍ NGHIỆM ỐNG NEWTON:','CÓ KHÔNG KHÍ vs. CHÂN KHÔNG'],
-    lead:'',stamp:'Ống Chân Không',
-    renderExtra:()=>`
-      <div class="newton-slide-grid">
-        <div class="glass-card rv" style="--i:2;">
-          <div class="kicker" style="font-size:calc(var(--u)*0.9);">So Sánh Đối Chứng Khoa Học</div>
-          <h3 style="font-family:var(--f-ser);font-size:calc(var(--u)*2.0);color:var(--brass-light);margin:calc(var(--u)*0.6) 0 calc(var(--u)*1.0);line-height:1.3;">
-            Bản Chất Sức Cản Không Khí
-          </h3>
-          <div style="display:flex;flex-direction:column;gap:calc(var(--u)*1.0);font-size:calc(var(--u)*1.25);color:#cbd5e1;">
-            <div style="display:flex;gap:calc(var(--u)*1);align-items:flex-start;padding:calc(var(--u)*1) calc(var(--u)*1.2);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:calc(var(--u)*0.6);">
-              <span style="color:#ef4444;font-weight:700;white-space:nowrap;">1. Có không khí:</span>
-              <span>Lông chim diện tích lớn → lực cản F<sub>c</sub> lớn → rơi chậm hơn hòn đá.</span>
-            </div>
-            <div style="display:flex;gap:calc(var(--u)*1);align-items:flex-start;padding:calc(var(--u)*1) calc(var(--u)*1.2);background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);border-radius:calc(var(--u)*0.6);">
-              <span style="color:var(--cyan);font-weight:700;white-space:nowrap;">2. Chân không:</span>
-              <span>F<sub>c</sub> = 0 → chỉ còn trọng lực P = mg → gia tốc a = g bằng nhau hoàn toàn!</span>
-            </div>
-          </div>
-          <div style="margin-top:calc(var(--u)*1.4);padding:calc(var(--u)*0.9) calc(var(--u)*1.2);background:rgba(212,175,55,0.15);border-left:3px solid var(--brass);border-radius:4px;font-size:calc(var(--u)*1.1);">
-            <b>Kết luận bất hủ:</b> Tốc độ rơi phụ thuộc hoàn toàn vào <b>môi trường cản</b>, không phụ thuộc vào độ nặng nhẹ của vật.
-          </div>
-        </div>
-        <div class="newton-media-layout rv" style="--i:3;">
-          <div class="video-col">
-            <video id="player-2mp4" controls loop playsinline preload="auto">
-              <source src="2.mp4" type="video/mp4">
-            </video>
-            <div style="position:absolute;bottom:6px;left:8px;font:600 calc(var(--u)*0.82) var(--f-mono);color:var(--brass);background:rgba(0,0,0,0.75);padding:2px 8px;border-radius:4px;">
-              2.mp4 · Thực nghiệm thực tế
-            </div>
-          </div>
-          <div class="photos-col">
-            <div class="media-frame" onclick="openLightbox('1.jpg')">
-              <img src="1.jpg" alt="Ống có không khí">
-              <div class="media-caption"><span>Có không khí</span><span class="zoom-hint">⤢</span></div>
-            </div>
-            <div class="media-frame" onclick="openLightbox('3.jpg')">
-              <img src="3.jpg" alt="Ống chân không">
-              <div class="media-caption"><span>Chân không</span><span class="zoom-hint">⤢</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    `
-  },
-
-  /* ---- SLIDE 7: KẾT LUẬN ---- */
-  {
-    id:7,name:'Kết Luận & Bài Học',theme:'finale',
-    kicker:'Tổng Kết · Bài Học Phương Pháp Luận Khoa Học',
-    title:['KẾT LUẬN & BÀI HỌC','PHƯƠNG PHÁP LUẬN KHOA HỌC'],
-    lead:'',stamp:'Chân lý thực nghiệm',
-    renderExtra:()=>`
-      <div class="finale-slide-grid">
-        <div class="glass-card rv" style="--i:2;">
-          <div class="kicker" style="font-size:calc(var(--u)*0.9);">Tiến Trình Nhận Thức Nhân Loại</div>
-          <div class="tri-tribute-cards">
-            <div class="tribute-step" style="border-color:rgba(217,119,6,0.4);">
-              <b style="color:#fb923c;">ARISTOTLE</b>
-              <span>Quan sát & trực giác cảm tính</span>
-            </div>
-            <div class="tribute-step" style="border-color:var(--brass);box-shadow:0 0 calc(var(--u)*1.5) var(--brass-glow);">
-              <b>GALILEO</b>
-              <span>Toán học hóa & thực nghiệm kiểm chứng</span>
-            </div>
-            <div class="tribute-step" style="border-color:var(--cyan);box-shadow:0 0 calc(var(--u)*1.5) var(--cyan-glow);">
-              <b style="color:var(--cyan);">NEWTON</b>
-              <span>Chân không & cơ học vạn vật</span>
-            </div>
-          </div>
-          <div style="margin-top:calc(var(--u)*1.6);background:linear-gradient(135deg,rgba(212,175,55,0.18),rgba(56,189,248,0.12));padding:calc(var(--u)*1.4);border-radius:calc(var(--u)*0.8);border:1px solid var(--border-glass);">
-            <b style="color:var(--brass-light);font-size:calc(var(--u)*1.2);display:block;margin-bottom:calc(var(--u)*0.5);">★ Thông Điệp Cốt Lõi:</b>
-            <p style="font-size:calc(var(--u)*1.2);color:#f8fafc;line-height:1.65;font-style:italic;">
-              "Những gì mắt thấy chưa hẳn là chân lý. Cần phân tích khoa học và kiểm chứng bằng thực nghiệm chính xác."
-            </p>
-          </div>
-          <div style="margin-top:calc(var(--u)*1.2);text-align:center;">
-            <span style="font:600 calc(var(--u)*1.0) var(--f-mono);color:var(--brass);letter-spacing:0.1em;opacity:0.8;">— Nhóm Thuyết Trình Vật Lý 10 —</span>
-          </div>
-        </div>
-        <div class="finale-gallery rv" style="--i:3;">
-          <div class="media-frame" onclick="openLightbox('33.jpg')">
-            <img src="33.jpg" alt="Lịch sử vật lý">
-            <div class="media-caption"><span>Lịch sử</span><span class="zoom-hint">⤢</span></div>
-          </div>
-          <div class="media-frame" onclick="openLightbox('34.jpg')">
-            <img src="34.jpg" alt="Bài học phương pháp">
-            <div class="media-caption"><span>Kết luận</span><span class="zoom-hint">⤢</span></div>
-          </div>
-        </div>
-      </div>
-    `
-  }
-];
-
-/* ===================================================================
-   2. MEMBERS SLIDE (thêm slide 8 — Danh sách thành viên)
-   =================================================================== */
-SLIDES.splice(1,0,{
-  id:'M',name:'Thành Viên Nhóm',theme:'renaissance',
-  kicker:'Vật Lý 10 · Nhóm Thuyết Trình · 12 Thành Viên',
-  title:['THÀNH VIÊN','NHÓM THUYẾT TRÌNH'],
-  lead:'',stamp:'Nhóm 12 người',
-  renderExtra:()=>{
-    const cards=MEMBERS.map((m,i)=>`
-      <div class="member-card rv" style="--mi:${i};">
-        <div class="member-avatar">${getInitials(m)}</div>
-        <div class="member-num">${String(i+1).padStart(2,'0')}</div>
-        <div class="member-name">${m}</div>
-      </div>
-    `).join('');
-    return `
-      <div style="position:absolute;left:7.5%;top:calc(var(--u)*14);width:85%;z-index:6;">
-        <div class="members-panel">${cards}</div>
-      </div>
-    `;
-  }
-});
-
-/* Reorder: members as slide 1 (after opener) → index 1 */
-
-/* ===================================================================
-   3. HELPERS (defined before SLIDES data so renderExtra closures work)
-   =================================================================== */
 function splitCharsToSpans(text,lineIdx){
   let ci=0;
   return text.split(' ').map(w=>{
@@ -1178,12 +826,422 @@ function splitCharsToSpans(text,lineIdx){
     return `<span class="wd">${chars}</span>`;
   }).join(' ');
 }
+
 function splitWordsToSpans(text){
   return text.split(' ').map((w,i)=>`<span class="pw" style="--w:${i}">${w}</span>`).join(' ');
 }
 
 /* ===================================================================
-   4. RENDER ENGINE
+   2. SLIDES DATA (9 SLIDES: CHÀO + THÀNH VIÊN + 5 SLIDE NỘI DUNG & VIDEO + KẾT THÚC)
+   =================================================================== */
+const SLIDES=[
+  /* ---- SLIDE 01: SLIDE CHÀO MỞ ĐẦU ---- */
+  {
+    id:'W',
+    name:'Chào Mừng Thầy Cô & Các Bạn',
+    theme:'renaissance',
+    kicker:'Nhiệt Liệt Chào Mừng Thầy Cô Và Các Bạn · Vật Lý 10',
+    title:['SỰ RƠI TRONG KHÔNG KHÍ','TỪ TRIẾT HỌC CỔ ĐẠI ĐẾN CƠ HỌC CỔ ĐIỂN'],
+    lead:'Kính chào thầy cô và các bạn đến với bài thuyết trình của Nhóm. Hôm nay, chúng ta hãy cùng ngược dòng thời gian khám phá hành trình nhận thức đầy thú vị của nhân loại về hiện tượng sự rơi trong không khí.',
+    stamp:'Chào Mừng',
+    notes:`"Kính thưa thầy cô và các bạn! Chào mừng thầy cô và các bạn đến với bài thuyết trình môn Vật Lý 10 của nhóm chúng em ngày hôm nay với chủ đề: Sự rơi trong không khí – Từ triết học cổ đại đến cơ học cổ điển."`,
+    renderExtra:()=>{
+      const marq=MEMBERS.map(m=>`<span>${m}</span>`).join('');
+      return `
+      <div class="astrolabe-ring"></div>
+      <div class="astrolabe-ring"></div>
+      <div class="astrolabe-ring"></div>
+      <div class="hero-opener-content" style="z-index:5;">
+        <div class="kicker rv" style="--i:0;">Chào Mừng Thầy Cô Và Các Bạn Đến Với Bài Thuyết Trình Vật Lý 10</div>
+        <h1 class="headline lg rv" style="margin:calc(var(--u)*1.4) 0 calc(var(--u)*1.8);">
+          <span class="hline">${splitCharsToSpans('SỰ RƠI TRONG KHÔNG KHÍ',0)}</span>
+          <span class="hline" style="font-size:calc(var(--u)*3.1); opacity:0.88;">${splitCharsToSpans('TỪ TRIẾT HỌC CỔ ĐẠI ĐẾN CƠ HỌC CỔ ĐIỂN',1)}</span>
+        </h1>
+        <p class="lead-text rv" style="--i:3; max-width:calc(var(--u)*64); font-size:calc(var(--u)*1.42);">
+          ${splitWordsToSpans('Hành trình khám phá quy luật tự nhiên qua hàng nghìn năm lịch sử: Từ những phỏng đoán trực giác thời cổ đại đến bước ngoặt thực nghiệm của Galileo Galilei và Sir Isaac Newton.')}
+        </p>
+        <div style="margin-top:calc(var(--u)*2.2); display:flex; gap:calc(var(--u)*1.8); flex-wrap:wrap; justify-content:center;" class="rv" style="--i:5;">
+          <div class="gold-badge">✦ Nhóm Thuyết Trình Vật Lý 10</div>
+          <div class="gold-badge" style="background:rgba(56,189,248,0.2);border:1px solid var(--cyan);color:var(--cyan);box-shadow:0 0 calc(var(--u)*1.5) var(--cyan-glow);">Aristotle → Galileo → Newton</div>
+        </div>
+      </div>
+      <div class="members-strip">
+        <div class="members-strip-inner">${marq}${marq}</div>
+      </div>
+    `}
+  },
+
+  /* ---- SLIDE 02: DANH SÁCH THÀNH VIÊN NHÓM ---- */
+  {
+    id:'M',
+    name:'Thành Viên Nhóm',
+    theme:'renaissance',
+    kicker:'Vật Lý 10 · Đội Ngũ Thực Hiện · 12 Thành Viên',
+    title:['THÀNH VIÊN','NHÓM THUYẾT TRÌNH'],
+    lead:'',
+    stamp:'12 Thành Viên',
+    notes:`Giới thiệu danh sách 12 thành viên trong nhóm thực hiện chuyên đề Vật Lý 10: Sự rơi trong không khí.`,
+    renderExtra:()=>{
+      const cards=MEMBERS.map((m,i)=>`
+        <div class="member-card rv" style="--mi:${i};">
+          <div class="member-avatar">${getInitials(m)}</div>
+          <div class="member-num">${String(i+1).padStart(2,'0')}</div>
+          <div class="member-name">${m}</div>
+        </div>
+      `).join('');
+      return `<div class="members-panel">${cards}</div>`;
+    }
+  },
+
+  /* ---- SLIDE 03: SLIDE 1 – MỞ ĐẦU ---- */
+  {
+    id:1,
+    name:'Slide 1 – Mở Đầu',
+    theme:'renaissance',
+    kicker:'Phần 1 · Mở Đầu — Sự Tò Mò Của Nhân Loại Về Quy Luật Tự Nhiên',
+    title:['SLIDE 1 – MỞ ĐẦU:','SỰ RƠI TRONG KHÔNG KHÍ'],
+    lead:'Khi thả hòn đá và lông chim cùng lúc, hòn đá chạm đất nhanh còn lông chim rơi chậm. Tại sao lại khác nhau? Hiện tượng này tưởng đơn giản nhưng đã theo chân nhân loại hàng nghìn năm. Chúng ta cùng khám phá quy luật đằng sau, từ Aristotle đến Galileo và Newton.',
+    stamp:'Khởi Nguyên',
+    notes:`PHẦN 1: MỞ ĐẦU – SỰ TÒ MÒ CỦA NHÂN LOẠI VỀ QUY LUẬT TỰ NHIÊN
+"Kính thưa thầy cô và các bạn,
+Khi chúng ta thả rơi một chiếc lá và một hòn sỏi cùng một lúc từ trên cao xuống, điều gì sẽ xảy ra? Rất trực quan, hòn sỏi sẽ chạm đất trước, còn chiếc lá sẽ lững thững bay lượn trong không khí rồi mới tới đích sau. Câu hỏi tưởng chừng như vô cùng đơn giản ấy thực ra đã trăn trở trong tâm trí của loài người suốt hàng nghìn năm lịch sử.
+Từ thời cổ đại, khi chưa có các thiết bị đo đạc hiện đại, các bậc hiền triết đã quan sát thế giới bằng trực giác và tư duy triết học. Hôm nay, chúng ta hãy cùng ngược dòng thời gian để khám phá hành trình nhận thức đầy thú vị và kỳ thú của nhân loại: Từ những phỏng đoán mang tính triết lý của người Hy Lạp cổ đại, cho đến những bước ngoặt thực nghiệm vĩ đại của Galileo và định luật hoàn thiện của Sir Isaac Newton."`,
+    renderExtra:()=>`
+      <div class="split-layout-2">
+        <div class="glass-card rv" style="--i:2;">
+          <div class="kicker" style="font-size:calc(var(--u)*0.9);margin-bottom:calc(var(--u)*0.8);">Câu Hỏi Hàng Nghìn Năm</div>
+          <h3 style="font-family:var(--f-ser);font-size:calc(var(--u)*2.2);color:var(--brass-light);margin-bottom:calc(var(--u)*1);line-height:1.3;">
+            Tại Sao Hòn Đá Chạm Đất Nhanh,<br>Còn Lông Chim Lại Rơi Chậm?
+          </h3>
+          <p style="font-size:calc(var(--u)*1.38);color:#e2e8f0;line-height:1.78;margin-bottom:calc(var(--u)*1.4);">
+            Khi thả <b>hòn đá</b> và <b>lông chim</b> cùng lúc, hòn đá chạm đất nhanh còn lông chim rơi chậm. Tại sao lại khác nhau? Hiện tượng này tưởng đơn giản nhưng đã theo chân nhân loại hàng nghìn năm. Chúng ta cùng khám phá quy luật đằng sau, từ <em>Aristotle</em> đến <em>Galileo</em> và <em>Newton</em>.
+          </p>
+          <div style="padding:calc(var(--u)*0.95) calc(var(--u)*1.3);background:rgba(56,189,248,0.12);border-left:3px solid var(--cyan);border-radius:4px;font-size:calc(var(--u)*1.18);color:#e0f2fe;">
+            <b>Hành trình nhận thức:</b> Không chỉ là câu chuyện của vật lý, mà còn là hành trình của tư duy phản biện và thực nghiệm khoa học chân chính.
+          </div>
+        </div>
+
+        <div class="glass-card rv" style="--i:3;display:flex;flex-direction:column;justify-content:space-between;gap:calc(var(--u)*1.2);">
+          <div class="kicker" style="font-size:calc(var(--u)*0.9);">Ba Cột Mốc Lịch Sử Vĩ Đại</div>
+          <div style="display:flex;flex-direction:column;gap:calc(var(--u)*1.1);">
+            <div style="display:flex;align-items:center;gap:calc(var(--u)*1.2);padding:calc(var(--u)*1) calc(var(--u)*1.3);background:rgba(217,119,6,0.12);border:1px solid rgba(217,119,6,0.3);border-radius:calc(var(--u)*0.8);">
+              <div style="font:900 calc(var(--u)*1.8) var(--f-cin);color:#fb923c;">01</div>
+              <div>
+                <b style="color:var(--brass-light);font-size:calc(var(--u)*1.2);display:block;">Thời Kỳ Cổ Đại — Aristotle</b>
+                <span style="font-size:calc(var(--u)*1.08);color:#cbd5e1;">Quan sát thế giới bằng trực giác cảm tính và tư duy triết học tự nhiên.</span>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:calc(var(--u)*1.2);padding:calc(var(--u)*1) calc(var(--u)*1.3);background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.35);border-radius:calc(var(--u)*0.8);">
+              <div style="font:900 calc(var(--u)*1.8) var(--f-cin);color:var(--brass);">02</div>
+              <div>
+                <b style="color:var(--brass-light);font-size:calc(var(--u)*1.2);display:block;">Thời Kỳ Phục Hưng — Galileo Galilei</b>
+                <span style="font-size:calc(var(--u)*1.08);color:#cbd5e1;">Bước ngoặt thực nghiệm tại tháp nghiêng Pisa, tách bạch sức cản không khí.</span>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:calc(var(--u)*1.2);padding:calc(var(--u)*1) calc(var(--u)*1.3);background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.35);border-radius:calc(var(--u)*0.8);">
+              <div style="font:900 calc(var(--u)*1.8) var(--f-cin);color:var(--cyan);">03</div>
+              <div>
+                <b style="color:#7dd3fc;font-size:calc(var(--u)*1.2);display:block;">Cơ Học Cổ Điển — Sir Isaac Newton</b>
+                <span style="font-size:calc(var(--u)*1.08);color:#cbd5e1;">Thí nghiệm ống chân không kiểm chứng và hoàn thiện lý thuyết lực cản.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `
+  },
+
+  /* ---- SLIDE 04: SLIDE 2 – QUAN NIỆM ARISTOTLE ---- */
+  {
+    id:2,
+    name:'Slide 2 – Quan Niệm Aristotle',
+    theme:'parchment',
+    kicker:'Phần 2 · Thế Kỷ IV TCN — Sự Thống Trị Của Trực Giác',
+    title:['SLIDE 2 – QUAN NIỆM','CỦA TRIẾT GIA ARISTOTLE'],
+    lead:'Dựa trên quan sát hàng ngày, Aristotle cho rằng vật nặng rơi nhanh hơn vật nhẹ, tốc độ tỉ lệ thuận với trọng lượng. Ông cũng nhận ra không khí cản trở chuyển động. Quan niệm này nghe hợp lý, thống trị tư tưởng khoa học suốt gần 2000 năm cho đến khi có thực nghiệm kiểm chứng.',
+    stamp:'Trực Giác 2000 Năm',
+    notes:`PHẦN 2: THỜI KỲ CỔ ĐẠI – QUAN NIỆM CỦA ARISTOTLE VÀ SỰ THỐNG TRỊ CỦA TRỰC GIÁC
+"Chúng ta hãy bắt đầu từ điểm xuất phát đầu tiên: Hy Lạp cổ đại, thế kỷ thứ IV trước Công nguyên. Đại diện tiêu biểu nhất cho thời kỳ này là triết gia vĩ đại Aristotle.
+Dựa trên những quan sát hàng ngày, Aristotle đã đưa ra một học thuyết rất hợp với trực giác thông thường: Vật nặng rơi nhanh hơn vật nhẹ, và tốc độ rơi của một vật tỉ lệ thuận với trọng lượng của nó.
+Không dừng lại ở đó, Aristotle cũng là một trong những người đầu tiên nhận ra vai trò của môi trường xung quanh. Ông lập luận rằng môi trường cản trở chuyển động của vật.
+Học thuyết của Aristotle nghe có vẻ hoàn toàn hợp lý và đã thống trị tư tưởng khoa học phương Tây suốt gần 2.000 năm cho đến khi có thực nghiệm kiểm chứng."`,
+    renderExtra:()=>`
+      <div class="split-layout-2">
+        <div class="glass-card rv" style="--i:2;">
+          <div class="kicker" style="font-size:calc(var(--u)*0.9);margin-bottom:calc(var(--u)*0.8);">Quan Niệm Cổ Đại</div>
+          <h3 style="font-family:var(--f-ser);font-size:calc(var(--u)*2.15);color:var(--brass-light);margin-bottom:calc(var(--u)*1);line-height:1.3;">
+            Vật Nặng Rơi Nhanh Hơn Vật Nhẹ
+          </h3>
+          <p style="font-size:calc(var(--u)*1.35);color:#e2e8f0;line-height:1.78;margin-bottom:calc(var(--u)*1.2);">
+            Dựa trên quan sát hàng ngày, <b>Aristotle</b> cho rằng vật nặng rơi nhanh hơn vật nhẹ, <b>tốc độ tỉ lệ thuận với trọng lượng</b>. Ông cũng nhận ra không khí cản trở chuyển động. Quan niệm này nghe hợp lý, thống trị tư tưởng khoa học suốt gần <em>2000 năm</em> cho đến khi có thực nghiệm kiểm chứng.
+          </p>
+          <div style="display:flex;flex-direction:column;gap:calc(var(--u)*0.8);">
+            <div style="padding:calc(var(--u)*0.9) calc(var(--u)*1.2);background:rgba(217,119,6,0.12);border-left:3px solid var(--brass);border-radius:4px;font-size:calc(var(--u)*1.15);">
+              <b>Vì sao thuyết phục suốt 2000 năm?</b> Vì mắt thấy tai nghe hàng ngày: thả khúc gỗ và chiếc lông chim trong không khí thì khúc gỗ rõ ràng chạm đất trước!
+            </div>
+            <div style="padding:calc(var(--u)*0.9) calc(var(--u)*1.2);background:rgba(239,68,68,0.1);border-left:3px solid #ef4444;border-radius:4px;font-size:calc(var(--u)*1.15);">
+              <b style="color:#fca5a5;">Hạn chế lịch sử:</b> Chỉ dựa vào quan sát cảm tính ngoài không khí mà thiếu đi phương pháp thực nghiệm kiểm chứng độc lập.
+            </div>
+          </div>
+        </div>
+        <div class="parchment-sheet rv" style="--i:3;">
+          <div style="font:700 calc(var(--u)*0.85) var(--f-mono);color:#854d0e;letter-spacing:0.2em;margin-bottom:calc(var(--u)*0.8);text-transform:uppercase;">Học Thuyết Tự Nhiên — Hy Lạp Cổ Đại</div>
+          <h4 style="font-family:var(--f-ser);font-size:calc(var(--u)*1.7);color:#78350f;margin-bottom:calc(var(--u)*0.8);border-bottom:1px solid #d97706;padding-bottom:calc(var(--u)*0.5);">
+            Trực Giác & Vai Trò Của Môi Trường
+          </h4>
+          <p style="font-style:italic;font-size:calc(var(--u)*1.22);line-height:1.68;color:#3c1a06;margin-bottom:calc(var(--u)*1.2);">
+            "Chuyển động rơi diễn ra xuyên qua môi trường như nước hoặc không khí. Vật càng nặng thì càng thắng được sự cản trở nhanh hơn, do đó tốc độ rơi tỉ lệ thuận với trọng lượng của vật..."
+          </p>
+          <div style="font-size:calc(var(--u)*1.12);color:#292524;line-height:1.65;">
+            <b>• Nhà tư tưởng:</b> Aristotle (384 – 322 TCN)<br>
+            <b>• Nhận định môi trường:</b> Không khí cản trở chuyển động và không thể tồn tại chân không<br>
+            <b>• Thời gian ảnh hưởng:</b> Gần 2 thiên niên kỷ
+          </div>
+          <div style="position:absolute;top:calc(var(--u)*1);right:calc(var(--u)*1.2);font-size:calc(var(--u)*5);opacity:0.1;font-family:serif;line-height:1;">Α</div>
+        </div>
+      </div>
+    `
+  },
+
+  /* ---- SLIDE 05: SLIDE 3 – GALILEO & THÁP NGHIÊNG PISA (12.jpg & 13.jpg) ---- */
+  {
+    id:3,
+    name:'Slide 3 – Thí Nghiệm Tháp Pisa',
+    theme:'renaissance',
+    kicker:'Phần 3 · Thời Kỳ Phục Hưng — Bước Ngoặt Của Galileo Galilei',
+    title:['SLIDE 3 – GALILEO & THÍ NGHIỆM','TẠI THÁP NGHIÊNG PISA'],
+    lead:'Galileo Galilei có rất nhiều các thí nghiệm chứng minh cho giả thiết này, nổi bật là thí nghiệm tại tháp nghiêng Pisa. Ông thả hai vật có khối lượng khác nhau từ trên cao, kết quả chúng chạm đất gần như cùng lúc. Điều này chứng minh sự rơi khi bỏ qua sức cản không phụ thuộc khối lượng vật, bác bỏ quan niệm sai lầm của Aristotle tồn tại hàng nghìn năm và đặt nền móng cho lý thuyết chuyển động cổ điển.',
+    stamp:'Bác Bỏ Aristotle',
+    notes:`PHẦN 3: THỜI KỲ PHỤC HƯNG VÀ BƯỚC NGOẶT CỦA GALILEO GALILEI
+"Bước ngoặt lớn chỉ thực sự đến vào thời kỳ Phục hưng, với sự xuất hiện của nhà bác học người Ý Galileo Galilei vào cuối thế kỷ XVI.
+Galileo không chấp nhận triết học suông; ông muốn thử nghiệm thực tế. Ông cùng các học trò mang lên tháp nghiêng Pisa hai quả cầu bằng kim loại có khối lượng khác nhau và thả xuống cùng một lúc. Kết quả chúng chạm đất gần như cùng lúc.
+Bằng thiên tài phân tích, Galileo đã tách bạch hai yếu tố:
+1. Xu hướng rơi tự nhiên của bản thân vật thể do trọng lực.
+2. Sự can thiệp, cản trở của môi trường xung quanh – chính là lực cản của không khí.
+Điều này bác bỏ quan niệm sai lầm của Aristotle tồn tại hàng nghìn năm và đặt nền móng cho lý thuyết chuyển động cổ điển."`,
+    renderExtra:()=>`
+      <div class="pisa-slide-grid">
+        <div class="glass-card rv" style="--i:2;">
+          <div class="kicker" style="font-size:calc(var(--u)*0.9);">Bước Ngoặt Thực Nghiệm Lịch Sử</div>
+          <h3 style="font-family:var(--f-ser);font-size:calc(var(--u)*2.05);color:var(--brass-light);margin:calc(var(--u)*0.6) 0 calc(var(--u)*0.9);line-height:1.3;">
+            Thả Hai Vật Khối Lượng Khác Nhau<br>Chạm Đất Gần Như Cùng Lúc
+          </h3>
+          <p style="font-size:calc(var(--u)*1.28);color:#e2e8f0;line-height:1.72;margin-bottom:calc(var(--u)*1.1);">
+            <b>Galileo Galilei</b> có rất nhiều các thí nghiệm chứng minh cho giả thiết này, nổi bật là thí nghiệm tại <b>tháp nghiêng Pisa</b>. Ông thả hai vật có khối lượng khác nhau từ trên cao, kết quả chúng chạm đất gần như cùng lúc.
+          </p>
+          <div style="display:flex;flex-direction:column;gap:calc(var(--u)*0.75);">
+            <div style="padding:calc(var(--u)*0.85) calc(var(--u)*1.15);background:rgba(56,189,248,0.12);border-left:3px solid var(--cyan);border-radius:4px;font-size:calc(var(--u)*1.14);">
+              <b>Tách bạch 2 yếu tố:</b> Xu hướng rơi tự nhiên do trọng lực &amp; sự cản trở của môi trường không khí xung quanh.
+            </div>
+            <div style="padding:calc(var(--u)*0.85) calc(var(--u)*1.15);background:rgba(212,175,55,0.12);border-left:3px solid var(--brass);border-radius:4px;font-size:calc(var(--u)*1.14);">
+              <b>Ý nghĩa vĩ đại:</b> Chứng minh sự rơi không phụ thuộc khối lượng vật, bác bỏ quan niệm sai lầm của Aristotle tồn tại hàng nghìn năm và đặt nền móng cho lý thuyết chuyển động cổ điển.
+            </div>
+          </div>
+        </div>
+        <div class="dual-gallery rv" style="--i:3;">
+          <div class="media-frame" onclick="openLightbox('12.jpg')">
+            <img src="12.jpg" alt="Thí nghiệm tháp nghiêng Pisa">
+            <div class="media-caption"><span>Tháp Pisa · 12.jpg</span><span class="zoom-hint">Phóng to ⤢</span></div>
+          </div>
+          <div class="media-frame" onclick="openLightbox('13.jpg')">
+            <img src="13.jpg" alt="Thực nghiệm Galileo">
+            <div class="media-caption"><span>Thực nghiệm · 13.jpg</span><span class="zoom-hint">Phóng to ⤢</span></div>
+          </div>
+        </div>
+      </div>
+    `
+  },
+
+  /* ---- SLIDE 06: VIDEO THỰC NGHIỆM GALILEO (vid01.mp4) ---- */
+  {
+    id:'V1',
+    name:'Video Thực Nghiệm Galileo',
+    theme:'vacuum',
+    kicker:'Tư Liệu Khoa Học Điện Ảnh · Thực Nghiệm Tháp Nghiêng Pisa',
+    title:['QUAN SÁT THÍ NGHIỆM CỦA','GALILEO GALILEI'],
+    lead:'',
+    stamp:'Video Tư Liệu',
+    notes:`Mời thầy cô và các bạn cùng theo dõi đoạn video tái hiện thí nghiệm thả rơi hai quả cầu có khối lượng khác nhau tại tháp nghiêng Pisa của nhà bác học Galileo Galilei.`,
+    renderExtra:()=>`
+      <div class="cinema-slide-container rv" style="--i:2;">
+        <div class="cinema-screen-box">
+          <div class="cinema-rec-badge">
+            <i class="rec-dot"></i>
+            <span>VID01.MP4 · QUAN SÁT THÍ NGHIỆM CỦA GALILEO GALILEI</span>
+          </div>
+          <video id="player-vid01" controls playsinline preload="auto">
+            <source src="vid01.mp4" type="video/mp4">
+          </video>
+          <div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.04) 3px,rgba(0,0,0,0.04) 4px);z-index:3;"></div>
+        </div>
+        <div style="display:flex;justify-content:center;align-items:center;gap:calc(var(--u)*2.2);margin-top:calc(var(--u)*1.2);">
+          <div class="gold-badge" style="background:rgba(56,189,248,0.2);border:1px solid var(--cyan);color:var(--cyan);box-shadow:0 0 calc(var(--u)*1.5) var(--cyan-glow);">
+            🎬 Tư liệu: vid01.mp4
+          </div>
+          <div class="gold-badge">Thí nghiệm tại Tháp nghiêng Pisa</div>
+          <div class="gold-badge" style="background:rgba(99,102,241,0.2);border:1px solid #818cf8;color:#a5b4fc;box-shadow:none;">
+            Hai vật chạm đất cùng lúc
+          </div>
+        </div>
+      </div>
+    `
+  },
+
+  /* ---- SLIDE 07: SLIDE 4 – THÍ NGHIỆM ỐNG NEWTON (1.jpg, 3.jpg, 2.mp4) ---- */
+  {
+    id:4,
+    name:'Slide 4 – Thí Nghiệm Ống Newton',
+    theme:'vacuum',
+    kicker:'Phần 4 · Cơ Học Cổ Điển — Isaac Newton & Lý Thuyết Lực Cản',
+    title:['SLIDE 4 – THÍ NGHIỆM ỐNG NEWTON:','CÓ KHÔNG KHÍ vs. CHÂN KHÔNG'],
+    lead:'Trong ống có không khí, hòn đá rơi nhanh chạm đáy trước, lông chim rơi chậm. Khi rút hết không khí tạo chân không, cả hai rơi cùng tốc độ, chạm đáy cùng lúc. Điều này chứng minh: sự khác biệt tốc độ rơi trong thực tế hoàn toàn do sức cản không khí, không phải trọng lượng.',
+    stamp:'Ống Newton',
+    notes:`PHẦN 4: THỜI KỲ CƠ HỌC CỔ ĐIỂN – NEWTON VÀ SỰ HOÀN THIỆN LÝ THUYẾT LỰC CẢN
+"Dù Galileo đã làm sáng tỏ bản chất của sự rơi, người đặt dấu chấm hết cho sự mơ hồ về lực cản chính là Sir Isaac Newton vào cuối thế kỷ XVII.
+Trong bộ sách Principia Mathematica, Newton nghiên cứu sâu sắc về lực cản của môi trường không khí phụ thuộc vào diện tích bề mặt và hình dáng khí động học của vật thể.
+Bằng thí nghiệm ống hút chân không: Trong ống có không khí, hòn đá rơi nhanh chạm đáy trước, lông chim rơi chậm. Khi rút hết không khí tạo chân không, cả hai rơi cùng tốc độ, chạm đáy cùng lúc. Điều này chứng minh: sự khác biệt tốc độ rơi trong thực tế hoàn toàn do sức cản không khí, không phải trọng lượng."`,
+    renderExtra:()=>`
+      <div class="newton-slide-grid">
+        <div class="glass-card rv" style="--i:2;">
+          <div class="kicker" style="font-size:calc(var(--u)*0.9);">Thực Nghiệm Đối Chứng Của Newton</div>
+          <h3 style="font-family:var(--f-ser);font-size:calc(var(--u)*2.0);color:var(--brass-light);margin:calc(var(--u)*0.5) 0 calc(var(--u)*0.9);line-height:1.3;">
+            Vai Trò Quyết Định Của Sức Cản Không Khí
+          </h3>
+          <div style="display:flex;flex-direction:column;gap:calc(var(--u)*0.9);font-size:calc(var(--u)*1.24);color:#e2e8f0;">
+            <div style="display:flex;gap:calc(var(--u)*0.9);align-items:flex-start;padding:calc(var(--u)*0.9) calc(var(--u)*1.15);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:calc(var(--u)*0.6);">
+              <span style="color:#ef4444;font-weight:700;white-space:nowrap;">1. Ống có không khí:</span>
+              <span>Hòn đá rơi nhanh chạm đáy trước, lông chim bị không khí cản lại nên lơ lửng rơi chậm hơn.</span>
+            </div>
+            <div style="display:flex;gap:calc(var(--u)*0.9);align-items:flex-start;padding:calc(var(--u)*0.9) calc(var(--u)*1.15);background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);border-radius:calc(var(--u)*0.6);">
+              <span style="color:var(--cyan);font-weight:700;white-space:nowrap;">2. Khi rút chân không:</span>
+              <span>Không còn không khí cản trở, cả hòn đá và lông chim rơi cùng tốc độ và chạm đáy cùng một lúc!</span>
+            </div>
+          </div>
+          <div style="margin-top:calc(var(--u)*1.2);padding:calc(var(--u)*0.9) calc(var(--u)*1.2);background:rgba(212,175,55,0.15);border-left:3px solid var(--brass);border-radius:4px;font-size:calc(var(--u)*1.15);">
+            <b>Chứng minh thuyết phục:</b> Sự khác biệt tốc độ rơi trong thực tế hoàn toàn do <b>sức cản không khí</b>, không phải do trọng lượng.
+          </div>
+        </div>
+        <div class="newton-media-layout rv" style="--i:3;">
+          <div class="video-col">
+            <video id="player-2mp4" controls loop playsinline preload="auto">
+              <source src="2.mp4" type="video/mp4">
+            </video>
+            <div style="position:absolute;bottom:6px;left:8px;font:600 calc(var(--u)*0.82) var(--f-mono);color:var(--brass);background:rgba(0,0,0,0.75);padding:2px 8px;border-radius:4px;">
+              2.mp4 · Thí nghiệm ống Newton
+            </div>
+          </div>
+          <div class="photos-col">
+            <div class="media-frame" onclick="openLightbox('1.jpg')">
+              <img src="1.jpg" alt="Ống có không khí">
+              <div class="media-caption"><span>1.jpg · Có không khí</span><span class="zoom-hint">⤢</span></div>
+            </div>
+            <div class="media-frame" onclick="openLightbox('3.jpg')">
+              <img src="3.jpg" alt="Ống chân không">
+              <div class="media-caption"><span>3.jpg · Chân không</span><span class="zoom-hint">⤢</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `
+  },
+
+  /* ---- SLIDE 08: SLIDE 5 – KẾT LUẬN (33.jpg & 34.jpg) ---- */
+  {
+    id:5,
+    name:'Slide 5 – Kết Luận',
+    theme:'finale',
+    kicker:'Phần 5 · Ý Nghĩa Lịch Sử Và Bài Học Khoa Học',
+    title:['SLIDE 5 – KẾT LUẬN &','BÀI HỌC NHẬN THỨC KHOA HỌC'],
+    lead:'Aristotle dựa trên trực giác, Galileo tách bạch tác động sức cản và thiết lập quy luật sự rơi, Newton thực nghiệm chứng minh. Nhân loại mới hiểu đúng hiện tượng. Bài học quan trọng: những gì mắt thấy chưa hẳn là chân lý, cần phân tích khoa học và kiểm chứng thực nghiệm.',
+    stamp:'Chân Lý Khoa Học',
+    notes:`PHẦN 5: KẾT LUẬN – Ý NGHĨA LỊCH SỬ VÀ BÀI HỌC KHOA HỌC
+"Kính thưa thầy cô và các bạn,
+Nhìn lại hành trình từ quan niệm định tính, chủ quan của Aristotle thời cổ đại, qua thực nghiệm sắc sảo của Galileo, cho đến hệ thống chặt chẽ của Newton, chúng ta thấy được bức tranh tiến hóa của nhận thức loài người.
+Sự rơi trong không khí tưởng chừng là một hiện tượng tầm thường, nhưng để hiểu đúng bản chất của nó, nhân loại đã mất gần hai thiên niên kỷ vượt qua những cạm bẫy của trực giác giác quan.
+Bài học quan trọng: Những gì mắt thấy chưa hẳn là chân lý, cần phân tích khoa học và kiểm chứng thực nghiệm."`,
+    renderExtra:()=>`
+      <div class="finale-slide-grid">
+        <div class="glass-card rv" style="--i:2;">
+          <div class="kicker" style="font-size:calc(var(--u)*0.9);">Bức Tranh Tiến Hóa Của Nhận Thức</div>
+          <div class="tri-tribute-cards">
+            <div class="tribute-step" style="border-color:rgba(217,119,6,0.4);">
+              <b style="color:#fb923c;">ARISTOTLE</b>
+              <span>Dựa trên trực giác cảm tính</span>
+            </div>
+            <div class="tribute-step" style="border-color:var(--brass);box-shadow:0 0 calc(var(--u)*1.5) var(--brass-glow);">
+              <b>GALILEO</b>
+              <span>Tách bạch tác động sức cản &amp; quy luật rơi</span>
+            </div>
+            <div class="tribute-step" style="border-color:var(--cyan);box-shadow:0 0 calc(var(--u)*1.5) var(--cyan-glow);">
+              <b style="color:var(--cyan);">NEWTON</b>
+              <span>Thực nghiệm chân không chứng minh</span>
+            </div>
+          </div>
+          <p style="font-size:calc(var(--u)*1.24);color:#e2e8f0;line-height:1.7;margin-top:calc(var(--u)*1.2);">
+            Sự khác biệt tốc độ rơi trong thực tế hoàn toàn do <b>sức cản không khí</b>, không phải trọng lượng. Nhờ có phân tích lý luận và thực nghiệm, nhân loại mới hiểu đúng bản chất hiện tượng.
+          </p>
+          <div style="margin-top:calc(var(--u)*1.2);background:linear-gradient(135deg,rgba(212,175,55,0.2),rgba(56,189,248,0.14));padding:calc(var(--u)*1.2);border-radius:calc(var(--u)*0.8);border:1px solid var(--border-glass);">
+            <b style="color:var(--brass-light);font-size:calc(var(--u)*1.18);display:block;margin-bottom:calc(var(--u)*0.35);">★ Bài Học Quan Trọng:</b>
+            <p style="font-size:calc(var(--u)*1.2);color:#f8fafc;line-height:1.6;font-style:italic;">
+              "Những gì mắt thấy chưa hẳn là chân lý, cần phân tích khoa học và kiểm chứng thực nghiệm."
+            </p>
+          </div>
+        </div>
+        <div class="finale-gallery rv" style="--i:3;">
+          <div class="media-frame" onclick="openLightbox('33.jpg')">
+            <img src="33.jpg" alt="Tổng kết lịch sử vật lý 33.jpg">
+            <div class="media-caption"><span>33.jpg · Lịch sử</span><span class="zoom-hint">⤢</span></div>
+          </div>
+          <div class="media-frame" onclick="openLightbox('34.jpg')">
+            <img src="34.jpg" alt="Bài học phương pháp 34.jpg">
+            <div class="media-caption"><span>34.jpg · Kết luận</span><span class="zoom-hint">⤢</span></div>
+          </div>
+        </div>
+      </div>
+    `
+  },
+
+  /* ---- SLIDE 09: SLIDE KẾT THÚC & LỜI CẢM ƠN ---- */
+  {
+    id:'E',
+    name:'Cảm Ơn & Thảo Luận',
+    theme:'finale',
+    kicker:'Kết Thúc Bài Thuyết Trình · Vật Lý 10',
+    title:['CẢM ƠN THẦY CÔ VÀ CÁC BẠN','ĐÃ CHÚ Ý LẮNG NGHE!'],
+    lead:'Nhóm chúng em rất mong nhận được các ý kiến đóng góp, nhận xét từ thầy cô và những câu hỏi giao lưu từ các bạn.',
+    stamp:'Thank You',
+    notes:`"Cảm ơn thầy cô và các bạn đã chú ý lắng nghe phần trình bày của nhóm chúng em. Nhóm rất mong nhận được các ý kiến đóng góp và câu hỏi từ mọi người!"`,
+    renderExtra:()=>{
+      const marq=MEMBERS.map(m=>`<span>${m}</span>`).join('');
+      return `
+      <div class="astrolabe-ring"></div>
+      <div class="astrolabe-ring"></div>
+      <div class="astrolabe-ring"></div>
+      <div class="hero-opener-content" style="z-index:5;">
+        <div class="kicker rv" style="--i:0;">Chuyên Đề Vật Lý 10 · Sự Rơi Trong Không Khí</div>
+        <h2 class="headline lg rv" style="margin:calc(var(--u)*1.3) 0 calc(var(--u)*1.8);">
+          <span class="hline">${splitCharsToSpans('XIN CHÂN THÀNH CẢM ƠN',0)}</span>
+          <span class="hline" style="font-size:calc(var(--u)*3.3); opacity:0.9;">${splitCharsToSpans('THẦY CÔ VÀ CÁC BẠN ĐÃ LẮNG NGHE!',1)}</span>
+        </h2>
+        <p class="lead-text rv" style="--i:3; max-width:calc(var(--u)*60); font-size:calc(var(--u)*1.42);">
+          ${splitWordsToSpans('"Khoa học không ngại sai lầm, và chân lý chỉ lộ diện khi chúng ta dũng cảm đặt câu hỏi, thực nghiệm kiểm chứng và vượt qua những khuôn mẫu cũ."')}
+        </p>
+        <div style="margin-top:calc(var(--u)*2.4); display:flex; gap:calc(var(--u)*2); flex-wrap:wrap; justify-content:center;" class="rv" style="--i:5;">
+          <div class="gold-badge">💬 Mời Thầy Cô &amp; Các Bạn Đặt Câu Hỏi (Q&amp;A)</div>
+          <button onclick="window.goToSlideIndex(0)" class="gold-badge" style="background:rgba(56,189,248,0.2);border:1px solid var(--cyan);color:var(--cyan);box-shadow:0 0 calc(var(--u)*1.5) var(--cyan-glow);cursor:pointer;">
+            ↺ Xem Lại Từ Đầu
+          </button>
+        </div>
+      </div>
+      <div class="members-strip">
+        <div class="members-strip-inner">${marq}${marq}</div>
+      </div>
+    `}
+  }
+];
+
+/* ===================================================================
+   3. RENDER ENGINE
    =================================================================== */
 const deck=document.getElementById('deck');
 const stage=document.getElementById('stage');
@@ -1202,55 +1260,41 @@ function renderSlides(){
     sec.dataset.index=idx;
     sec.setAttribute('aria-label',s.name);
 
-    const isOpener=(idx===0);
-    const isMember=(s.id==='M');
+    const isCenteredHero=(s.id==='W'||s.id==='E');
 
     const titleHTML=s.title.map((line,lIdx)=>
       `<span class="hline">${splitCharsToSpans(line,lIdx)}</span>`
     ).join('');
 
-    const headerBlock=(!isOpener&&!isMember)?`
-      <div style="position:absolute;left:7.5%;top:calc(var(--u)*3.4);width:85%;z-index:6;">
+    const headerBlock=(!isCenteredHero)?`
+      <div style="position:absolute;left:7%;top:calc(var(--u)*3.1);width:80%;z-index:6;">
         <div class="kicker rv" style="--i:0;">${s.kicker}</div>
-        <h2 class="headline rv" style="margin-top:calc(var(--u)*0.6);">${titleHTML}</h2>
+        <h2 class="headline rv" style="margin-top:calc(var(--u)*0.5);">${titleHTML}</h2>
       </div>
     `:'';
 
-    const memberHeader=isMember?`
-      <div style="position:absolute;left:7.5%;top:calc(var(--u)*3);width:85%;z-index:6;">
-        <div class="kicker rv" style="--i:0;">${s.kicker}</div>
-        <h2 class="headline rv" style="margin-top:calc(var(--u)*0.5);font-size:calc(var(--u)*3.5);">${titleHTML}</h2>
-      </div>
-    `:'';
-
-    // Stamp badge bottom-right
     const stampBadge=s.stamp?`
       <div class="stamp-badge">
         <div class="stamp-badge-inner">${s.stamp}</div>
       </div>
     `:'';
 
-    // Finale drop animation for slide 7
-    const finaleAnim=(s.id===7)?`
-      <div style="position:absolute;right:calc(var(--u)*8.5);top:0;bottom:0;width:calc(var(--u)*8);pointer-events:none;z-index:2;overflow:hidden;">
-        <!-- Stone -->
-        <div style="position:absolute;left:30%;top:0;animation:finaleStone 2.2s cubic-bezier(0.3,0,0.5,1) 1.2s both;">
-          <svg viewBox="0 0 36 42" width="calc(var(--u)*3.5)" style="width:calc(var(--u)*3.5);filter:drop-shadow(0 0 calc(var(--u)*0.8) rgba(56,189,248,0.6));" xmlns="http://www.w3.org/2000/svg">
+    // Finale simultaneous drop animation on Slide 5 (Conclusion) and Slide E (Thank You)
+    const finaleAnim=(s.id===5||s.id==='E')?`
+      <div style="position:absolute;right:calc(var(--u)*2.5);top:0;bottom:0;width:calc(var(--u)*5.5);pointer-events:none;z-index:3;overflow:hidden;">
+        <div style="position:absolute;left:22%;top:0;animation:finaleStone 2.2s cubic-bezier(0.3,0,0.5,1) 1.2s both;">
+          <svg viewBox="0 0 36 42" style="width:calc(var(--u)*2.8);filter:drop-shadow(0 0 calc(var(--u)*0.8) rgba(56,189,248,0.6));">
             <ellipse cx="18" cy="22" rx="14" ry="16" fill="#6b7280"/>
-            <ellipse cx="18" cy="22" rx="14" ry="16" fill="url(#stoneGrad)" opacity="0.9"/>
-            <ellipse cx="12" cy="15" rx="4" ry="2.5" fill="rgba(255,255,255,0.18)" transform="rotate(-20,12,15)"/>
-            <defs><radialGradient id="stoneGrad" cx="40%" cy="35%"><stop offset="0%" stop-color="#94a3b8"/><stop offset="100%" stop-color="#374151"/></radialGradient></defs>
+            <ellipse cx="12" cy="15" rx="4" ry="2.5" fill="rgba(255,255,255,0.22)" transform="rotate(-20,12,15)"/>
           </svg>
         </div>
-        <!-- Feather -->
-        <div style="position:absolute;left:62%;top:0;animation:finaleFeather 2.2s cubic-bezier(0.1,0,0.3,1) 1.2s both;">
-          <svg viewBox="0 0 24 60" width="calc(var(--u)*2.4)" style="width:calc(var(--u)*2.4);filter:drop-shadow(0 0 calc(var(--u)*0.8) rgba(212,175,55,0.5));" xmlns="http://www.w3.org/2000/svg">
+        <div style="position:absolute;left:60%;top:0;animation:finaleFeather 2.2s cubic-bezier(0.1,0,0.3,1) 1.2s both;">
+          <svg viewBox="0 0 24 60" style="width:calc(var(--u)*2.0);filter:drop-shadow(0 0 calc(var(--u)*0.8) rgba(212,175,55,0.5));">
             <line x1="12" y1="2" x2="12" y2="58" stroke="rgba(243,234,216,0.9)" stroke-width="1"/>
-            ${Array.from({length:14},(_,i)=>{const y=6+i*3.8;const s=Math.sin((i/13)*Math.PI)*9+2;return`<line x1="12" y1="${y}" x2="${12-s}" y2="${y+s*0.6}" stroke="rgba(243,234,216,0.75)" stroke-width="0.7"/><line x1="12" y1="${y}" x2="${12+s}" y2="${y+s*0.6}" stroke="rgba(243,234,216,0.75)" stroke-width="0.7"/>`}).join('')}
+            ${Array.from({length:12},(_,i)=>{const y=6+i*4.2;const sp=Math.sin((i/11)*Math.PI)*8+2;return`<line x1="12" y1="${y}" x2="${12-sp}" y2="${y+sp*0.6}" stroke="rgba(243,234,216,0.75)" stroke-width="0.7"/><line x1="12" y1="${y}" x2="${12+sp}" y2="${y+sp*0.6}" stroke="rgba(243,234,216,0.75)" stroke-width="0.7"/>`}).join('')}
           </svg>
         </div>
-        <!-- Impact line -->
-        <div style="position:absolute;left:-20%;right:-20%;bottom:22%;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),var(--brass),var(--cyan),transparent);animation:finaleGlow 2.2s ease 1.2s both;border-radius:2px;"></div>
+        <div style="position:absolute;left:-20%;right:-20%;bottom:20%;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),var(--brass),var(--cyan),transparent);animation:finaleGlow 2.2s ease 1.2s both;border-radius:2px;"></div>
       </div>
     `:'';
 
@@ -1258,7 +1302,6 @@ function renderSlides(){
       <div class="bgl"></div>
       <div class="cam parallax-layer" data-depth="0.3">
         ${headerBlock}
-        ${memberHeader}
         ${s.renderExtra?s.renderExtra():''}
         ${stampBadge}
         ${finaleAnim}
@@ -1271,7 +1314,6 @@ function renderSlides(){
 /* ===================================================================
    4. AMBIENT: FEATHER + DUST
    =================================================================== */
-// Feather canvas (lông vũ trắng rơi)
 const FeatherCanvas=(()=>{
   const cv=document.getElementById('feather-canvas');
   const ctx=cv.getContext('2d');
@@ -1294,7 +1336,7 @@ const FeatherCanvas=(()=>{
       angle:Math.random()*Math.PI*2,
       av:(Math.random()-0.5)*0.02,
       len:12+Math.random()*18,
-      alpha:0.1+Math.random()*0.3,
+      alpha:0.1+Math.random()*0.28,
       sway:Math.random()*Math.PI*2,
       swaySpeed:0.008+Math.random()*0.012
     };
@@ -1312,11 +1354,9 @@ const FeatherCanvas=(()=>{
     ctx.translate(f.x,f.y);
     ctx.rotate(f.angle);
     ctx.globalAlpha=f.alpha;
-    // Rachis (thân)
     ctx.strokeStyle='rgba(243,234,216,0.9)';
     ctx.lineWidth=0.8;
     ctx.beginPath();ctx.moveTo(0,-f.len/2);ctx.lineTo(0,f.len/2);ctx.stroke();
-    // Barbs
     ctx.lineWidth=0.5;
     const steps=Math.floor(f.len/2.2);
     for(let i=0;i<steps;i++){
@@ -1334,10 +1374,7 @@ const FeatherCanvas=(()=>{
       f.x+=f.vx+Math.sin(f.sway)*0.6;
       f.y+=f.vy;
       f.angle+=f.av;
-      if(f.y>H+30){
-        const nf=mkFeather();
-        Object.assign(f,nf);
-      }
+      if(f.y>H+30)Object.assign(f,mkFeather());
       drawFeather(f);
     }
     requestAnimationFrame(tick);
@@ -1345,7 +1382,6 @@ const FeatherCanvas=(()=>{
   return{init,resize,tick};
 })();
 
-// Dust particles
 const Dust=(()=>{
   const cv=document.getElementById('dust');
   const ctx=cv.getContext('2d');
@@ -1401,40 +1437,27 @@ function parallaxTick(){
     const d=parseFloat(el.dataset.depth)||0.3;
     el.style.transform=`translate(${smx*d*18}px,${smy*d*10}px)`;
   });
-  // Proximity glow on chars
   requestAnimationFrame(parallaxTick);
 }
 
 /* ===================================================================
-   6. COUNT-UP G
+   6. NAVIGATION & SPEAKER NOTES
    =================================================================== */
-function countUpG(){
-  const el=document.getElementById('live-counter-g');
-  if(!el)return;
-  const dur=1400,t0=performance.now();
-  function tick(now){
-    const p=Math.min((now-t0)/dur,1);
-    const ease=1-Math.pow(1-p,3);
-    el.textContent=(ease*9.8).toFixed(1);
-    if(p<1)requestAnimationFrame(tick);
-    else el.textContent='9.8';
-  }
-  requestAnimationFrame(tick);
-}
+const notesDrawer=document.getElementById('notes-drawer');
+const notesTitle=document.getElementById('notes-title');
+const notesContent=document.getElementById('notes-content');
 
-/* ===================================================================
-   7. NAVIGATION
-   =================================================================== */
 function updateUI(){
   counterEl.textContent=`${String(cur+1).padStart(2,'0')} / ${String(SLIDES.length).padStart(2,'0')}`;
   progressEl.style.transform=`scaleX(${(cur+1)/SLIDES.length})`;
+  notesTitle.textContent=`LỜI DẪN: ${SLIDES[cur].name.toUpperCase()}`;
+  notesContent.textContent=SLIDES[cur].notes||'';
 }
 
 function goTo(idx,dir=1){
   if(navigating||idx===cur||idx<0||idx>=SLIDES.length)return;
   navigating=true;
 
-  // Pause videos
   ['player-vid01','player-2mp4'].forEach(id=>{
     const v=document.getElementById(id);
     if(v)v.pause();
@@ -1450,10 +1473,6 @@ function goTo(idx,dir=1){
     to.classList.remove('gone');to.classList.add('on');
     cur=idx;updateUI();
 
-    // Trigger counter on Galileo slide (index 2 after member insert)
-    if(SLIDES[cur]&&SLIDES[cur].id===3)countUpG();
-
-    // Shockwave
     const ring=document.createElement('div');
     ring.className='impact-wave';
     stage.appendChild(ring);
@@ -1465,12 +1484,14 @@ function goTo(idx,dir=1){
     navigating=false;
   },1280);
 }
+window.goToSlideIndex=idx=>goTo(idx,idx>cur?1:-1);
 
 /* Wheel */
 let wDelta=0,wTimer=null;
 window.addEventListener('wheel',e=>{
   if(document.body.classList.contains('edit-mode'))return;
   if(document.getElementById('lightbox').classList.contains('active'))return;
+  if(e.target.closest('#notes-drawer'))return;
   e.preventDefault();
   if(navigating)return;
   wDelta+=e.deltaY;
@@ -1499,6 +1520,7 @@ window.addEventListener('keydown',e=>{
   else if(e.key==='Home'){e.preventDefault();goTo(0,-1)}
   else if(e.key==='End'){e.preventDefault();goTo(SLIDES.length-1,1)}
   else if(e.key==='g'||e.key==='G')toggleGrid();
+  else if(e.key==='n'||e.key==='N')toggleNotes();
   else if(e.key==='s'||e.key==='S')toggleEditor();
   else if(e.key==='f'||e.key==='F'){
     if(!document.fullscreenElement)document.documentElement.requestFullscreen();
@@ -1507,7 +1529,7 @@ window.addEventListener('keydown',e=>{
 });
 
 /* ===================================================================
-   8. LIGHTBOX & MODALS
+   7. LIGHTBOX, GRID, NOTES & EDITOR
    =================================================================== */
 const lightbox=document.getElementById('lightbox');
 const lbImg=document.getElementById('lightbox-img');
@@ -1536,6 +1558,13 @@ function toggleGrid(){
   }
 }
 
+function toggleNotes(){
+  notesDrawer.classList.toggle('active');
+}
+document.getElementById('btn-notes-toggle').addEventListener('click',toggleNotes);
+document.getElementById('notes-close').addEventListener('click',()=>notesDrawer.classList.remove('active'));
+document.getElementById('btn-grid-toggle').addEventListener('click',toggleGrid);
+
 function toggleEditor(){
   const open=document.body.classList.toggle('edit-mode');
   if(open)buildEditor();
@@ -1543,6 +1572,7 @@ function toggleEditor(){
 function closeAll(){
   lightbox.classList.remove('active');
   modalGrid.classList.remove('active');
+  notesDrawer.classList.remove('active');
   document.body.classList.remove('edit-mode');
 }
 document.getElementById('btn-editor-open').addEventListener('click',toggleEditor);
@@ -1552,17 +1582,27 @@ function buildEditor(){
   const s=SLIDES[cur];
   const f=document.getElementById('editor-fields');
   f.innerHTML=`
-    <h3 style="color:var(--brass);margin-bottom:12px;">Slide ${s.id}: ${s.name}</h3>
+    <h3 style="color:var(--brass);margin-bottom:12px;">${s.name}</h3>
     <label>Kicker:</label>
     <textarea id="ed-kicker" rows="2">${s.kicker}</textarea>
     <label>Dòng tiêu đề 1:</label>
     <textarea id="ed-t1" rows="2">${s.title[0]||''}</textarea>
     <label>Dòng tiêu đề 2:</label>
     <textarea id="ed-t2" rows="2">${s.title[1]||''}</textarea>
+    <label>Lời dẫn thuyết trình:</label>
+    <textarea id="ed-notes" rows="6">${s.notes||''}</textarea>
   `;
+  f.querySelectorAll('textarea').forEach(ta=>{
+    ta.addEventListener('input',()=>{
+      s.kicker=document.getElementById('ed-kicker').value;
+      s.title[0]=document.getElementById('ed-t1').value;
+      s.title[1]=document.getElementById('ed-t2').value;
+      s.notes=document.getElementById('ed-notes').value;
+      updateUI();
+    });
+  });
 }
 
-// Video replacement
 document.getElementById('input-galileo-video').addEventListener('change',e=>{
   const file=e.target.files[0];if(!file)return;
   const url=URL.createObjectURL(file);
@@ -1576,17 +1616,16 @@ document.getElementById('input-newton-video').addEventListener('change',e=>{
   if(v){v.src=url;v.play();}
 });
 
-// Export HTML
 document.getElementById('btn-save-html').addEventListener('click',()=>{
   const blob=new Blob([document.documentElement.outerHTML],{type:'text/html'});
   const a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
-  a.download='SuRoiTuDo-Final.html';
+  a.download='Su-Roi-Trong-Khong-Khi.html';
   a.click();
 });
 
 /* ===================================================================
-   9. INIT
+   8. INIT
    =================================================================== */
 renderSlides();
 FeatherCanvas.init();FeatherCanvas.tick();
