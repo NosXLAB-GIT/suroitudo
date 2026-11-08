@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<title>SỰ RƠI TRONG KHÔNG KHÍ — Từ Triết Học Cổ Đại Đến Cơ Học Cổ Điển</title>
+<title>Sự Rơi Trong Không Khí | 10A4 - K34</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#060913">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -85,6 +85,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 .content{position:absolute;left:calc(var(--u)*7);right:calc(var(--u)*7);top:calc(var(--u)*12.6);bottom:calc(var(--u)*5)}
 .grid2{display:grid;gap:calc(var(--u)*3);align-items:center;height:100%}
+.grid2>*{min-width:0;min-height:0}
 
 /* Cards */
 .glass-card{background:linear-gradient(145deg,rgba(14,22,46,0.9),rgba(8,14,30,0.94));border:1px solid var(--border-glass);border-radius:calc(var(--u)*1.3);padding:calc(var(--u)*1.8) calc(var(--u)*2.2);box-shadow:0 calc(var(--u)*1.5) calc(var(--u)*4.5) rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.07);position:relative;overflow:hidden}
@@ -100,7 +101,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .note-box.red{border-color:#ef4444;background:rgba(239,68,68,0.12)}
 
 /* Media frame */
-.media-frame{position:relative;border-radius:calc(var(--u)*1);overflow:hidden;border:1.5px solid rgba(212,175,55,0.35);background:#000;box-shadow:0 calc(var(--u)*1.6) calc(var(--u)*4) rgba(0,0,0,0.65);transition:transform 0.4s var(--pop),border-color 0.4s;cursor:pointer}
+.media-frame{position:relative;min-width:0;min-height:0;height:100%;border-radius:calc(var(--u)*1);overflow:hidden;border:1.5px solid rgba(212,175,55,0.35);background:#000;box-shadow:0 calc(var(--u)*1.6) calc(var(--u)*4) rgba(0,0,0,0.65);transition:transform 0.4s var(--pop),border-color 0.4s;cursor:pointer}
 .media-frame:hover{transform:translateY(calc(var(--u)*-0.6)) scale(1.02);border-color:var(--brass-light)}
 .media-frame img{width:100%;height:100%;object-fit:cover;display:block}
 .media-caption{position:absolute;left:0;right:0;bottom:0;padding:calc(var(--u)*0.7) calc(var(--u)*1.1);background:linear-gradient(0deg,rgba(4,7,18,0.95),rgba(4,7,18,0.6) 65%,transparent);font:600 calc(var(--u)*1.0) var(--f-body);color:#e2e8f0;display:flex;justify-content:space-between}
@@ -250,6 +251,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
    =================================================================== */
 #ornament-frame{position:absolute;inset:calc(var(--u)*1.6);z-index:25;pointer-events:none;border:1px solid rgba(212,175,55,0.22)}
 #ornament-frame::before{content:"";position:absolute;inset:calc(var(--u)*0.5);border:0.5px solid rgba(212,175,55,0.1)}
+.nosx-crest{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);padding:calc(var(--u)*0.25) calc(var(--u)*1.4);background:#060913;border:1px solid rgba(212,175,55,0.45);border-radius:99px;font:800 calc(var(--u)*0.82)/1 var(--f-body);letter-spacing:0.26em;text-transform:uppercase;color:var(--brass-light);box-shadow:0 0 calc(var(--u)*1.4) rgba(212,175,55,0.25);white-space:nowrap}
+.nosx-crest b{color:var(--cyan);font-weight:900}
 .bracket{position:absolute;width:calc(var(--u)*2.6);height:calc(var(--u)*2.6);color:var(--brass)}
 .bracket.tl{top:-2px;left:-2px}.bracket.tr{top:-2px;right:-2px;transform:rotate(90deg)}
 .bracket.br{bottom:-2px;right:-2px;transform:rotate(180deg)}.bracket.bl{bottom:-2px;left:-2px;transform:rotate(270deg)}
@@ -258,6 +261,8 @@ body.hero-slide #ui-chrome{opacity:0}
 #counter{position:absolute;left:calc(var(--u)*4.2);bottom:calc(var(--u)*2.5);font:800 calc(var(--u)*1.1) var(--f-body);letter-spacing:0.24em;color:var(--brass)}
 #progress{position:absolute;left:calc(var(--u)*4.2);bottom:calc(var(--u)*2.1);width:calc(var(--u)*14);height:3px;background:rgba(255,255,255,0.12);border-radius:99px;overflow:hidden}
 #progress i{display:block;height:100%;background:linear-gradient(90deg,var(--brass),var(--cyan));transform-origin:left;transform:scaleX(0.11);transition:transform 0.65s var(--e)}
+#nosx-watermark{position:absolute;right:calc(var(--u)*4.2);bottom:calc(var(--u)*2.3);font:800 calc(var(--u)*0.95) var(--f-body);letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,229,171,0.75)}
+#nosx-watermark b{color:var(--cyan)}
 #feather-canvas,#dust{position:absolute;inset:0;pointer-events:none}
 #feather-canvas{z-index:7}#dust{z-index:8}
 
@@ -300,6 +305,7 @@ body.edit-mode #editor-panel{display:flex}
   <canvas id="dust" aria-hidden="true"></canvas>
   <div id="grav-curtain" aria-hidden="true"></div>
   <div id="ornament-frame" aria-hidden="true">
+    <div class="nosx-crest">POWERED BY <b>NOSXLAB</b></div>
     <svg class="bracket tl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 22V2h20"/></svg>
     <svg class="bracket tr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 22V2h20"/></svg>
     <svg class="bracket br" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 22V2h20"/></svg>
@@ -308,6 +314,7 @@ body.edit-mode #editor-panel{display:flex}
   <div id="ui-chrome">
     <div id="counter">01 / 09</div>
     <div id="progress"><i></i></div>
+    <div id="nosx-watermark">POWERED BY <b>NOSXLAB</b></div>
   </div>
 </div>
 
@@ -468,7 +475,10 @@ const SLIDES=[
           <div class="pillar" onclick="goToSlideIndex(5)"><div class="pillar-num" style="background:linear-gradient(135deg,#0284c7,#38bdf8);">II</div><div><b style="color:#7dd3fc;">Galileo</b><span>Tháp nghiêng Pisa</span></div></div>
           <div class="pillar" onclick="goToSlideIndex(6)"><div class="pillar-num">III</div><div><b>Newton</b><span>Ống chân không</span></div></div>
         </div>
-        <div class="rv" style="--i:5;margin-top:calc(var(--u)*1.6);"><span class="gold-badge">Nhóm thuyết trình Vật Lý 10</span></div>
+        <div class="rv" style="--i:5;margin-top:calc(var(--u)*1.6);display:flex;gap:calc(var(--u)*1.2);align-items:center;">
+          <span class="gold-badge">Nhóm thuyết trình Vật Lý 10</span>
+          <span class="gold-badge cyan">⚡ Powered by nosxlab</span>
+        </div>
       </div>
       ${marquee()}`
   },
@@ -508,7 +518,7 @@ const SLIDES=[
   {
     id:1,name:'Mở Đầu',theme:'renaissance',
     kicker:'Phần 1 · Mở đầu — Sự tò mò của nhân loại',
-    title:'MỞ ĐẦU: CÂU HỎI HÀNG NGHÌN NĂM',
+    title:'MỞ ĐẦU: SỰ RƠI TRONG KHÔNG KHÍ',
     notes:`PHẦN 1: MỞ ĐẦU – SỰ TÒ MÒ CỦA NHÂN LOẠI VỀ QUY LUẬT TỰ NHIÊN
 "Kính thưa thầy cô và các bạn,
 Khi chúng ta thả rơi một chiếc lá và một hòn sỏi cùng một lúc từ trên cao xuống, điều gì sẽ xảy ra? Rất trực quan, hòn sỏi sẽ chạm đất trước, còn chiếc lá sẽ lững thững bay lượn trong không khí rồi mới tới đích sau. Câu hỏi tưởng chừng như vô cùng đơn giản ấy thực ra đã trăn trở trong tâm trí của loài người suốt hàng nghìn năm lịch sử.
@@ -618,13 +628,13 @@ Bằng thí nghiệm ống chân không: Trong ống có không khí, hòn đá 
   {
     id:5,name:'Kết Luận',theme:'finale',
     kicker:'Phần 5 · Ý nghĩa lịch sử và bài học khoa học',
-    title:'KẾT LUẬN & BÀI HỌC',
+    title:'KẾT LUẬN: SỰ RƠI TRONG KHÔNG KHÍ',
     notes:`PHẦN 5: KẾT LUẬN – Ý NGHĨA LỊCH SỬ VÀ BÀI HỌC KHOA HỌC
 "Aristotle dựa trên trực giác, Galileo tách bạch tác động sức cản và thiết lập quy luật sự rơi, Newton thực nghiệm chứng minh. Nhân loại mới hiểu đúng hiện tượng.
 Sự khác biệt tốc độ rơi trong thực tế hoàn toàn do sức cản không khí, không phải trọng lượng.
 Bài học quan trọng: Những gì mắt thấy chưa hẳn là chân lý, cần phân tích khoa học và kiểm chứng thực nghiệm."`,
     render:()=>`
-      <div class="content"><div class="grid2" style="grid-template-columns:1.18fr 0.82fr;">
+      <div class="content"><div class="grid2" style="grid-template-columns:1.12fr 0.88fr;">
         <div class="glass-card rv" style="--i:2;">
           <div class="card-kicker">Hành trình nhận thức</div>
           <div class="tri">
@@ -632,13 +642,13 @@ Bài học quan trọng: Những gì mắt thấy chưa hẳn là chân lý, c�
             <div style="border-color:var(--brass);"><b style="color:var(--brass-light);">GALILEO</b><span>Tách bạch sức cản, lập quy luật</span></div>
             <div style="border-color:var(--cyan);"><b style="color:var(--cyan);">NEWTON</b><span>Thực nghiệm chứng minh</span></div>
           </div>
-          <p class="txt" style="margin-top:calc(var(--u)*1.2);">Nhân loại mới hiểu đúng hiện tượng: sự khác biệt tốc độ rơi trong thực tế hoàn toàn do <b>sức cản không khí</b>, không phải trọng lượng.</p>
-          <div style="margin-top:calc(var(--u)*1.2);background:linear-gradient(135deg,rgba(212,175,55,0.22),rgba(56,189,248,0.15));padding:calc(var(--u)*1.2) calc(var(--u)*1.4);border-radius:calc(var(--u)*0.8);border:1px solid var(--border-glass);">
-            <b style="color:var(--brass-light);font-size:calc(var(--u)*1.45);display:block;">★ Bài học quan trọng</b>
-            <p style="font-family:var(--f-ser);font-size:calc(var(--u)*1.85);color:#fff;line-height:1.45;font-style:italic;font-weight:700;">"Những gì mắt thấy chưa hẳn là chân lý, cần phân tích khoa học và kiểm chứng thực nghiệm."</p>
+          <p class="txt" style="margin-top:calc(var(--u)*1.0);font-size:calc(var(--u)*1.45);line-height:1.6;">Nhân loại mới hiểu đúng hiện tượng: sự khác biệt tốc độ rơi trong thực tế hoàn toàn do <b>sức cản không khí</b>, không phải trọng lượng.</p>
+          <div style="margin-top:calc(var(--u)*1.0);background:linear-gradient(135deg,rgba(212,175,55,0.22),rgba(56,189,248,0.15));padding:calc(var(--u)*1.1) calc(var(--u)*1.4);border-radius:calc(var(--u)*0.8);border:1px solid var(--border-glass);">
+            <b style="color:var(--brass-light);font-size:calc(var(--u)*1.35);display:block;margin-bottom:calc(var(--u)*0.3);">★ Bài học quan trọng</b>
+            <p style="font-family:var(--f-ser);font-size:calc(var(--u)*1.75);color:#fff;line-height:1.42;font-style:italic;font-weight:700;">"Những gì mắt thấy chưa hẳn là chân lý, cần phân tích khoa học và kiểm chứng thực nghiệm."</p>
           </div>
         </div>
-        <div class="rv" style="--i:3;display:grid;grid-template-rows:1fr 1fr;gap:calc(var(--u)*1.4);height:100%;">
+        <div class="rv" style="--i:3;display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*1.6);height:calc(var(--u)*36);">
           <div class="media-frame" onclick="openLightbox('33.jpg')"><img src="33.jpg" alt="Tổng kết"><div class="media-caption"><span>Lịch sử</span><span class="zoom-hint">⤢</span></div></div>
           <div class="media-frame" onclick="openLightbox('34.jpg')"><img src="34.jpg" alt="Bài học"><div class="media-caption"><span>Kết luận</span><span class="zoom-hint">⤢</span></div></div>
         </div>
@@ -668,9 +678,10 @@ Bài học quan trọng: Những gì mắt thấy chưa hẳn là chân lý, c�
           <div class="pillar"><div class="pillar-num" style="background:linear-gradient(135deg,#0284c7,#38bdf8);">II</div><div><b style="color:#7dd3fc;">Galileo</b><span>Tách bạch sức cản</span></div></div>
           <div class="pillar"><div class="pillar-num">III</div><div><b>Newton</b><span>Thực nghiệm chứng minh</span></div></div>
         </div>
-        <div class="rv" style="--i:5;margin-top:calc(var(--u)*1.6);display:flex;gap:calc(var(--u)*1.5);">
+        <div class="rv" style="--i:5;margin-top:calc(var(--u)*1.6);display:flex;gap:calc(var(--u)*1.2);align-items:center;">
           <span class="gold-badge">💬 Mời đặt câu hỏi</span>
           <button class="gold-badge cyan" onclick="goToSlideIndex(0)">↺ Xem lại từ đầu</button>
+          <span class="gold-badge" style="background:rgba(14,22,46,0.9);border:1.5px solid var(--brass);color:var(--brass-light);">⚡ Powered by nosxlab</span>
         </div>
       </div>
       ${marquee()}`
