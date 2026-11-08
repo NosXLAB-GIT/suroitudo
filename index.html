@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>SỰ RƠI TỰ DO — Từ Trực Giác Đến Thực Nghiệm Khoa Học</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#060913">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@400;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,500;1,700&display=swap" rel="stylesheet">
+<style>
+/* ===================================================================
+   1. GLOBAL TOKENS
+   =================================================================== */
+:root {
+  --bg-deep:    #060913;
+  --bg-surface: #0c1224;
+  --bg-card:    rgba(10,16,36,0.82);
+  --brass:      #d4af37;
+  --brass-light:#f6e082;
+  --brass-dark: #a07a10;
+  --brass-glow: rgba(212,175,55,0.38);
+  --cyan:       #38bdf8;
+  --cyan-glow:  rgba(56,189,248,0.5);
+  --red-glow:   rgba(239,68,68,0.6);
+  --text-main:  #f8fafc;
+  --text-dim:   #94a3b8;
+  --border-glass: rgba(212,175,55,0.22);
+  --border-cyan:  rgba(56,189,248,0.3);
+
+  --u: min(1vw, 1.7778vh);
+  --e: cubic-bezier(0.16,1,0.3,1);
+  --pop: cubic-bezier(0.34,1.56,0.64,1);
+  --g:  cubic-bezier(0.55,0.085,0.68,0.53);
+  --sharp: cubic-bezier(0.4,0,0.2,1);
+
+  --f-disp: 'Cinzel Decorative','Playfair Display',Georgia,serif;
+  --f-cin:  'Cinzel','Playfair Display',Georgia,serif;
+  --f-ser:  'Playfair Display',Georgia,serif;
+  --f-body: 'Be Vietnam Pro',system-ui,-apple-system,sans-serif;
+  --f-mono: 'JetBrains Mono',monospace;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:#02040b}
+body{
+  display:grid;place-items:center;
+  font-family:var(--f-body);color:var(--text-main);
+  overscroll-behavior:none;user-select:none;
+}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+
+/* 16:9 Stage */
+#stage{
+  position:relative;
+  width:min(100vw,177.78vh);
+  aspect-ratio:16/9;
+  overflow:hidden;
+  background:var(--bg-deep);
+  font-size:calc(var(--u)*1.55);
+  line-height:1.65;
+  isolation:isolate;
+}
+#deck{position:absolute;inset:0;z-index:1}
+
+/* ===================================================================
+   2. SLIDE LIFECYCLE
+   =================================================================== */
+.sc{
+  position:absolute;inset:0;display:none;z-index:1;overflow:hidden;
+}
+.sc.on,.sc.out{display:block}
+.sc.on{z-index:2}
+.sc.out{z-index:1}
+.sc.gone{display:none!important}
+.sc:not(.on):not(.out) *{animation-play-state:paused!important}
+
+/* Background gradient themes */
+.bgl{
+  position:absolute;inset:-8%;
+  transition:background 0.8s;
+  background:
+    radial-gradient(ellipse at 75% 15%,rgba(212,175,55,0.14) 0%,transparent 50%),
+    radial-gradient(ellipse at 15% 85%,rgba(56,189,248,0.1) 0%,transparent 50%),
+    linear-gradient(145deg,#040711 0%,#0a1020 50%,#030609 100%);
+}
+.sc[data-th="parchment"] .bgl{
+  background:
+    radial-gradient(ellipse at 65% 25%,rgba(217,119,6,0.18) 0%,transparent 55%),
+    radial-gradient(ellipse at 20% 80%,rgba(99,102,241,0.08) 0%,transparent 45%),
+    linear-gradient(135deg,#06090f 0%,#0e1428 55%,#060a10 100%);
+}
+.sc[data-th="vacuum"] .bgl{
+  background:
+    radial-gradient(ellipse at 50% 40%,rgba(56,189,248,0.18) 0%,transparent 60%),
+    radial-gradient(ellipse at 90% 85%,rgba(14,165,233,0.14) 0%,transparent 45%),
+    linear-gradient(170deg,#02040b 0%,#06112a 55%,#020409 100%);
+}
+.sc[data-th="finale"] .bgl{
+  background:
+    radial-gradient(ellipse at 50% 50%,rgba(212,175,55,0.22) 0%,transparent 55%),
+    radial-gradient(ellipse at 15% 20%,rgba(56,189,248,0.12) 0%,transparent 50%),
+    linear-gradient(145deg,#050810 0%,#0c1225 55%,#040710 100%);
+}
+
+/* Camera slow dolly */
+.cam{position:absolute;inset:0}
+.sc.on .cam{animation:camDolly 24s ease-in-out infinite alternate}
+@keyframes camDolly{from{scale:1}to{scale:1.028}}
+
+/* Reveal enter/exit */
+.sc:not(.on):not(.out) .rv{opacity:0}
+.sc.on .rv{
+  animation:rvIn 1.1s var(--e)
+    calc(var(--b,0.1s) + var(--i,0)*0.11s) both;
+}
+.sc.out .rv{animation:rvOut 0.42s var(--e) both}
+@keyframes rvIn{
+  from{opacity:0;transform:translateY(calc(var(--u)*2.4))}
+  to  {opacity:1;transform:translateY(0)}
+}
+@keyframes rvOut{
+  to{opacity:0;transform:translateY(calc(var(--u)*-1.8))}
+}
+
+/* ===================================================================
+   3. TYPOGRAPHY SYSTEM
+   =================================================================== */
+.kicker{
+  display:inline-flex;align-items:center;gap:calc(var(--u)*1.3);
+  font:700 calc(var(--u)*1.0)/1.4 var(--f-mono);
+  letter-spacing:0.26em;text-transform:uppercase;color:var(--brass);
+  text-shadow:0 0 calc(var(--u)*1.2) var(--brass-glow);
+}
+.kicker::before{
+  content:"";width:calc(var(--u)*3.4);height:1.5px;
+  background:currentColor;transform-origin:left;scale:0 1;
+}
+.sc.on .kicker::before{animation:kickLine 0.9s var(--e) 0.12s both}
+@keyframes kickLine{to{scale:1 1}}
+
+.headline{
+  font-family:var(--f-cin);font-weight:700;
+  font-size:calc(var(--u)*4.2);line-height:1.16;color:var(--text-main);
+  letter-spacing:0.01em;
+}
+.headline.lg{font-size:calc(var(--u)*5.0)}
+.hline{display:block;perspective:1000px;padding:0.04em 0 0.1em;overflow:visible}
+.wd{display:inline-block;white-space:nowrap}
+
+/* Character flip-in with metallic shimmer */
+.ch{
+  display:inline-block;position:relative;color:var(--text-main);opacity:0;
+  transform-origin:50% 90%;
+  scale:calc(1+var(--p,0)*0.22);
+  text-shadow:0 0 calc(var(--u)*1.2*var(--p,0)) var(--cyan-glow);
+}
+.sc.on .ch{
+  animation:chFlip 1.2s var(--e)
+    calc(var(--b,0.1s)+var(--l,0)*0.14s+var(--c,0)*0.022s) both;
+}
+@keyframes chFlip{
+  from{opacity:0;transform:translateY(0.5em) rotateX(-65deg)}
+  to  {opacity:1;transform:translateY(0) rotateX(0)}
+}
+.ch::after{
+  content:attr(data-c);position:absolute;left:0;top:0;pointer-events:none;
+  background:linear-gradient(118deg,
+    transparent 0%,rgba(255,255,255,0.08) 38%,
+    #fff9 46%,var(--brass-light) 56%,
+    rgba(212,175,55,0.3) 66%,transparent 100%);
+  background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;-webkit-text-fill-color:transparent;
+  animation:goldSweep 9s linear infinite;
+  animation-delay:calc(var(--c,0)*-0.2s);
+}
+@keyframes goldSweep{0%{background-position:150% 0}100%{background-position:-150% 0}}
+
+/* Word reveals */
+.pw{display:inline-block;opacity:0}
+.sc.on .pw{
+  animation:wordIn 0.82s var(--e)
+    calc(var(--b,0.15s)+var(--w,0)*0.024s) both;
+}
+@keyframes wordIn{
+  from{opacity:0;transform:translateY(0.55em)}
+  to  {opacity:1;transform:translateY(0)}
+}
+
+.lead-text{
+  font-size:calc(var(--u)*1.52);line-height:1.78;color:#cbd5e1;
+  text-shadow:0 2px calc(var(--u)*1) rgba(0,0,0,0.75);
+}
+.lead-text b{color:#fff;font-weight:600}
+.lead-text em{color:var(--brass-light);font-style:normal}
+
+/* ===================================================================
+   4. GLASS CARDS & BRASS FRAMES
+   =================================================================== */
+.glass-card{
+  background:linear-gradient(145deg,rgba(14,22,46,0.88),rgba(8,14,30,0.92));
+  border:1px solid var(--border-glass);
+  border-radius:calc(var(--u)*1.3);
+  padding:calc(var(--u)*1.9) calc(var(--u)*2.3);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:
+    0 calc(var(--u)*1.5) calc(var(--u)*4.5) rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.07),
+    inset 0 0 0 1px rgba(212,175,55,0.08);
+  position:relative;overflow:hidden;
+}
+.glass-card::before{
+  content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,0.09),transparent);
+  animation:glassSweep 11s ease-in-out infinite;
+  animation-delay:calc(var(--i,0)*-2.2s);pointer-events:none;
+}
+@keyframes glassSweep{0%,55%{transform:translateX(0)}100%{transform:translateX(360%)}}
+
+/* Brass-bordered media frame */
+.media-frame{
+  position:relative;border-radius:calc(var(--u)*1);overflow:hidden;
+  border:1.5px solid rgba(212,175,55,0.3);background:#000;
+  box-shadow:
+    0 calc(var(--u)*1.6) calc(var(--u)*4) rgba(0,0,0,0.65),
+    0 0 calc(var(--u)*2.5) rgba(212,175,55,0.15);
+  transition:transform 0.4s var(--pop),border-color 0.4s,box-shadow 0.4s;
+  cursor:pointer;
+}
+.media-frame:hover{
+  transform:translateY(calc(var(--u)*-0.6)) scale(1.025);
+  border-color:var(--brass-light);
+  box-shadow:
+    0 calc(var(--u)*2.5) calc(var(--u)*6.5) rgba(0,0,0,0.8),
+    0 0 calc(var(--u)*3.5) var(--brass-glow);
+}
+.media-frame img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s var(--e)}
+.media-frame:hover img{transform:scale(1.06)}
+.media-caption{
+  position:absolute;left:0;right:0;bottom:0;
+  padding:calc(var(--u)*0.7) calc(var(--u)*1.1);
+  background:linear-gradient(0deg,rgba(4,7,18,0.95) 0%,rgba(4,7,18,0.6) 65%,transparent 100%);
+  font:600 calc(var(--u)*1.0) var(--f-body);color:#e2e8f0;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.media-caption .zoom-hint{
+  font:500 calc(var(--u)*0.82) var(--f-mono);color:var(--brass);
+  background:rgba(212,175,55,0.18);padding:1px 7px;border-radius:3px;
+}
+
+/* Gold badge */
+.gold-badge{
+  display:inline-flex;align-items:center;gap:calc(var(--u)*0.7);
+  padding:calc(var(--u)*0.55) calc(var(--u)*1.4);border-radius:99px;
+  font:700 calc(var(--u)*1.0)/1.2 var(--f-mono);color:#fff;
+  background:linear-gradient(135deg,#8b5e08,var(--brass),#8b5e08);
+  box-shadow:0 calc(var(--u)*0.7) calc(var(--u)*2) rgba(140,90,10,0.55),
+             inset 0 1px 0 rgba(255,255,255,0.4);
+  letter-spacing:0.08em;text-transform:uppercase;
+}
+
+/* ===================================================================
+   5. SLIDE-SPECIFIC LAYOUTS
+   =================================================================== */
+/* Slide 1 Opener */
+.hero-opener-content{
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);width:88%;
+  text-align:center;display:flex;flex-direction:column;align-items:center;
+}
+.astrolabe-ring{
+  position:absolute;left:50%;top:50%;border-radius:50%;pointer-events:none;
+}
+.astrolabe-ring:nth-child(1){
+  width:calc(var(--u)*72);height:calc(var(--u)*72);
+  transform:translate(-50%,-50%);
+  border:1.5px dashed rgba(212,175,55,0.2);
+  animation:spinAstro 110s linear infinite;
+}
+.astrolabe-ring:nth-child(2){
+  width:calc(var(--u)*54);height:calc(var(--u)*54);
+  transform:translate(-50%,-50%);
+  border:1px solid rgba(56,189,248,0.14);
+  animation:spinAstro 70s linear infinite reverse;
+}
+.astrolabe-ring:nth-child(3){
+  width:calc(var(--u)*38);height:calc(var(--u)*38);
+  transform:translate(-50%,-50%);
+  border:0.5px dashed rgba(212,175,55,0.1);
+  animation:spinAstro 45s linear infinite;
+}
+@keyframes spinAstro{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* Members strip */
+.members-strip{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:calc(var(--u)*0.6) calc(var(--u)*5);
+  background:linear-gradient(90deg,
+    transparent,rgba(6,9,19,0.9) 10%,rgba(6,9,19,0.9) 90%,transparent);
+  border-top:1px solid rgba(212,175,55,0.15);
+  display:flex;align-items:center;gap:calc(var(--u)*0.5);
+  overflow:hidden;z-index:10;
+}
+.members-strip-inner{
+  display:flex;gap:calc(var(--u)*3);
+  animation:marqueeScroll 28s linear infinite;
+  white-space:nowrap;
+}
+.members-strip-inner span{
+  font:600 calc(var(--u)*1.0) var(--f-body);
+  color:rgba(244,236,216,0.72);letter-spacing:0.04em;
+}
+.members-strip-inner span::before{
+  content:"◈ ";color:var(--brass);opacity:0.6;
+}
+@keyframes marqueeScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* Slide 2 Aristotle */
+.split-layout-2{
+  position:absolute;
+  inset:calc(var(--u)*5.2) calc(var(--u)*7) calc(var(--u)*4) calc(var(--u)*7);
+  display:grid;grid-template-columns:1.1fr 1fr;gap:calc(var(--u)*3.5);
+  align-items:center;
+}
+.parchment-sheet{
+  background:linear-gradient(148deg,#fdf9ef 0%,#f5ecda 60%,#ede0c4 100%);
+  border:1px solid #c9b98a;border-radius:calc(var(--u)*1.1);
+  padding:calc(var(--u)*2.4);color:#1c1917;
+  box-shadow:
+    0 calc(var(--u)*2) calc(var(--u)*5) rgba(0,0,0,0.5),
+    inset 0 0 calc(var(--u)*3) rgba(205,185,138,0.35),
+    inset 0 0 0 1px rgba(255,255,255,0.4);
+  position:relative;overflow:hidden;
+}
+.parchment-sheet::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(
+    0deg,transparent,transparent 28px,rgba(0,0,0,0.04) 28px,rgba(0,0,0,0.04) 29px
+  );
+}
+
+/* Slide 3 Galileo formulas */
+.stat-formula-split{
+  position:absolute;
+  inset:calc(var(--u)*5) calc(var(--u)*7) calc(var(--u)*4) calc(var(--u)*7);
+  display:grid;grid-template-columns:1.15fr 0.95fr;gap:calc(var(--u)*4);
+  align-items:center;
+}
+.counter-box{
+  display:flex;align-items:baseline;gap:calc(var(--u)*1.1);
+  padding:calc(var(--u)*1.2) calc(var(--u)*2);
+  background:rgba(8,16,38,0.92);
+  border:1.5px solid var(--cyan);border-radius:calc(var(--u)*1);
+  box-shadow:0 0 calc(var(--u)*3) var(--cyan-glow),
+             inset 0 0 calc(var(--u)*2) rgba(56,189,248,0.08);
+}
+.counter-num{
+  font:900 calc(var(--u)*7.4)/1 var(--f-mono);color:#fff;
+  text-shadow:0 0 calc(var(--u)*2.5) var(--cyan),
+              0 0 calc(var(--u)*5) rgba(56,189,248,0.4);
+}
+.counter-unit{
+  font:700 calc(var(--u)*2.1) var(--f-mono);color:var(--cyan);
+  text-shadow:0 0 calc(var(--u)*1.5) var(--cyan-glow);
+}
+.formula-list{display:flex;flex-direction:column;gap:calc(var(--u)*1.1)}
+.formula-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:calc(var(--u)*1.1) calc(var(--u)*1.7);
+  background:rgba(10,18,42,0.78);
+  border:1px solid var(--border-glass);border-radius:calc(var(--u)*0.8);
+  transition:border-color 0.3s,box-shadow 0.3s;
+}
+.formula-item:hover{
+  border-color:var(--brass);
+  box-shadow:0 0 calc(var(--u)*1.5) var(--brass-glow);
+}
+.formula-eq{
+  font:700 calc(var(--u)*2.0) var(--f-mono);color:var(--brass-light);
+  letter-spacing:0.05em;text-shadow:0 0 calc(var(--u)*1) var(--brass-glow);
+}
+
+/* Slide 4 Pisa */
+.pisa-slide-grid{
+  position:absolute;
+  inset:calc(var(--u)*4.8) calc(var(--u)*7) calc(var(--u)*3.5) calc(var(--u)*7);
+  display:grid;grid-template-columns:1.05fr 1fr;gap:calc(var(--u)*3.5);
+  align-items:center;
+}
+.dual-gallery{
+  display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*1.6);
+  height:calc(var(--u)*38);
+}
+.dual-gallery .media-frame{height:100%}
+
+/* Slide 5 Cinema */
+.cinema-slide-container{
+  position:absolute;
+  inset:calc(var(--u)*3.2) calc(var(--u)*7) calc(var(--u)*3.2) calc(var(--u)*7);
+  display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+}
+.cinema-screen-box{
+  position:relative;width:80%;aspect-ratio:16/9;max-height:calc(var(--u)*36);
+  border-radius:calc(var(--u)*1.2);overflow:hidden;
+  border:2px solid var(--brass);background:#000;
+  box-shadow:
+    0 0 calc(var(--u)*5) var(--brass-glow),
+    0 0 calc(var(--u)*12) rgba(212,175,55,0.15),
+    0 calc(var(--u)*3) calc(var(--u)*9) rgba(0,0,0,0.9);
+}
+.cinema-screen-box video{
+  width:100%;height:100%;object-fit:contain;background:#000;display:block;
+}
+.cinema-rec-badge{
+  position:absolute;top:calc(var(--u)*1);left:calc(var(--u)*1.3);
+  display:flex;align-items:center;gap:calc(var(--u)*0.7);
+  font:700 calc(var(--u)*0.85) var(--f-mono);color:var(--brass);
+  background:rgba(4,7,18,0.88);
+  padding:calc(var(--u)*0.35) calc(var(--u)*0.9);
+  border-radius:99px;border:1px solid var(--border-glass);z-index:5;
+}
+.rec-dot{
+  width:calc(var(--u)*0.65);aspect-ratio:1;border-radius:50%;
+  background:#ef4444;animation:recPulse 1.3s ease-in-out infinite;
+}
+@keyframes recPulse{50%{opacity:0.15}}
+
+/* Slide 6 Newton */
+.newton-slide-grid{
+  position:absolute;
+  inset:calc(var(--u)*3.8) calc(var(--u)*6.5) calc(var(--u)*3.5) calc(var(--u)*6.5);
+  display:grid;grid-template-columns:1fr 1.05fr;gap:calc(var(--u)*3.2);
+  align-items:center;
+}
+.newton-media-layout{
+  display:grid;grid-template-columns:1.15fr 1fr;gap:calc(var(--u)*1.4);
+  height:calc(var(--u)*38);
+}
+.newton-media-layout .video-col{
+  border-radius:calc(var(--u)*1);overflow:hidden;
+  border:1.5px solid var(--brass);background:#000;
+  box-shadow:0 0 calc(var(--u)*2.5) var(--brass-glow);
+  position:relative;
+}
+.newton-media-layout .video-col video{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.newton-media-layout .photos-col{
+  display:flex;flex-direction:column;gap:calc(var(--u)*1.3);height:100%;
+}
+.newton-media-layout .photos-col .media-frame{flex:1;min-height:0}
+
+/* Slide 7 Finale */
+.finale-slide-grid{
+  position:absolute;
+  inset:calc(var(--u)*4) calc(var(--u)*7) calc(var(--u)*3.5) calc(var(--u)*7);
+  display:grid;grid-template-columns:1.1fr 0.95fr;gap:calc(var(--u)*3.8);
+  align-items:center;
+}
+.finale-gallery{
+  display:grid;grid-template-columns:1fr 1.1fr;gap:calc(var(--u)*1.6);
+  height:calc(var(--u)*38);
+}
+.tri-tribute-cards{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*1.1);
+  margin-top:calc(var(--u)*1.6);
+}
+.tribute-step{
+  padding:calc(var(--u)*1.1) calc(var(--u)*1.3);
+  background:rgba(10,18,42,0.78);
+  border:1px solid var(--border-glass);
+  border-radius:calc(var(--u)*0.8);text-align:center;
+  transition:transform 0.3s var(--pop),border-color 0.3s;
+}
+.tribute-step:hover{transform:translateY(calc(var(--u)*-0.4));border-color:var(--brass)}
+.tribute-step b{display:block;color:var(--brass);font:700 calc(var(--u)*1.1) var(--f-mono);margin-bottom:4px}
+.tribute-step span{font-size:calc(var(--u)*0.92);color:#cbd5e1}
+
+/* ===================================================================
+   6. SIGNATURE TRANSITION: GRAVITATIONAL CURTAIN
+   =================================================================== */
+#grav-curtain{
+  position:absolute;inset:0;z-index:50;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 90%,#101830,#060913 80%);
+  transform:translateY(-100%);will-change:transform;
+}
+#grav-curtain.anim-fwd{animation:curtainFwd 1.28s var(--g) both}
+#grav-curtain.anim-bwd{animation:curtainBwd 1.12s var(--e) both}
+@keyframes curtainFwd{
+  0%  {transform:translateY(-100%)}
+  44% {transform:translateY(0%)}
+  56% {transform:translateY(0%)}
+  100%{transform:translateY(100%)}
+}
+@keyframes curtainBwd{
+  0%  {transform:translateY(100%)}
+  44% {transform:translateY(0%)}
+  56% {transform:translateY(0%)}
+  100%{transform:translateY(-100%)}
+}
+.impact-wave{
+  position:absolute;left:50%;top:50%;
+  width:calc(var(--u)*14);aspect-ratio:1;border-radius:50%;
+  border:2px solid var(--brass);transform:translate(-50%,-50%) scale(0.1);
+  animation:impactRing 0.95s ease-out forwards;
+  pointer-events:none;z-index:45;opacity:0.8;
+}
+@keyframes impactRing{to{transform:translate(-50%,-50%) scale(9);opacity:0}}
+
+/* ===================================================================
+   7. CHROME UI
+   =================================================================== */
+#ornament-frame{
+  position:absolute;inset:calc(var(--u)*1.8);z-index:25;pointer-events:none;
+  border:1px solid rgba(212,175,55,0.2);
+}
+#ornament-frame::before{
+  content:"";position:absolute;inset:calc(var(--u)*0.5);
+  border:0.5px solid rgba(212,175,55,0.1);
+}
+.bracket{
+  position:absolute;width:calc(var(--u)*2.6);height:calc(var(--u)*2.6);
+  color:var(--brass);filter:drop-shadow(0 0 calc(var(--u)*0.5) var(--brass-glow));
+}
+.bracket.tl{top:-2px;left:-2px}
+.bracket.tr{top:-2px;right:-2px;transform:rotate(90deg)}
+.bracket.br{bottom:-2px;right:-2px;transform:rotate(180deg)}
+.bracket.bl{bottom:-2px;left:-2px;transform:rotate(270deg)}
+
+#ui-chrome{
+  position:absolute;inset:0;z-index:30;pointer-events:none;
+  font-family:var(--f-mono);
+}
+#counter{
+  position:absolute;left:calc(var(--u)*4.5);bottom:calc(var(--u)*3.6);
+  font-size:calc(var(--u)*1.1);letter-spacing:0.24em;color:var(--brass);
+  font-weight:700;text-shadow:0 0 calc(var(--u)*1) var(--brass-glow);
+}
+#progress{
+  position:absolute;left:calc(var(--u)*4.5);bottom:calc(var(--u)*3.0);
+  width:calc(var(--u)*14);height:2.5px;
+  background:rgba(255,255,255,0.12);border-radius:99px;overflow:hidden;
+}
+#progress i{
+  display:block;height:100%;width:100%;
+  background:linear-gradient(90deg,var(--brass),var(--cyan));
+  transform-origin:left;transform:scaleX(0.14);
+  transition:transform 0.65s var(--e);
+}
+#scroll-hint{
+  position:absolute;right:calc(var(--u)*4.5);bottom:calc(var(--u)*3.0);
+  display:flex;align-items:center;gap:calc(var(--u)*0.8);
+  font-size:calc(var(--u)*0.9);letter-spacing:0.2em;color:var(--brass);
+  opacity:0.8;
+}
+#scroll-hint i{
+  width:calc(var(--u)*0.6);height:calc(var(--u)*0.6);
+  border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;
+  transform:rotate(45deg);animation:hintBounce 1.6s ease-in-out infinite;
+}
+@keyframes hintBounce{50%{transform:translateY(calc(var(--u)*0.4)) rotate(45deg)}}
+
+/* Feather canvas */
+#feather-canvas{position:absolute;inset:0;pointer-events:none;z-index:7}
+/* Dust canvas */
+#dust{position:absolute;inset:0;pointer-events:none;z-index:8}
+
+/* ===================================================================
+   8. MEMBERS SLIDE SPECIAL STYLES
+   =================================================================== */
+.members-panel{
+  position:absolute;
+  inset:calc(var(--u)*5) calc(var(--u)*6) calc(var(--u)*5.5) calc(var(--u)*6);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:calc(var(--u)*1.3);
+  align-content:center;
+}
+.member-card{
+  background:linear-gradient(145deg,rgba(14,22,46,0.9),rgba(8,13,28,0.95));
+  border:1px solid rgba(212,175,55,0.2);
+  border-radius:calc(var(--u)*0.9);
+  padding:calc(var(--u)*1.0) calc(var(--u)*1.2);
+  display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*0.5);
+  text-align:center;
+  box-shadow:
+    0 calc(var(--u)*0.8) calc(var(--u)*2.5) rgba(0,0,0,0.5),
+    inset 0 0 0 1px rgba(255,255,255,0.04);
+  transition:transform 0.35s var(--pop),border-color 0.35s,box-shadow 0.35s;
+  opacity:0;
+}
+.sc.on .member-card{
+  animation:cardStampIn 0.65s var(--pop)
+    calc(0.4s + var(--mi,0)*0.07s) both;
+}
+@keyframes cardStampIn{
+  0%{opacity:0;transform:scale(0.72) translateY(calc(var(--u)*1.5))}
+  70%{opacity:1}
+  100%{opacity:1;transform:scale(1) translateY(0)}
+}
+.member-card:hover{
+  transform:translateY(calc(var(--u)*-0.5)) scale(1.04);
+  border-color:var(--brass);
+  box-shadow:0 calc(var(--u)*1.5) calc(var(--u)*4) rgba(0,0,0,0.6),
+             0 0 calc(var(--u)*2) var(--brass-glow);
+}
+.member-avatar{
+  width:calc(var(--u)*3.8);height:calc(var(--u)*3.8);
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--brass-dark),var(--brass),var(--brass-light));
+  display:flex;align-items:center;justify-content:center;
+  font:700 calc(var(--u)*1.4) var(--f-cin);color:#fff;
+  text-shadow:0 1px 3px rgba(0,0,0,0.5);
+  box-shadow:0 0 calc(var(--u)*1.5) var(--brass-glow);
+  flex-shrink:0;
+}
+.member-num{
+  font:700 calc(var(--u)*0.72) var(--f-mono);
+  color:var(--brass);letter-spacing:0.1em;
+  opacity:0.7;
+}
+.member-name{
+  font:600 calc(var(--u)*0.95)/1.35 var(--f-body);
+  color:#e2e8f0;
+}
+
+/* ===================================================================
+   9. LIGHTBOX, GRID, EDITOR
+   =================================================================== */
+#lightbox{
+  position:fixed;inset:0;z-index:120;background:rgba(2,4,12,0.96);
+  display:none;place-items:center;padding:4vh 4vw;backdrop-filter:blur(14px);
+}
+#lightbox.active{display:grid}
+#lightbox img{
+  max-width:min(90vw,150vh);max-height:86vh;border-radius:10px;
+  border:2px solid var(--brass);box-shadow:0 0 60px rgba(212,175,55,0.35);
+}
+#lightbox-close{
+  position:absolute;top:22px;right:30px;font:700 22px var(--f-mono);
+  color:#fff;background:rgba(255,255,255,0.14);width:42px;height:42px;
+  border-radius:50%;display:grid;place-items:center;cursor:pointer;
+}
+
+#modal-grid{
+  position:fixed;inset:0;z-index:100;background:rgba(2,4,12,0.97);
+  display:none;place-items:center;padding:4vh 4vw;backdrop-filter:blur(10px);
+}
+#modal-grid.active{display:grid}
+.grid-shelf{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:2vmin;
+  width:min(92vw,165vh);
+}
+.grid-thumb{
+  aspect-ratio:16/9;border:1.5px solid rgba(212,175,55,0.3);
+  border-radius:8px;padding:1.5vmin;display:flex;flex-direction:column;
+  justify-content:flex-end;background:#0c1224;cursor:pointer;
+  transition:transform 0.3s var(--pop),border-color 0.3s;
+}
+.grid-thumb:hover{transform:translateY(-4px);border-color:var(--cyan)}
+.grid-thumb.cur{border-color:#fff;box-shadow:0 0 16px var(--brass-glow)}
+.grid-thumb b{font:700 2.6vmin var(--f-mono);color:var(--brass)}
+.grid-thumb span{font:600 1.4vmin var(--f-body);color:#fff;margin-top:0.3vmin}
+
+#btn-editor-open{
+  position:fixed;right:16px;bottom:16px;z-index:90;
+  padding:7px 14px;border:1px solid var(--brass);border-radius:99px;
+  background:rgba(6,9,19,0.9);color:var(--brass);
+  font:600 11px var(--f-mono);backdrop-filter:blur(8px);
+  cursor:pointer;transition:0.3s;
+}
+#btn-editor-open:hover{background:var(--brass);color:#000}
+body.edit-mode #btn-editor-open{display:none}
+
+#editor-panel{
+  position:fixed;top:0;right:0;bottom:0;width:min(420px,94vw);
+  z-index:110;background:#09102a;border-left:1px solid var(--brass);
+  color:#f1f5f9;display:none;flex-direction:column;font-size:13px;
+  box-shadow:-12px 0 36px rgba(0,0,0,0.75);
+}
+body.edit-mode #editor-panel{display:flex}
+#editor-panel header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 18px;border-bottom:1px solid rgba(212,175,55,0.3);
+  font-weight:700;color:var(--brass);
+}
+.editor-body{flex:1;overflow-y:auto;padding:16px}
+.editor-body label{display:block;margin:10px 0 4px;font-weight:600;color:#93c5fd}
+.editor-body textarea{
+  width:100%;background:#050814;border:1px solid rgba(212,175,55,0.35);
+  color:#fff;padding:8px;border-radius:6px;font:13px/1.4 var(--f-body);
+  resize:vertical;
+}
+.editor-actions{
+  display:flex;flex-wrap:wrap;gap:8px;padding:14px;
+  border-top:1px solid rgba(212,175,55,0.3);background:#060b1e;
+}
+.editor-actions button,.editor-actions label.btn{
+  padding:7px 11px;background:rgba(212,175,55,0.14);
+  border:1px solid var(--brass);border-radius:6px;font-size:12px;
+  color:#fef08a;cursor:pointer;
+}
+.editor-actions button:hover,.editor-actions label.btn:hover{
+  background:var(--brass);color:#000;
+}
+.editor-actions input[type="file"]{display:none}
+
+/* ===================================================================
+   10. POINTER PARALLAX & GLOW
+   =================================================================== */
+.sc.on .parallax-layer{
+  transition:transform 0.08s linear;
+  will-change:transform;
+}
+
+/* ===================================================================
+   11. STAMP BADGE (bottom-right decorative)
+   =================================================================== */
+.stamp-badge{
+  position:absolute;right:calc(var(--u)*5.5);bottom:calc(var(--u)*4.5);
+  width:calc(var(--u)*8.5);aspect-ratio:1;border-radius:50%;
+  background:conic-gradient(from 0deg,var(--brass-dark),var(--brass),var(--brass-light),var(--brass));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 calc(var(--u)*2.5) var(--brass-glow),
+             0 0 calc(var(--u)*5) rgba(212,175,55,0.15);
+  opacity:0;z-index:10;
+}
+.sc.on .stamp-badge{
+  animation:stampIn 0.7s var(--pop) 1.6s both;
+}
+@keyframes stampIn{
+  0%{opacity:0;scale:0.5;rotate:-15deg}
+  70%{opacity:1}
+  100%{opacity:1;scale:1;rotate:0deg}
+}
+.stamp-badge-inner{
+  width:85%;aspect-ratio:1;border-radius:50%;
+  background:var(--bg-deep);
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:calc(var(--u)*0.5);
+  font:700 calc(var(--u)*0.85)/1.2 var(--f-mono);
+  color:var(--brass-light);letter-spacing:0.04em;
+}
+
+/* ===================================================================
+   12. FINALE DROP ANIMATION (Slide 7)
+   =================================================================== */
+@keyframes finaleStone{
+  0%  {transform:translateY(-8%) scale(1.1)}
+  85% {transform:translateY(78%) scale(1.0);animation-timing-function:cubic-bezier(0.6,-0.28,0.74,0.05)}
+  87% {transform:translateY(72%) scale(1.08,0.92)}
+  92% {transform:translateY(78%) scale(0.95,1.05)}
+  100%{transform:translateY(78%) scale(1)}
+}
+@keyframes finaleFeather{
+  0%  {transform:translateY(-8%) rotate(-5deg)}
+  100%{transform:translateY(78%) rotate(8deg)}
+}
+@keyframes finaleGlow{
+  0%,80%{opacity:0;transform:scaleX(0.2)}
+  85%,100%{opacity:1;transform:scaleX(1)}
+}
+
+/* ===================================================================
+   13. SECTION DIVIDER LINE
+   =================================================================== */
+.section-divider{
+  display:flex;align-items:center;gap:calc(var(--u)*1.2);
+  margin:calc(var(--u)*1) 0;
+  opacity:0.45;
+}
+.section-divider::before,.section-divider::after{
+  content:"";flex:1;height:1px;
+  background:linear-gradient(90deg,transparent,var(--brass),transparent);
+}
+.section-divider span{
+  font:600 calc(var(--u)*0.85) var(--f-mono);
+  color:var(--brass);letter-spacing:0.15em;white-space:nowrap;
+}
+</style>
+</head>
+<body data-theme="dark">
+
+<div id="stage">
+  <div id="deck"></div>
+  <canvas id="feather-canvas" aria-hidden="true"></canvas>
+  <canvas id="dust" aria-hidden="true"></canvas>
+  <div id="grav-curtain" aria-hidden="true"></div>
+
+  <div id="ornament-frame" aria-hidden="true">
+    <svg class="bracket tl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 22V2h20"/></svg>
+    <svg class="bracket tr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 22V2h20"/></svg>
+    <svg class="bracket br" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 22V2h20"/></svg>
+    <svg class="bracket bl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 22V2h20"/></svg>
+  </div>
+
+  <div id="ui-chrome">
+    <div id="counter">01 / 07</div>
+    <div id="progress"><i></i></div>
+    <div id="scroll-hint"><span>CUỘN ĐỂ KHÁM PHÁ</span><i></i></div>
+  </div>
+</div>
+
+<div id="lightbox" role="dialog">
+  <button id="lightbox-close" aria-label="Đóng">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+<div id="modal-grid" role="dialog">
+  <div class="grid-shelf" id="grid-shelf"></div>
+</div>
+<button id="btn-editor-open">Chỉnh sửa (S)</button>
+<aside id="editor-panel">
+  <header><span>CHẾ ĐỘ BIÊN TẬP</span><button id="btn-editor-close">✕</button></header>
+  <div class="editor-body" id="editor-fields"></div>
+  <div class="editor-actions">
+    <button id="btn-save-html">Lưu HTML</button>
+    <label class="btn">Thay video Galileo<input type="file" id="input-galileo-video" accept="video/*"></label>
+    <label class="btn">Thay video Newton<input type="file" id="input-newton-video" accept="video/*"></label>
+  </div>
+</aside>
+
+<script>
+(function(){'use strict';
+
+/* ===================================================================
+   MEMBERS DATA
+   =================================================================== */
+const MEMBERS=[
+  'Phạm Ngọc Minh Châu','Nguyễn Huy Bách','Trần Hoài An','Vũ Thanh Tùng',
+  'Đinh Bảo Việt','Nguyễn Dương Anh Dũng','Vũ Tiến Khang','Đỗ Hoàng Bảo Ngọc',
+  'Dương Tuấn Anh','Phạm Như Đức Minh','Trần Ngọc Tình','Lê Quang Tuấn Đạt'
+];
+
+function getInitials(name){
+  const parts=name.trim().split(' ');
+  return parts[parts.length-1].charAt(0).toUpperCase();
+}
+
+/* ===================================================================
+   1. SLIDE DATA
+   =================================================================== */
+const SLIDES=[
+  /* ---- SLIDE 1: MỞ ĐẦU ---- */
+  {
+    id:1,name:'Khởi Nguyên Câu Hỏi',theme:'renaissance',
+    kicker:'Bài Thuyết Trình Vật Lý 10 · Nhóm 12 Thành Viên',
+    title:['SỰ RƠI TỰ DO:','TỪ TRỰC GIÁC ĐẾN THỰC NGHIỆM'],
+    lead:'Khi thả hòn đá và lông chim cùng lúc, hòn đá chạm đất nhanh còn lông chim rơi chậm. Tại sao lại khác nhau? Hiện tượng này tưởng đơn giản nhưng đã theo chân nhân loại hàng nghìn năm.',
+    stamp:'Vật Lý Cổ Điển',
+    renderExtra:()=>{
+      const marq=MEMBERS.map(m=>`<span>${m}</span>`).join('');
+      return `
+      <div class="astrolabe-ring"></div>
+      <div class="astrolabe-ring"></div>
+      <div class="astrolabe-ring"></div>
+      <div class="hero-opener-content" style="z-index:5;">
+        <div class="kicker rv" style="--i:0;">Bài Thuyết Trình Vật Lý 10 · Nhóm 12 Thành Viên</div>
+        <h1 class="headline lg rv" style="margin:calc(var(--u)*1.4) 0 calc(var(--u)*2);">
+          <span class="hline">${splitCharsToSpans('SỰ RƠI TỰ DO:',0)}</span>
+          <span class="hline" style="font-size:calc(var(--u)*3.5); opacity:0.85;">${splitCharsToSpans('TỪ TRỰC GIÁC ĐẾN THỰC NGHIỆM',1)}</span>
+        </h1>
+        <p class="lead-text rv" style="--i:3; max-width:calc(var(--u)*64); font-size:calc(var(--u)*1.42);">${splitWordsToSpans('Khi thả hòn đá và lông chim cùng lúc, hòn đá chạm đất nhanh còn lông chim rơi chậm. Tại sao lại khác nhau? Hiện tượng này tưởng đơn giản nhưng đã theo chân nhân loại hàng nghìn năm. Chúng ta cùng khám phá quy luật đằng sau, từ Aristotle đến Galileo và Newton.')}</p>
+        <div style="margin-top:calc(var(--u)*2); display:flex; gap:calc(var(--u)*2); flex-wrap:wrap; justify-content:center;" class="rv" style="--i:5;">
+          <div class="gold-badge">Khám Phá Chân Lý</div>
+          <div class="gold-badge" style="background:rgba(56,189,248,0.2);border:1px solid var(--cyan);color:var(--cyan);box-shadow:0 0 calc(var(--u)*1.5) var(--cyan-glow);">Aristotle → Galileo → Newton</div>
+        </div>
+      </div>
+      <div class="members-strip">
+        <div class="members-strip-inner">${marq}${marq}</div>
+      </div>
+    `}
+  },
+
+  /* ---- SLIDE 2: ARISTOTLE ---- */
+  {
+    id:2,name:'Quan Niệm Aristotle',theme:'parchment',
+    kicker:'Thế Kỷ IV TCN · Định Kiến Kinh Viện 2000 Năm',
+    title:['QUAN NIỆM CỦA','TRIẾT GIA ARISTOTLE'],
+    lead:'',stamp:'Trực giác cảm tính',
+    renderExtra:()=>`
+      <div class="split-layout-2">
+        <div class="glass-card rv" style="--i:2;">
+          <div class="kicker" style="font-size:calc(var(--u)*0.9);margin-bottom:calc(var(--u)*0.8);">Luận Điểm Kinh Viện</div>
+          <h3 style="font-family:var(--f-ser);font-size:calc(var(--u)*2.1);color:var(--brass-light);margin-bottom:calc(var(--u)*1);line-height:1.3;">
+            Vật nặng rơi nhanh hơn vật nhẹ
+          </h3>
+          <p style="font-size:calc(var(--u)*1.3);color:#cbd5e1;line-height:1.75;margin-bottom:calc(var(--u)*1.2);">
+            Aristotle nhận định vận tốc rơi <b>tỉ lệ thuận với trọng lượng</b> vật và <b>tỉ lệ nghịch với mật độ</b> môi trường. Quan niệm này dựa hoàn toàn vào giác quan thông thường trong điều kiện có không khí.
+          </p>
+          <div style="display:flex;flex-direction:column;gap:calc(var(--u)*0.8);">
+            <div style="padding:calc(var(--u)*0.9) calc(var(--u)*1.2);background:rgba(239,68,68,0.1);border-left:3px solid #ef4444;border-radius:4px;font-size:calc(var(--u)*1.15);">
+              <b style="color:#fca5a5;">❌ Sai lầm:</b> Đồng nhất chuyển động tự nhiên với lực cản môi trường mà không thực nghiệm kiểm chứng.
+            </div>
+            <div style="padding:calc(var(--u)*0.9) calc(var(--u)*1.2);background:rgba(217,119,6,0.12);border-left:3px solid var(--brass);border-radius:4px;font-size:calc(var(--u)*1.15);">
+              <b>Hệ quả:</b> Suốt gần 2000 năm, không ai dám nghi ngờ uy quyền học thuật tuyệt đối của Aristotle.
+            </div>
+          </div>
+        </div>
+        <div class="parchment-sheet rv" style="--i:3;">
+          <div style="font:700 calc(var(--u)*0.85) var(--f-mono);color:#854d0e;letter-spacing:0.2em;margin-bottom:calc(var(--u)*0.8);text-transform:uppercase;">Trích Bản Thảo — De Caelo</div>
+          <h4 style="font-family:var(--f-ser);font-size:calc(var(--u)*1.6);color:#78350f;margin-bottom:calc(var(--u)*0.8);border-bottom:1px solid #d97706;padding-bottom:calc(var(--u)*0.5);">
+            Luận Điểm Về Chuyển Động
+          </h4>
+          <p style="font-style:italic;font-size:calc(var(--u)*1.2);line-height:1.65;color:#3c1a06;margin-bottom:calc(var(--u)*1.2);">
+            "Nếu một trọng lượng di chuyển trong một khoảng cách nhất định trong một thời gian nhất định, thì một trọng lượng lớn hơn sẽ di chuyển cùng một khoảng cách đó trong một thời gian ngắn hơn..."
+          </p>
+          <div style="font-size:calc(var(--u)*1.1);color:#292524;line-height:1.6;">
+            <b>Tác phẩm:</b> <em>De Caelo</em> (Về Bầu Trời) — Thế kỷ IV TCN<br>
+            <b>Thống trị:</b> Từ 350 TCN đến thế kỷ XVII
+          </div>
+          <div style="position:absolute;top:calc(var(--u)*1);right:calc(var(--u)*1.2);font-size:calc(var(--u)*5);opacity:0.1;font-family:serif;line-height:1;">Α</div>
+        </div>
+      </div>
+    `
+  },
+
+  /* ---- SLIDE 3: GALILEO FORMULAS ---- */
+  {
+    id:3,name:'Galileo & Rơi Tự Do',theme:'vacuum',
+    kicker:'Thế Kỷ XVII · Bình Minh Khoa Học Thực Nghiệm',
+    title:['GALILEO GALILEI &','QUY LUẬT RƠI TỰ DO'],
+    lead:'',stamp:'g ≈ 9.8 m/s²',
+    renderExtra:()=>`
+      <div class="stat-formula-split">
+        <div class="glass-card rv" style="--i:2;display:flex;flex-direction:column;gap:calc(var(--u)*1.4);">
+          <div class="kicker" style="font-size:calc(var(--u)*0.9);">Hằng Số Gia Tốc Trọng Trường</div>
+          <div class="counter-box">
+            <span class="counter-num" id="live-counter-g">0.0</span>
+            <span class="counter-unit">m/s²</span>
+          </div>
+          <p style="font-size:calc(var(--u)*1.3);color:#cbd5e1;line-height:1.72;">
+            Tại cùng một vị trí gần mặt đất, khi <b>loại bỏ sức cản không khí</b>, mọi vật từ hạt cát đến tảng đá đều rơi với gia tốc không đổi <em>g = 9,8 m/s²</em>.
+          </p>
+          <div style="padding:calc(var(--u)*0.8) calc(var(--u)*1.2);background:rgba(56,189,248,0.1);border-left:3px solid var(--cyan);border-radius:4px;font-size:calc(var(--u)*1.1);color:#e0f2fe;">
+            <b>Phát hiện đột phá:</b> Lông chim rơi chậm không phải vì nhẹ, mà vì chịu <b>lực cản khí động học lớn hơn</b> tương đối so với trọng lượng.
+          </div>
+        </div>
+        <div class="formula-list rv" style="--i:3;">
+          <div style="font:700 calc(var(--u)*0.9) var(--f-mono);letter-spacing:0.18em;color:var(--brass);margin-bottom:calc(var(--u)*0.5);text-transform:uppercase;">Ba Công Thức Rơi Tự Do</div>
+          <div class="formula-item" style="--i:0;">
+            <div>
+              <b style="display:block;color:#94a3b8;font-size:calc(var(--u)*1.0);margin-bottom:4px;">① Vận tốc tức thời</b>
+              <span class="formula-eq">v = g · t</span>
+            </div>
+            <span style="font-size:calc(var(--u)*0.85);color:var(--cyan);font-family:var(--f-mono);">(v₀ = 0)</span>
+          </div>
+          <div class="formula-item" style="--i:1;">
+            <div>
+              <b style="display:block;color:#94a3b8;font-size:calc(var(--u)*1.0);margin-bottom:4px;">② Quãng đường rơi</b>
+              <span class="formula-eq">h = ½ · g · t²</span>
+            </div>
+            <span style="font-size:calc(var(--u)*0.85);color:var(--cyan);font-family:var(--f-mono);">(∝ t²)</span>
+          </div>
+          <div class="formula-item" style="--i:2;">
+            <div>
+              <b style="display:block;color:#94a3b8;font-size:calc(var(--u)*1.0);margin-bottom:4px;">③ Hệ thức độc lập t</b>
+              <span class="formula-eq">v² = 2 · g · h</span>
+            </div>
+            <span style="font-size:calc(var(--u)*0.85);color:var(--cyan);font-family:var(--f-mono);">(v=√2gh)</span>
+          </div>
+          <div style="margin-top:calc(var(--u)*0.8);padding:calc(var(--u)*0.8) calc(var(--u)*1.2);background:rgba(212,175,55,0.1);border:1px solid var(--border-glass);border-radius:calc(var(--u)*0.6);font-size:calc(var(--u)*1.0);color:#fde68a;text-align:center;font-family:var(--f-mono);">
+            g ≈ 9.8 m/s² · Trái Đất (xích đạo: 9.78 · cực: 9.83)
+          </div>
+        </div>
+      </div>
+    `
+  },
+
+  /* ---- SLIDE 4: THÁP PISA ---- */
+  {
+    id:4,name:'Tháp Nghiêng Pisa',theme:'renaissance',
+    kicker:'Pisa, Ý · Năm 1589 · Thực Nghiệm Lịch Sử',
+    title:['THÍ NGHIỆM TẠI','THÁP NGHIÊNG PISA'],
+    lead:'',stamp:'Bác bỏ Aristotle',
+    renderExtra:()=>`
+      <div class="pisa-slide-grid">
+        <div class="glass-card rv" style="--i:2;">
+          <div class="kicker" style="font-size:calc(var(--u)*0.9);">Ý Nghĩa Thực Nghiệm Lịch Sử</div>
+          <h3 style="font-family:var(--f-ser);font-size:calc(var(--u)*2.1);color:var(--brass-light);margin:calc(var(--u)*0.7) 0 calc(var(--u)*1);line-height:1.3;">
+            Hai Vật Khác Khối Lượng<br>Chạm Đất Cùng Lúc
+          </h3>
+          <p style="font-size:calc(var(--u)*1.3);color:#cbd5e1;line-height:1.72;margin-bottom:calc(var(--u)*1.2);">
+            Galileo đã trèo lên đỉnh tháp nghiêng Pisa, thả rơi đồng thời <b>hai quả cầu kim loại</b> có trọng lượng chênh lệch nhiều lần trước chứng kiến của các giáo sư và sinh viên đại học.
+          </p>
+          <div style="display:flex;flex-direction:column;gap:calc(var(--u)*0.8);">
+            <div style="display:flex;align-items:center;gap:calc(var(--u)*1);padding:calc(var(--u)*0.9) calc(var(--u)*1.2);background:rgba(56,189,248,0.1);border-left:3px solid var(--cyan);border-radius:4px;">
+              <span style="font-size:calc(var(--u)*2);">⚖</span>
+              <span style="font-size:calc(var(--u)*1.15);">Vật A: <b>100g</b> &nbsp;|&nbsp; Vật B: <b>1kg</b> → Chạm đất gần như <em>cùng lúc</em></span>
+            </div>
+            <div style="padding:calc(var(--u)*0.9) calc(var(--u)*1.2);background:rgba(212,175,55,0.1);border-left:3px solid var(--brass);border-radius:4px;font-size:calc(var(--u)*1.15);">
+              <b>Kết luận đột phá:</b> Trọng lượng không quyết định tốc độ rơi tự do. Sự chênh lệch nhỏ chỉ do lực cản khí động học.
+            </div>
+          </div>
+        </div>
+        <div class="dual-gallery rv" style="--i:3;">
+          <div class="media-frame" onclick="openLightbox('12.jpg')">
+            <img src="12.jpg" alt="Thí nghiệm tháp nghiêng Pisa">
+            <div class="media-caption"><span>Tháp Pisa · 1589</span><span class="zoom-hint">⤢</span></div>
+          </div>
+          <div class="media-frame" onclick="openLightbox('13.jpg')">
+            <img src="13.jpg" alt="Thực nghiệm Galileo">
+            <div class="media-caption"><span>Thực nghiệm</span><span class="zoom-hint">⤢</span></div>
+          </div>
+        </div>
+      </div>
+    `
+  },
+
+  /* ---- SLIDE 5: VIDEO GALILEO ---- */
+  {
+    id:5,name:'Video Thực Nghiệm Galileo',theme:'vacuum',
+    kicker:'Tư Liệu Khoa Học Điện Ảnh · HD',
+    title:['QUAN SÁT THÍ NGHIỆM CỦA','GALILEO GALILEI'],
+    lead:'',stamp:'Thước phim tư liệu',
+    renderExtra:()=>`
+      <div class="cinema-slide-container rv" style="--i:2;">
+        <div class="cinema-screen-box">
+          <div class="cinema-rec-badge">
+            <i class="rec-dot"></i>
+            <span>VID01.MP4 · GALILEO GALILEI · THÍ NGHIỆM RƠI TỰ DO</span>
+          </div>
+          <video id="player-vid01" controls playsinline preload="auto">
+            <source src="vid01.mp4" type="video/mp4">
+          </video>
+          <!-- Scanline overlay -->
+          <div style="position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.04) 3px,rgba(0,0,0,0.04) 4px);z-index:3;"></div>
+        </div>
+        <div style="display:flex;justify-content:center;align-items:center;gap:calc(var(--u)*2.5);margin-top:calc(var(--u)*1.4);">
+          <div class="gold-badge" style="background:rgba(56,189,248,0.2);border:1px solid var(--cyan);color:var(--cyan);box-shadow:0 0 calc(var(--u)*1.5) var(--cyan-glow);">
+            📁 vid01.mp4
+          </div>
+          <div class="gold-badge">🎬 Thực nghiệm thực tế</div>
+          <div class="gold-badge" style="background:rgba(99,102,241,0.2);border:1px solid #818cf8;color:#a5b4fc;box-shadow:none;">
+            g = 9.8 m/s²
+          </div>
+        </div>
+      </div>
+    `
+  },
+
+  /* ---- SLIDE 6: ỐNG NEWTON ---- */
+  {
+    id:6,name:'Thí Nghiệm Ống Newton',theme:'vacuum',
+    kicker:'Isaac Newton · Thí Nghiệm Chân Không Thế Kỷ',
+    title:['THÍ NGHIỆM ỐNG NEWTON:','CÓ KHÔNG KHÍ vs. CHÂN KHÔNG'],
+    lead:'',stamp:'Ống Chân Không',
+    renderExtra:()=>`
+      <div class="newton-slide-grid">
+        <div class="glass-card rv" style="--i:2;">
+          <div class="kicker" style="font-size:calc(var(--u)*0.9);">So Sánh Đối Chứng Khoa Học</div>
+          <h3 style="font-family:var(--f-ser);font-size:calc(var(--u)*2.0);color:var(--brass-light);margin:calc(var(--u)*0.6) 0 calc(var(--u)*1.0);line-height:1.3;">
+            Bản Chất Sức Cản Không Khí
+          </h3>
+          <div style="display:flex;flex-direction:column;gap:calc(var(--u)*1.0);font-size:calc(var(--u)*1.25);color:#cbd5e1;">
+            <div style="display:flex;gap:calc(var(--u)*1);align-items:flex-start;padding:calc(var(--u)*1) calc(var(--u)*1.2);background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:calc(var(--u)*0.6);">
+              <span style="color:#ef4444;font-weight:700;white-space:nowrap;">1. Có không khí:</span>
+              <span>Lông chim diện tích lớn → lực cản F<sub>c</sub> lớn → rơi chậm hơn hòn đá.</span>
+            </div>
+            <div style="display:flex;gap:calc(var(--u)*1);align-items:flex-start;padding:calc(var(--u)*1) calc(var(--u)*1.2);background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);border-radius:calc(var(--u)*0.6);">
+              <span style="color:var(--cyan);font-weight:700;white-space:nowrap;">2. Chân không:</span>
+              <span>F<sub>c</sub> = 0 → chỉ còn trọng lực P = mg → gia tốc a = g bằng nhau hoàn toàn!</span>
+            </div>
+          </div>
+          <div style="margin-top:calc(var(--u)*1.4);padding:calc(var(--u)*0.9) calc(var(--u)*1.2);background:rgba(212,175,55,0.15);border-left:3px solid var(--brass);border-radius:4px;font-size:calc(var(--u)*1.1);">
+            <b>Kết luận bất hủ:</b> Tốc độ rơi phụ thuộc hoàn toàn vào <b>môi trường cản</b>, không phụ thuộc vào độ nặng nhẹ của vật.
+          </div>
+        </div>
+        <div class="newton-media-layout rv" style="--i:3;">
+          <div class="video-col">
+            <video id="player-2mp4" controls loop playsinline preload="auto">
+              <source src="2.mp4" type="video/mp4">
+            </video>
+            <div style="position:absolute;bottom:6px;left:8px;font:600 calc(var(--u)*0.82) var(--f-mono);color:var(--brass);background:rgba(0,0,0,0.75);padding:2px 8px;border-radius:4px;">
+              2.mp4 · Thực nghiệm thực tế
+            </div>
+          </div>
+          <div class="photos-col">
+            <div class="media-frame" onclick="openLightbox('1.jpg')">
+              <img src="1.jpg" alt="Ống có không khí">
+              <div class="media-caption"><span>Có không khí</span><span class="zoom-hint">⤢</span></div>
+            </div>
+            <div class="media-frame" onclick="openLightbox('3.jpg')">
+              <img src="3.jpg" alt="Ống chân không">
+              <div class="media-caption"><span>Chân không</span><span class="zoom-hint">⤢</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `
+  },
+
+  /* ---- SLIDE 7: KẾT LUẬN ---- */
+  {
+    id:7,name:'Kết Luận & Bài Học',theme:'finale',
+    kicker:'Tổng Kết · Bài Học Phương Pháp Luận Khoa Học',
+    title:['KẾT LUẬN & BÀI HỌC','PHƯƠNG PHÁP LUẬN KHOA HỌC'],
+    lead:'',stamp:'Chân lý thực nghiệm',
+    renderExtra:()=>`
+      <div class="finale-slide-grid">
+        <div class="glass-card rv" style="--i:2;">
+          <div class="kicker" style="font-size:calc(var(--u)*0.9);">Tiến Trình Nhận Thức Nhân Loại</div>
+          <div class="tri-tribute-cards">
+            <div class="tribute-step" style="border-color:rgba(217,119,6,0.4);">
+              <b style="color:#fb923c;">ARISTOTLE</b>
+              <span>Quan sát & trực giác cảm tính</span>
+            </div>
+            <div class="tribute-step" style="border-color:var(--brass);box-shadow:0 0 calc(var(--u)*1.5) var(--brass-glow);">
+              <b>GALILEO</b>
+              <span>Toán học hóa & thực nghiệm kiểm chứng</span>
+            </div>
+            <div class="tribute-step" style="border-color:var(--cyan);box-shadow:0 0 calc(var(--u)*1.5) var(--cyan-glow);">
+              <b style="color:var(--cyan);">NEWTON</b>
+              <span>Chân không & cơ học vạn vật</span>
+            </div>
+          </div>
+          <div style="margin-top:calc(var(--u)*1.6);background:linear-gradient(135deg,rgba(212,175,55,0.18),rgba(56,189,248,0.12));padding:calc(var(--u)*1.4);border-radius:calc(var(--u)*0.8);border:1px solid var(--border-glass);">
+            <b style="color:var(--brass-light);font-size:calc(var(--u)*1.2);display:block;margin-bottom:calc(var(--u)*0.5);">★ Thông Điệp Cốt Lõi:</b>
+            <p style="font-size:calc(var(--u)*1.2);color:#f8fafc;line-height:1.65;font-style:italic;">
+              "Những gì mắt thấy chưa hẳn là chân lý. Cần phân tích khoa học và kiểm chứng bằng thực nghiệm chính xác."
+            </p>
+          </div>
+          <div style="margin-top:calc(var(--u)*1.2);text-align:center;">
+            <span style="font:600 calc(var(--u)*1.0) var(--f-mono);color:var(--brass);letter-spacing:0.1em;opacity:0.8;">— Nhóm Thuyết Trình Vật Lý 10 —</span>
+          </div>
+        </div>
+        <div class="finale-gallery rv" style="--i:3;">
+          <div class="media-frame" onclick="openLightbox('33.jpg')">
+            <img src="33.jpg" alt="Lịch sử vật lý">
+            <div class="media-caption"><span>Lịch sử</span><span class="zoom-hint">⤢</span></div>
+          </div>
+          <div class="media-frame" onclick="openLightbox('34.jpg')">
+            <img src="34.jpg" alt="Bài học phương pháp">
+            <div class="media-caption"><span>Kết luận</span><span class="zoom-hint">⤢</span></div>
+          </div>
+        </div>
+      </div>
+    `
+  }
+];
+
+/* ===================================================================
+   2. MEMBERS SLIDE (thêm slide 8 — Danh sách thành viên)
+   =================================================================== */
+SLIDES.splice(1,0,{
+  id:'M',name:'Thành Viên Nhóm',theme:'renaissance',
+  kicker:'Vật Lý 10 · Nhóm Thuyết Trình · 12 Thành Viên',
+  title:['THÀNH VIÊN','NHÓM THUYẾT TRÌNH'],
+  lead:'',stamp:'Nhóm 12 người',
+  renderExtra:()=>{
+    const cards=MEMBERS.map((m,i)=>`
+      <div class="member-card rv" style="--mi:${i};">
+        <div class="member-avatar">${getInitials(m)}</div>
+        <div class="member-num">${String(i+1).padStart(2,'0')}</div>
+        <div class="member-name">${m}</div>
+      </div>
+    `).join('');
+    return `
+      <div style="position:absolute;left:7.5%;top:calc(var(--u)*14);width:85%;z-index:6;">
+        <div class="members-panel">${cards}</div>
+      </div>
+    `;
+  }
+});
+
+/* Reorder: members as slide 1 (after opener) → index 1 */
+
+/* ===================================================================
+   3. HELPERS (defined before SLIDES data so renderExtra closures work)
+   =================================================================== */
+function splitCharsToSpans(text,lineIdx){
+  let ci=0;
+  return text.split(' ').map(w=>{
+    const chars=Array.from(w).map(c=>
+      `<span class="ch" data-c="${c}" style="--c:${ci++};--l:${lineIdx}">${c}</span>`
+    ).join('');
+    return `<span class="wd">${chars}</span>`;
+  }).join(' ');
+}
+function splitWordsToSpans(text){
+  return text.split(' ').map((w,i)=>`<span class="pw" style="--w:${i}">${w}</span>`).join(' ');
+}
+
+/* ===================================================================
+   4. RENDER ENGINE
+   =================================================================== */
+const deck=document.getElementById('deck');
+const stage=document.getElementById('stage');
+const counterEl=document.getElementById('counter');
+const progressEl=document.querySelector('#progress i');
+const curtain=document.getElementById('grav-curtain');
+
+let cur=0, navigating=false;
+
+function renderSlides(){
+  deck.innerHTML='';
+  SLIDES.forEach((s,idx)=>{
+    const sec=document.createElement('section');
+    sec.className='sc';
+    sec.dataset.th=s.theme;
+    sec.dataset.index=idx;
+    sec.setAttribute('aria-label',s.name);
+
+    const isOpener=(idx===0);
+    const isMember=(s.id==='M');
+
+    const titleHTML=s.title.map((line,lIdx)=>
+      `<span class="hline">${splitCharsToSpans(line,lIdx)}</span>`
+    ).join('');
+
+    const headerBlock=(!isOpener&&!isMember)?`
+      <div style="position:absolute;left:7.5%;top:calc(var(--u)*3.4);width:85%;z-index:6;">
+        <div class="kicker rv" style="--i:0;">${s.kicker}</div>
+        <h2 class="headline rv" style="margin-top:calc(var(--u)*0.6);">${titleHTML}</h2>
+      </div>
+    `:'';
+
+    const memberHeader=isMember?`
+      <div style="position:absolute;left:7.5%;top:calc(var(--u)*3);width:85%;z-index:6;">
+        <div class="kicker rv" style="--i:0;">${s.kicker}</div>
+        <h2 class="headline rv" style="margin-top:calc(var(--u)*0.5);font-size:calc(var(--u)*3.5);">${titleHTML}</h2>
+      </div>
+    `:'';
+
+    // Stamp badge bottom-right
+    const stampBadge=s.stamp?`
+      <div class="stamp-badge">
+        <div class="stamp-badge-inner">${s.stamp}</div>
+      </div>
+    `:'';
+
+    // Finale drop animation for slide 7
+    const finaleAnim=(s.id===7)?`
+      <div style="position:absolute;right:calc(var(--u)*8.5);top:0;bottom:0;width:calc(var(--u)*8);pointer-events:none;z-index:2;overflow:hidden;">
+        <!-- Stone -->
+        <div style="position:absolute;left:30%;top:0;animation:finaleStone 2.2s cubic-bezier(0.3,0,0.5,1) 1.2s both;">
+          <svg viewBox="0 0 36 42" width="calc(var(--u)*3.5)" style="width:calc(var(--u)*3.5);filter:drop-shadow(0 0 calc(var(--u)*0.8) rgba(56,189,248,0.6));" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="18" cy="22" rx="14" ry="16" fill="#6b7280"/>
+            <ellipse cx="18" cy="22" rx="14" ry="16" fill="url(#stoneGrad)" opacity="0.9"/>
+            <ellipse cx="12" cy="15" rx="4" ry="2.5" fill="rgba(255,255,255,0.18)" transform="rotate(-20,12,15)"/>
+            <defs><radialGradient id="stoneGrad" cx="40%" cy="35%"><stop offset="0%" stop-color="#94a3b8"/><stop offset="100%" stop-color="#374151"/></radialGradient></defs>
+          </svg>
+        </div>
+        <!-- Feather -->
+        <div style="position:absolute;left:62%;top:0;animation:finaleFeather 2.2s cubic-bezier(0.1,0,0.3,1) 1.2s both;">
+          <svg viewBox="0 0 24 60" width="calc(var(--u)*2.4)" style="width:calc(var(--u)*2.4);filter:drop-shadow(0 0 calc(var(--u)*0.8) rgba(212,175,55,0.5));" xmlns="http://www.w3.org/2000/svg">
+            <line x1="12" y1="2" x2="12" y2="58" stroke="rgba(243,234,216,0.9)" stroke-width="1"/>
+            ${Array.from({length:14},(_,i)=>{const y=6+i*3.8;const s=Math.sin((i/13)*Math.PI)*9+2;return`<line x1="12" y1="${y}" x2="${12-s}" y2="${y+s*0.6}" stroke="rgba(243,234,216,0.75)" stroke-width="0.7"/><line x1="12" y1="${y}" x2="${12+s}" y2="${y+s*0.6}" stroke="rgba(243,234,216,0.75)" stroke-width="0.7"/>`}).join('')}
+          </svg>
+        </div>
+        <!-- Impact line -->
+        <div style="position:absolute;left:-20%;right:-20%;bottom:22%;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),var(--brass),var(--cyan),transparent);animation:finaleGlow 2.2s ease 1.2s both;border-radius:2px;"></div>
+      </div>
+    `:'';
+
+    sec.innerHTML=`
+      <div class="bgl"></div>
+      <div class="cam parallax-layer" data-depth="0.3">
+        ${headerBlock}
+        ${memberHeader}
+        ${s.renderExtra?s.renderExtra():''}
+        ${stampBadge}
+        ${finaleAnim}
+      </div>
+    `;
+    deck.appendChild(sec);
+  });
+}
+
+/* ===================================================================
+   4. AMBIENT: FEATHER + DUST
+   =================================================================== */
+// Feather canvas (lông vũ trắng rơi)
+const FeatherCanvas=(()=>{
+  const cv=document.getElementById('feather-canvas');
+  const ctx=cv.getContext('2d');
+  let W=0,H=0;
+  const feathers=[];
+  function resize(){
+    const r=stage.getBoundingClientRect();
+    const dpr=Math.min(devicePixelRatio||1,2);
+    W=cv.width=Math.round(r.width*dpr);
+    H=cv.height=Math.round(r.height*dpr);
+    cv.style.width=r.width+'px';
+    cv.style.height=r.height+'px';
+  }
+  function mkFeather(){
+    return{
+      x:Math.random()*W,
+      y:Math.random()*H-H,
+      vx:(Math.random()-0.5)*0.4,
+      vy:0.3+Math.random()*0.5,
+      angle:Math.random()*Math.PI*2,
+      av:(Math.random()-0.5)*0.02,
+      len:12+Math.random()*18,
+      alpha:0.1+Math.random()*0.3,
+      sway:Math.random()*Math.PI*2,
+      swaySpeed:0.008+Math.random()*0.012
+    };
+  }
+  function init(){
+    resize();
+    for(let i=0;i<22;i++){
+      const f=mkFeather();
+      f.y=Math.random()*H;
+      feathers.push(f);
+    }
+  }
+  function drawFeather(f){
+    ctx.save();
+    ctx.translate(f.x,f.y);
+    ctx.rotate(f.angle);
+    ctx.globalAlpha=f.alpha;
+    // Rachis (thân)
+    ctx.strokeStyle='rgba(243,234,216,0.9)';
+    ctx.lineWidth=0.8;
+    ctx.beginPath();ctx.moveTo(0,-f.len/2);ctx.lineTo(0,f.len/2);ctx.stroke();
+    // Barbs
+    ctx.lineWidth=0.5;
+    const steps=Math.floor(f.len/2.2);
+    for(let i=0;i<steps;i++){
+      const y=-f.len/2+i*2.2;
+      const spread=(f.len*0.38)*(1-Math.abs(i/steps-0.5)*1.6);
+      ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(-spread,y+spread*0.5);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(spread,y+spread*0.5);ctx.stroke();
+    }
+    ctx.restore();
+  }
+  function tick(){
+    ctx.clearRect(0,0,W,H);
+    for(const f of feathers){
+      f.sway+=f.swaySpeed;
+      f.x+=f.vx+Math.sin(f.sway)*0.6;
+      f.y+=f.vy;
+      f.angle+=f.av;
+      if(f.y>H+30){
+        const nf=mkFeather();
+        Object.assign(f,nf);
+      }
+      drawFeather(f);
+    }
+    requestAnimationFrame(tick);
+  }
+  return{init,resize,tick};
+})();
+
+// Dust particles
+const Dust=(()=>{
+  const cv=document.getElementById('dust');
+  const ctx=cv.getContext('2d');
+  let W=0,H=0,P=[];
+  function resize(){
+    const r=stage.getBoundingClientRect();
+    const dpr=Math.min(devicePixelRatio||1,1.5);
+    W=cv.width=Math.round(r.width*dpr);
+    H=cv.height=Math.round(r.height*dpr);
+    cv.style.width=r.width+'px';
+    cv.style.height=r.height+'px';
+  }
+  function init(){
+    resize();
+    P=Array.from({length:38},()=>({
+      x:Math.random()*W,y:Math.random()*H,
+      r:0.6+Math.random()*1.6,
+      vx:(Math.random()-0.5)*0.25,vy:0.15+Math.random()*0.35,
+      alpha:0.3+Math.random()*0.5
+    }));
+  }
+  function tick(){
+    ctx.clearRect(0,0,W,H);
+    for(const p of P){
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.y>H+5){p.y=-5;p.x=Math.random()*W}
+      if(p.x<-5)p.x=W+5;
+      if(p.x>W+5)p.x=-5;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,6.283);
+      ctx.fillStyle=`rgba(212,175,55,${p.alpha})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(tick);
+  }
+  return{init,resize,tick};
+})();
+
+/* ===================================================================
+   5. POINTER PARALLAX
+   =================================================================== */
+let mx=0,my=0,smx=0,smy=0;
+stage.addEventListener('mousemove',e=>{
+  const r=stage.getBoundingClientRect();
+  mx=(e.clientX-r.left)/r.width*2-1;
+  my=(e.clientY-r.top)/r.height*2-1;
+});
+function parallaxTick(){
+  smx+=(mx-smx)*0.07;
+  smy+=(my-smy)*0.07;
+  const layers=document.querySelectorAll('.sc.on .parallax-layer');
+  layers.forEach(el=>{
+    const d=parseFloat(el.dataset.depth)||0.3;
+    el.style.transform=`translate(${smx*d*18}px,${smy*d*10}px)`;
+  });
+  // Proximity glow on chars
+  requestAnimationFrame(parallaxTick);
+}
+
+/* ===================================================================
+   6. COUNT-UP G
+   =================================================================== */
+function countUpG(){
+  const el=document.getElementById('live-counter-g');
+  if(!el)return;
+  const dur=1400,t0=performance.now();
+  function tick(now){
+    const p=Math.min((now-t0)/dur,1);
+    const ease=1-Math.pow(1-p,3);
+    el.textContent=(ease*9.8).toFixed(1);
+    if(p<1)requestAnimationFrame(tick);
+    else el.textContent='9.8';
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ===================================================================
+   7. NAVIGATION
+   =================================================================== */
+function updateUI(){
+  counterEl.textContent=`${String(cur+1).padStart(2,'0')} / ${String(SLIDES.length).padStart(2,'0')}`;
+  progressEl.style.transform=`scaleX(${(cur+1)/SLIDES.length})`;
+}
+
+function goTo(idx,dir=1){
+  if(navigating||idx===cur||idx<0||idx>=SLIDES.length)return;
+  navigating=true;
+
+  // Pause videos
+  ['player-vid01','player-2mp4'].forEach(id=>{
+    const v=document.getElementById(id);
+    if(v)v.pause();
+  });
+
+  const secs=document.querySelectorAll('.sc');
+  const from=secs[cur],to=secs[idx];
+
+  curtain.className=dir>0?'anim-fwd':'anim-bwd';
+
+  setTimeout(()=>{
+    from.classList.remove('on');from.classList.add('gone');
+    to.classList.remove('gone');to.classList.add('on');
+    cur=idx;updateUI();
+
+    // Trigger counter on Galileo slide (index 2 after member insert)
+    if(SLIDES[cur]&&SLIDES[cur].id===3)countUpG();
+
+    // Shockwave
+    const ring=document.createElement('div');
+    ring.className='impact-wave';
+    stage.appendChild(ring);
+    setTimeout(()=>ring.remove(),950);
+  },560);
+
+  setTimeout(()=>{
+    curtain.className='';
+    navigating=false;
+  },1280);
+}
+
+/* Wheel */
+let wDelta=0,wTimer=null;
+window.addEventListener('wheel',e=>{
+  if(document.body.classList.contains('edit-mode'))return;
+  if(document.getElementById('lightbox').classList.contains('active'))return;
+  e.preventDefault();
+  if(navigating)return;
+  wDelta+=e.deltaY;
+  clearTimeout(wTimer);
+  wTimer=setTimeout(()=>{wDelta=0},140);
+  if(Math.abs(wDelta)>55){
+    const d=wDelta>0?1:-1;
+    wDelta=0;goTo(cur+d,d);
+  }
+},{passive:false});
+
+/* Touch */
+let tY=0;
+window.addEventListener('touchstart',e=>{tY=e.touches[0].clientY},{passive:true});
+window.addEventListener('touchend',e=>{
+  const diff=tY-e.changedTouches[0].clientY;
+  if(Math.abs(diff)>50)goTo(cur+(diff>0?1:-1),diff>0?1:-1);
+},{passive:true});
+
+/* Keys */
+window.addEventListener('keydown',e=>{
+  if(e.target.matches('textarea,input'))return;
+  if(e.key==='Escape'){closeAll();return}
+  if(['ArrowDown','ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();goTo(cur+1,1)}
+  else if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();goTo(cur-1,-1)}
+  else if(e.key==='Home'){e.preventDefault();goTo(0,-1)}
+  else if(e.key==='End'){e.preventDefault();goTo(SLIDES.length-1,1)}
+  else if(e.key==='g'||e.key==='G')toggleGrid();
+  else if(e.key==='s'||e.key==='S')toggleEditor();
+  else if(e.key==='f'||e.key==='F'){
+    if(!document.fullscreenElement)document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  }
+});
+
+/* ===================================================================
+   8. LIGHTBOX & MODALS
+   =================================================================== */
+const lightbox=document.getElementById('lightbox');
+const lbImg=document.getElementById('lightbox-img');
+window.openLightbox=src=>{lbImg.src=src;lightbox.classList.add('active')};
+document.getElementById('lightbox-close').addEventListener('click',()=>lightbox.classList.remove('active'));
+lightbox.addEventListener('click',e=>{if(e.target===lightbox)lightbox.classList.remove('active')});
+
+const modalGrid=document.getElementById('modal-grid');
+const gridShelf=document.getElementById('grid-shelf');
+function toggleGrid(){
+  const open=modalGrid.classList.toggle('active');
+  if(open){
+    gridShelf.innerHTML=SLIDES.map((s,idx)=>`
+      <div class="grid-thumb ${idx===cur?'cur':''}" data-idx="${idx}">
+        <b>${String(idx+1).padStart(2,'0')}</b>
+        <span>${s.name}</span>
+      </div>
+    `).join('');
+    gridShelf.querySelectorAll('.grid-thumb').forEach(t=>{
+      t.addEventListener('click',()=>{
+        const idx=parseInt(t.dataset.idx,10);
+        modalGrid.classList.remove('active');
+        goTo(idx,idx>cur?1:-1);
+      });
+    });
+  }
+}
+
+function toggleEditor(){
+  const open=document.body.classList.toggle('edit-mode');
+  if(open)buildEditor();
+}
+function closeAll(){
+  lightbox.classList.remove('active');
+  modalGrid.classList.remove('active');
+  document.body.classList.remove('edit-mode');
+}
+document.getElementById('btn-editor-open').addEventListener('click',toggleEditor);
+document.getElementById('btn-editor-close').addEventListener('click',toggleEditor);
+
+function buildEditor(){
+  const s=SLIDES[cur];
+  const f=document.getElementById('editor-fields');
+  f.innerHTML=`
+    <h3 style="color:var(--brass);margin-bottom:12px;">Slide ${s.id}: ${s.name}</h3>
+    <label>Kicker:</label>
+    <textarea id="ed-kicker" rows="2">${s.kicker}</textarea>
+    <label>Dòng tiêu đề 1:</label>
+    <textarea id="ed-t1" rows="2">${s.title[0]||''}</textarea>
+    <label>Dòng tiêu đề 2:</label>
+    <textarea id="ed-t2" rows="2">${s.title[1]||''}</textarea>
+  `;
+}
+
+// Video replacement
+document.getElementById('input-galileo-video').addEventListener('change',e=>{
+  const file=e.target.files[0];if(!file)return;
+  const url=URL.createObjectURL(file);
+  const v=document.getElementById('player-vid01');
+  if(v){v.src=url;v.play();}
+});
+document.getElementById('input-newton-video').addEventListener('change',e=>{
+  const file=e.target.files[0];if(!file)return;
+  const url=URL.createObjectURL(file);
+  const v=document.getElementById('player-2mp4');
+  if(v){v.src=url;v.play();}
+});
+
+// Export HTML
+document.getElementById('btn-save-html').addEventListener('click',()=>{
+  const blob=new Blob([document.documentElement.outerHTML],{type:'text/html'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='SuRoiTuDo-Final.html';
+  a.click();
+});
+
+/* ===================================================================
+   9. INIT
+   =================================================================== */
+renderSlides();
+FeatherCanvas.init();FeatherCanvas.tick();
+Dust.init();Dust.tick();
+parallaxTick();
+
+const secs=document.querySelectorAll('.sc');
+secs[0].classList.add('on');
+updateUI();
+
+window.addEventListener('resize',()=>{
+  FeatherCanvas.resize();
+  Dust.resize();
+});
+
+})();
+</script>
+</body>
+</html>
