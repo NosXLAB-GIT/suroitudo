@@ -38,11 +38,19 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 #deck{position:absolute;inset:0;z-index:1}
 
 /* ===================================================================
-   2. SLIDE LIFECYCLE & BACKGROUNDS
+   2. SLIDE LIFECYCLE & SMOOTH CINEMATIC TRANSITIONS (SLOW & GRACEFUL)
    =================================================================== */
-.sc{position:absolute;inset:0;display:none;z-index:1;overflow:hidden}
-.sc.on{display:block;z-index:2}
-.sc:not(.on) *{animation-play-state:paused!important}
+#deck{perspective:1600px}
+.sc{position:absolute;inset:0;opacity:0;visibility:hidden;pointer-events:none;z-index:1;overflow:hidden;
+  transform:translate3d(0,3.5%,0) scale(0.97);
+  transition:opacity 1.45s cubic-bezier(0.22,1,0.36,1),transform 1.55s cubic-bezier(0.22,1,0.36,1),visibility 0s 1.55s}
+.sc.on{opacity:1;visibility:visible;pointer-events:auto;z-index:3;
+  transform:translate3d(0,0,0) scale(1);
+  transition:opacity 1.45s cubic-bezier(0.22,1,0.36,1),transform 1.55s cubic-bezier(0.22,1,0.36,1),visibility 0s 0s}
+.sc.out-fwd{opacity:0;visibility:visible;z-index:2;transform:translate3d(0,-3.5%,0) scale(0.96);transition:opacity 1.35s cubic-bezier(0.22,1,0.36,1),transform 1.45s cubic-bezier(0.22,1,0.36,1)}
+.sc.out-bwd{opacity:0;visibility:visible;z-index:2;transform:translate3d(0,3.5%,0) scale(0.96);transition:opacity 1.35s cubic-bezier(0.22,1,0.36,1),transform 1.45s cubic-bezier(0.22,1,0.36,1)}
+.sc.in-from-top{transform:translate3d(0,-3.5%,0) scale(0.97)}
+.sc:not(.on):not(.out-fwd):not(.out-bwd) *{animation-play-state:paused!important}
 .bgl{position:absolute;inset:-8%;
   background:radial-gradient(ellipse at 75% 15%,rgba(212,175,55,0.16),transparent 50%),
              radial-gradient(ellipse at 15% 85%,rgba(56,189,248,0.12),transparent 50%),
@@ -50,53 +58,51 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .sc[data-th="parchment"] .bgl{background:radial-gradient(ellipse at 65% 25%,rgba(217,119,6,0.2),transparent 55%),radial-gradient(ellipse at 20% 80%,rgba(99,102,241,0.1),transparent 45%),linear-gradient(135deg,#06090f,#0e1428 55%,#060a10)}
 .sc[data-th="vacuum"] .bgl{background:radial-gradient(ellipse at 50% 40%,rgba(56,189,248,0.2),transparent 60%),radial-gradient(ellipse at 90% 85%,rgba(14,165,233,0.14),transparent 45%),linear-gradient(170deg,#02040b,#06112a 55%,#020409)}
 .sc[data-th="finale"] .bgl{background:radial-gradient(ellipse at 50% 45%,rgba(212,175,55,0.24),transparent 55%),radial-gradient(ellipse at 15% 20%,rgba(56,189,248,0.14),transparent 50%),linear-gradient(145deg,#050810,#0c1225 55%,#040710)}
-.sc.on .bgl{animation:bgSettle 2.6s var(--e) both}
-@keyframes bgSettle{from{scale:1.15}to{scale:1}}
+.sc.on .bgl{animation:bgSettle 4.2s var(--e) both}
+@keyframes bgSettle{from{scale:1.1}to{scale:1}}
 .cam{position:absolute;inset:0}
-.sc.on .cam{animation:camDolly 24s ease-in-out infinite alternate}
-@keyframes camDolly{from{scale:1}to{scale:1.02}}
 
-/* Reveal */
+/* Reveal (slow, deliberate stagger) */
 .sc:not(.on) .rv{opacity:0}
-.sc.on .rv{animation:rvIn 1.1s var(--e) calc(0.1s + var(--i,0) * 0.12s) both}
-@keyframes rvIn{from{opacity:0;transform:translateY(calc(var(--u) * 2.4))}to{opacity:1;transform:translateY(0)}}
+.sc.on .rv{animation:rvIn 1.55s cubic-bezier(0.16,1,0.3,1) calc(0.32s + var(--i,0) * 0.2s) both}
+@keyframes rvIn{from{opacity:0;transform:translateY(calc(var(--u) * 1.8))}to{opacity:1;transform:translateY(0)}}
 
 /* ===================================================================
    3. TYPOGRAPHY — BIG & BOLD
    =================================================================== */
-.slide-head{position:absolute;left:calc(var(--u)*7);right:calc(var(--u)*14);top:calc(var(--u)*2.7);z-index:6}
-.kicker{display:flex;align-items:center;gap:calc(var(--u)*1.2);font:700 calc(var(--u)*1.3)/1.4 var(--f-body);letter-spacing:0.18em;text-transform:uppercase;color:var(--brass-light);text-shadow:0 0 calc(var(--u)*1.2) var(--brass-glow);white-space:nowrap}
+.slide-head{position:absolute;left:calc(var(--u)*7);right:calc(var(--u)*14);top:calc(var(--u)*2.5);z-index:6}
+.kicker{display:flex;align-items:center;gap:calc(var(--u)*1.2);font:700 calc(var(--u)*1.25)/1.35 var(--f-body);letter-spacing:0.18em;text-transform:uppercase;color:var(--brass-light);text-shadow:0 0 calc(var(--u)*1.2) var(--brass-glow);white-space:nowrap}
 .kicker::before{content:"";width:calc(var(--u)*3.6);height:2px;background:currentColor;flex-shrink:0}
-.headline{font-family:var(--f-head);font-weight:700;font-size:calc(var(--u)*5);line-height:1.15;text-transform:uppercase;letter-spacing:0.01em;margin-top:calc(var(--u)*0.3);color:#fff}
+.headline{font-family:var(--f-head);font-weight:700;font-size:calc(var(--u)*4.7);line-height:1.15;text-transform:uppercase;letter-spacing:0.01em;margin-top:calc(var(--u)*0.25);color:#fff}
 .fit{display:block;white-space:nowrap}
 .hline{display:block;perspective:1000px;padding:0.08em 0 0.06em}
 .wd{display:inline-block;white-space:nowrap}
 .ch{display:inline-block;position:relative;color:inherit;opacity:0;transform-origin:50% 90%}
-.sc.on .ch{animation:chFlip 1.1s var(--e) calc(0.15s + var(--l,0) * 0.14s + var(--c,0) * 0.022s) both}
-@keyframes chFlip{from{opacity:0;transform:translateY(0.5em) rotateX(-70deg)}to{opacity:1;transform:none}}
+.sc.on .ch{animation:chFlip 1.5s var(--e) calc(0.28s + var(--l,0) * 0.22s + var(--c,0) * 0.036s) both}
+@keyframes chFlip{from{opacity:0;transform:translateY(0.45em) rotateX(-65deg)}to{opacity:1;transform:none}}
 .ch::after{content:attr(data-c);position:absolute;left:0;top:0;pointer-events:none;
   background:linear-gradient(118deg,transparent 0%,transparent 38%,rgba(255,255,255,0.9) 47%,var(--brass-light) 56%,transparent 68%,transparent 100%);
   background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
-  animation:goldSweep 8s linear infinite;animation-delay:calc(var(--c,0) * -0.2s)}
+  animation:goldSweep 12s linear infinite;animation-delay:calc(var(--c,0) * -0.25s)}
 @keyframes goldSweep{0%{background-position:150% 0}100%{background-position:-150% 0}}
 .pw{display:inline-block;opacity:0}
-.sc.on .pw{animation:wordIn 0.8s var(--e) calc(0.35s + var(--w,0) * 0.025s) both}
-@keyframes wordIn{from{opacity:0;transform:translateY(0.55em)}to{opacity:1;transform:none}}
+.sc.on .pw{animation:wordIn 1.25s var(--e) calc(0.55s + var(--w,0) * 0.045s) both}
+@keyframes wordIn{from{opacity:0;transform:translateY(0.5em)}to{opacity:1;transform:none}}
 
-.content{position:absolute;left:calc(var(--u)*7);right:calc(var(--u)*7);top:calc(var(--u)*12.6);bottom:calc(var(--u)*5)}
-.grid2{display:grid;gap:calc(var(--u)*3);align-items:center;height:100%}
-.grid2>*{min-width:0;min-height:0}
+.content{position:absolute;left:calc(var(--u)*7);right:calc(var(--u)*7);top:calc(var(--u)*11.6);bottom:calc(var(--u)*4.6)}
+.grid2{display:grid;gap:calc(var(--u)*2.6);align-items:stretch;height:100%}
+.grid2>*{min-width:0;min-height:0;height:100%}
 
 /* Cards */
-.glass-card{background:linear-gradient(145deg,rgba(14,22,46,0.9),rgba(8,14,30,0.94));border:1px solid var(--border-glass);border-radius:calc(var(--u)*1.3);padding:calc(var(--u)*1.8) calc(var(--u)*2.2);box-shadow:0 calc(var(--u)*1.5) calc(var(--u)*4.5) rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.07);position:relative;overflow:hidden}
-.glass-card::before{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,0.08),transparent);animation:glassSweep 11s ease-in-out infinite;pointer-events:none}
+.glass-card{background:linear-gradient(145deg,rgba(14,22,46,0.92),rgba(8,14,30,0.96));border:1px solid var(--border-glass);border-radius:calc(var(--u)*1.2);padding:calc(var(--u)*1.45) calc(var(--u)*1.9);box-shadow:0 calc(var(--u)*1.5) calc(var(--u)*4.5) rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.08);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;height:100%}
+.glass-card::before{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,0.06),transparent);animation:glassSweep 16s ease-in-out infinite;pointer-events:none}
 @keyframes glassSweep{0%,55%{transform:translateX(0)}100%{transform:translateX(360%)}}
-.card-kicker{font:800 calc(var(--u)*1.15)/1.3 var(--f-body);letter-spacing:0.16em;text-transform:uppercase;color:var(--brass)}
-.card-title{font-family:var(--f-ser);font-weight:800;font-size:calc(var(--u)*2.5);line-height:1.25;color:var(--brass-light);margin:calc(var(--u)*0.6) 0 calc(var(--u)*1)}
-.txt{font-size:calc(var(--u)*1.55);line-height:1.65;color:#eef2f7}
+.card-kicker{font:800 calc(var(--u)*1.05)/1.3 var(--f-body);letter-spacing:0.16em;text-transform:uppercase;color:var(--brass)}
+.card-title{font-family:var(--f-ser);font-weight:800;font-size:calc(var(--u)*2.15);line-height:1.22;color:var(--brass-light);margin:calc(var(--u)*0.3) 0 calc(var(--u)*0.55)}
+.txt{font-size:calc(var(--u)*1.36);line-height:1.58;color:#eef2f7}
 .txt b{color:#fff}
 .txt em{color:var(--brass-light);font-style:normal;font-weight:700}
-.note-box{padding:calc(var(--u)*1) calc(var(--u)*1.3);border-left:4px solid var(--brass);background:rgba(212,175,55,0.13);border-radius:6px;font-size:calc(var(--u)*1.38);line-height:1.6;color:#f1f5f9}
+.note-box{padding:calc(var(--u)*0.72) calc(var(--u)*1.15);border-left:4px solid var(--brass);background:rgba(212,175,55,0.13);border-radius:6px;font-size:calc(var(--u)*1.22);line-height:1.48;color:#f1f5f9}
 .note-box.cyan{border-color:var(--cyan);background:rgba(56,189,248,0.12)}
 .note-box.red{border-color:#ef4444;background:rgba(239,68,68,0.12)}
 
@@ -115,101 +121,100 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* Top-right astrolabe ornament */
 .orn{position:absolute;right:calc(var(--u)*4);top:calc(var(--u)*2.6);width:calc(var(--u)*8.2);aspect-ratio:1;z-index:7;filter:drop-shadow(0 0 calc(var(--u)*1.2) var(--brass-glow))}
 .orn svg{width:100%;height:100%;display:block}
-.astro-spin{transform-origin:50px 50px;animation:spin 40s linear infinite}
-.astro-rev{transform-origin:50px 50px;animation:spin 22s linear infinite reverse}
-.astro-orbit{transform-origin:50px 50px;animation:spin 6s linear infinite}
+.astro-spin{transform-origin:50px 50px;animation:spin 55s linear infinite}
+.astro-rev{transform-origin:50px 50px;animation:spin 34s linear infinite reverse}
+.astro-orbit{transform-origin:50px 50px;animation:spin 11s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* Pisa tower scene */
 .scene{position:absolute;z-index:4}
 .scene svg{width:100%;height:100%;display:block;overflow:visible}
-.pisa-ball{animation:pisaDrop 3.4s infinite}
+.pisa-ball{animation:pisaDrop 6.6s infinite}
 @keyframes pisaDrop{
-  0%,14%{transform:translateY(0);opacity:1;animation-timing-function:cubic-bezier(.5,0,1,.6)}
-  52%{transform:translateY(267px);animation-timing-function:ease-out}
-  56%{transform:translateY(261px);animation-timing-function:ease-in}
-  60%{transform:translateY(267px)}
-  88%{transform:translateY(267px);opacity:1}
+  0%,14%{transform:translateY(0);opacity:1;animation-timing-function:cubic-bezier(.45,0,.85,.5)}
+  58%{transform:translateY(267px);animation-timing-function:ease-out}
+  63%{transform:translateY(261px);animation-timing-function:ease-in}
+  68%{transform:translateY(267px)}
+  90%{transform:translateY(267px);opacity:1}
   100%{transform:translateY(267px);opacity:0}}
-.pisa-impact{transform-box:fill-box;transform-origin:center;animation:impactPulse 3.4s infinite}
-@keyframes impactPulse{0%,50%{opacity:0;transform:scale(.3)}54%{opacity:1;transform:scale(1)}82%,100%{opacity:0;transform:scale(2.4)}}
+.pisa-impact{transform-box:fill-box;transform-origin:center;animation:impactPulse 6.6s infinite}
+@keyframes impactPulse{0%,56%{opacity:0;transform:scale(.3)}60%{opacity:1;transform:scale(1)}85%,100%{opacity:0;transform:scale(2.4)}}
 
 /* Newton tube scene */
-.tube-fast{animation:tubeFast 4.6s infinite}
-.tube-slow{animation:tubeSlow 4.6s infinite}
+.tube-fast{animation:tubeFast 7.8s infinite}
+.tube-slow{animation:tubeSlow 7.8s infinite}
 @keyframes tubeFast{
-  0%,8%{transform:translateY(0);opacity:1;animation-timing-function:cubic-bezier(.5,0,1,.6)}
-  38%{transform:translateY(280px)}
-  88%{transform:translateY(280px);opacity:1}
+  0%,10%{transform:translateY(0);opacity:1;animation-timing-function:cubic-bezier(.45,0,.85,.5)}
+  46%{transform:translateY(280px)}
+  90%{transform:translateY(280px);opacity:1}
   100%{transform:translateY(280px);opacity:0}}
 @keyframes tubeSlow{
-  0%,8%{transform:translateY(0);opacity:1;animation-timing-function:cubic-bezier(.3,.1,.6,1)}
+  0%,10%{transform:translateY(0);opacity:1;animation-timing-function:cubic-bezier(.25,.1,.5,1)}
   90%{transform:translateY(270px);opacity:1}
   100%{transform:translateY(270px);opacity:0}}
-.sway{transform-box:fill-box;transform-origin:center;animation:svgSway 1s ease-in-out infinite alternate}
-@keyframes svgSway{from{transform:translateX(-8px) rotate(-30deg)}to{transform:translateX(8px) rotate(30deg)}}
-.tube-impact{transform-box:fill-box;transform-origin:center;animation:tubeImpact 4.6s infinite}
-@keyframes tubeImpact{0%,36%{opacity:0;transform:scaleX(.3)}40%{opacity:1;transform:scaleX(1)}62%,100%{opacity:0;transform:scaleX(1.6)}}
-.air-dot{animation:airDrift 5s ease-in-out infinite alternate}
+.sway{transform-box:fill-box;transform-origin:center;animation:svgSway 1.8s ease-in-out infinite alternate}
+@keyframes svgSway{from{transform:translateX(-8px) rotate(-26deg)}to{transform:translateX(8px) rotate(26deg)}}
+.tube-impact{transform-box:fill-box;transform-origin:center;animation:tubeImpact 7.8s infinite}
+@keyframes tubeImpact{0%,44%{opacity:0;transform:scaleX(.3)}48%{opacity:1;transform:scaleX(1)}72%,100%{opacity:0;transform:scaleX(1.6)}}
+.air-dot{animation:airDrift 7s ease-in-out infinite alternate}
 @keyframes airDrift{from{transform:translate(-4px,6px)}to{transform:translate(4px,-6px)}}
 
-/* Drop rulers (stone vs feather falling along a measuring ruler) */
-.drop-ruler{position:absolute;width:calc(var(--u)*3.6);z-index:4}
-.dr-track{position:absolute;inset:0;border:1.5px solid rgba(212,175,55,0.45);border-radius:calc(var(--u)*0.6);overflow:hidden;
-  background:repeating-linear-gradient(180deg,rgba(212,175,55,0.55) 0 1px,transparent 1px calc(var(--u)*1.2)) left/30% 100% no-repeat,
-             repeating-linear-gradient(180deg,rgba(212,175,55,0.35) 0 1px,transparent 1px calc(var(--u)*1.2)) right/30% 100% no-repeat,
-             rgba(10,16,36,0.6);box-shadow:0 0 calc(var(--u)*2) rgba(212,175,55,0.15)}
+/* Drop rulers (stone vs feather falling along a measuring ruler — no side label overflow) */
+.drop-ruler{position:absolute;width:calc(var(--u)*3.8);z-index:4;display:flex;flex-direction:column;gap:calc(var(--u)*0.4)}
+.dr-track{position:relative;flex:1;border:1.5px solid rgba(212,175,55,0.45);border-radius:calc(var(--u)*0.6);overflow:hidden;
+  background:repeating-linear-gradient(180deg,rgba(212,175,55,0.55) 0 1px,transparent 1px calc(var(--u)*1.2)) left/26% 100% no-repeat,
+             repeating-linear-gradient(180deg,rgba(212,175,55,0.35) 0 1px,transparent 1px calc(var(--u)*1.2)) right/26% 100% no-repeat,
+             rgba(10,16,36,0.75);box-shadow:0 0 calc(var(--u)*2) rgba(212,175,55,0.15)}
 .drop-ruler.vac .dr-track{border-color:rgba(56,189,248,0.55);box-shadow:0 0 calc(var(--u)*2) rgba(56,189,248,0.2)}
-.dr-label{position:absolute;top:0;left:100%;margin-left:calc(var(--u)*0.6);writing-mode:vertical-rl;font:800 calc(var(--u)*1.05) var(--f-body);letter-spacing:0.25em;color:var(--brass-light);white-space:nowrap}
-.drop-ruler.flip .dr-label{left:auto;right:100%;margin:0 calc(var(--u)*0.6) 0 0}
-.drop-ruler.vac .dr-label{color:#7dd3fc}
+.dr-label{text-align:center;font:800 calc(var(--u)*0.72)/1.15 var(--f-body);letter-spacing:0.08em;color:var(--brass-light);background:rgba(6,10,24,0.9);border:1px solid rgba(212,175,55,0.35);border-radius:4px;padding:calc(var(--u)*0.22) 2px}
+.drop-ruler.vac .dr-label{color:#7dd3fc;border-color:rgba(56,189,248,0.4)}
 .dr-fall{position:absolute;left:0;right:0;top:0;height:100%;transform:translateY(-100%)}
-.dr-fall.fast{animation:drFast 4.8s infinite}
-.dr-fall.slow{animation:drSlow 4.8s infinite}
-@keyframes drFast{0%,10%{transform:translateY(-100%);opacity:1;animation-timing-function:cubic-bezier(.5,0,1,.6)}42%{transform:translateY(0)}86%{transform:translateY(0);opacity:1}100%{transform:translateY(0);opacity:0}}
-@keyframes drSlow{0%,10%{transform:translateY(-100%);opacity:1;animation-timing-function:cubic-bezier(.3,.1,.6,1)}92%{transform:translateY(0);opacity:1}100%{transform:translateY(0);opacity:0}}
-.dr-stone{position:absolute;bottom:2px;left:18%;width:calc(var(--u)*1.3);height:calc(var(--u)*1.2);border-radius:45% 55% 40% 60%;background:radial-gradient(circle at 35% 30%,#94a3b8,#334155);box-shadow:0 0 calc(var(--u)*0.6) rgba(56,189,248,0.6)}
-.dr-feather{position:absolute;bottom:0;left:52%;width:calc(var(--u)*1.2);animation:htmlSway 1s ease-in-out infinite alternate}
+.dr-fall.fast{animation:drFast 7.8s infinite}
+.dr-fall.slow{animation:drSlow 7.8s infinite}
+@keyframes drFast{0%,10%{transform:translateY(-100%);opacity:1;animation-timing-function:cubic-bezier(.45,0,.85,.5)}48%{transform:translateY(0)}88%{transform:translateY(0);opacity:1}100%{transform:translateY(0);opacity:0}}
+@keyframes drSlow{0%,10%{transform:translateY(-100%);opacity:1;animation-timing-function:cubic-bezier(.25,.1,.5,1)}90%{transform:translateY(0);opacity:1}100%{transform:translateY(0);opacity:0}}
+.dr-stone{position:absolute;bottom:4px;left:18%;width:calc(var(--u)*1.25);height:calc(var(--u)*1.15);border-radius:45% 55% 40% 60%;background:radial-gradient(circle at 35% 30%,#94a3b8,#334155);box-shadow:0 0 calc(var(--u)*0.6) rgba(56,189,248,0.6)}
+.dr-feather{position:absolute;bottom:2px;left:52%;width:calc(var(--u)*1.15);animation:htmlSway 1.8s ease-in-out infinite alternate}
 .dr-feather svg{width:100%;display:block}
-@keyframes htmlSway{from{transform:translateX(calc(var(--u)*-0.5)) rotate(-28deg)}to{transform:translateX(calc(var(--u)*0.3)) rotate(28deg)}}
+@keyframes htmlSway{from{transform:translateX(calc(var(--u)*-0.4)) rotate(-24deg)}to{transform:translateX(calc(var(--u)*0.3)) rotate(24deg)}}
 .drop-ruler.vac .dr-feather{animation:none}
 
 /* Hero (welcome / thank you) */
-.hero-center{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:calc(var(--u)*58);text-align:center;display:flex;flex-direction:column;align-items:center;z-index:5}
-.hero-center .kicker{justify-content:center;font-size:calc(var(--u)*1.35)}
+.hero-center{position:absolute;left:50%;top:45.5%;transform:translate(-50%,-50%);width:calc(var(--u)*58);text-align:center;display:flex;flex-direction:column;align-items:center;z-index:5}
+.hero-center .kicker{justify-content:center;font-size:calc(var(--u)*1.3)}
 .hero-center .kicker::before{display:none}
-.hero-title{font-family:var(--f-ser);font-weight:900;font-size:calc(var(--u)*6.8);line-height:1.1;width:100%;margin-top:calc(var(--u)*1)}
+.hero-title{font-family:var(--f-ser);font-weight:900;font-size:calc(var(--u)*6.4);line-height:1.08;width:100%;margin-top:calc(var(--u)*0.7)}
 .hero-title .l1{color:#fff8e1;text-shadow:0 calc(var(--u)*0.4) calc(var(--u)*2.5) rgba(212,175,55,0.5)}
 .hero-title .l2{color:var(--brass-light);text-shadow:0 0 calc(var(--u)*2.5) rgba(212,175,55,0.45)}
-.hero-sub{font-family:var(--f-ser);font-style:italic;font-weight:700;font-size:calc(var(--u)*2.3);color:#e0f2fe;margin-top:calc(var(--u)*0.4)}
-.hero-lead{font-size:calc(var(--u)*1.7);line-height:1.6;font-weight:500;color:#f1f5f9;margin-top:calc(var(--u)*1.2);text-shadow:0 2px 10px rgba(0,0,0,0.8)}
-.opener-rays{position:absolute;left:50%;top:44%;width:calc(var(--u)*130);height:calc(var(--u)*130);transform:translate(-50%,-50%);pointer-events:none;z-index:1;background:repeating-conic-gradient(from 0deg,rgba(212,175,55,0.08) 0deg 4deg,transparent 4deg 15deg);-webkit-mask-image:radial-gradient(circle,#000,transparent 65%);mask-image:radial-gradient(circle,#000,transparent 65%);animation:spinC 120s linear infinite}
+.hero-sub{font-family:var(--f-ser);font-style:italic;font-weight:700;font-size:calc(var(--u)*2.15);color:#e0f2fe;margin-top:calc(var(--u)*0.35)}
+.hero-lead{font-size:calc(var(--u)*1.6);line-height:1.55;font-weight:500;color:#f1f5f9;margin-top:calc(var(--u)*0.9);text-shadow:0 2px 10px rgba(0,0,0,0.8)}
+.opener-rays{position:absolute;left:50%;top:44%;width:calc(var(--u)*130);height:calc(var(--u)*130);transform:translate(-50%,-50%);pointer-events:none;z-index:1;background:repeating-conic-gradient(from 0deg,rgba(212,175,55,0.08) 0deg 4deg,transparent 4deg 15deg);-webkit-mask-image:radial-gradient(circle,#000,transparent 65%);mask-image:radial-gradient(circle,#000,transparent 65%);animation:spinC 160s linear infinite}
 @keyframes spinC{to{transform:translate(-50%,-50%) rotate(360deg)}}
 .grid-floor{position:absolute;left:-10%;right:-10%;bottom:calc(var(--u)*3);height:calc(var(--u)*16);pointer-events:none;z-index:1;background:repeating-linear-gradient(90deg,rgba(212,175,55,0.14) 0 1px,transparent 1px calc(var(--u)*5)),repeating-linear-gradient(0deg,rgba(56,189,248,0.12) 0 1px,transparent 1px calc(var(--u)*2.5));transform:perspective(calc(var(--u)*35)) rotateX(62deg);transform-origin:50% 100%;-webkit-mask-image:linear-gradient(0deg,#000 20%,transparent);mask-image:linear-gradient(0deg,#000 20%,transparent)}
 .ring{position:absolute;left:50%;top:46%;border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);z-index:1}
-.ring.r1{width:calc(var(--u)*76);height:calc(var(--u)*76);border:1.5px dashed rgba(212,175,55,0.26);animation:spinC 110s linear infinite}
-.ring.r2{width:calc(var(--u)*56);height:calc(var(--u)*56);border:1.5px solid rgba(56,189,248,0.18);animation:spinC 70s linear infinite reverse}
-.ring.r3{width:calc(var(--u)*40);height:calc(var(--u)*40);border:1px dashed rgba(212,175,55,0.2);animation:spinC 45s linear infinite}
-.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*1.2);width:100%;margin-top:calc(var(--u)*1.8)}
-.pillar{background:linear-gradient(145deg,rgba(14,22,46,0.92),rgba(8,13,28,0.96));border:1px solid rgba(212,175,55,0.38);border-radius:calc(var(--u)*0.9);padding:calc(var(--u)*0.9) calc(var(--u)*1);display:flex;align-items:center;gap:calc(var(--u)*0.9);text-align:left;cursor:pointer;transition:transform 0.35s var(--pop),border-color 0.35s}
-.pillar:hover{transform:translateY(calc(var(--u)*-0.45)) scale(1.03);border-color:var(--brass-light)}
-.pillar-num{width:calc(var(--u)*3.2);height:calc(var(--u)*3.2);border-radius:50%;background:linear-gradient(135deg,var(--brass-dark),var(--brass));display:grid;place-items:center;flex-shrink:0;font:900 calc(var(--u)*1.25) var(--f-ser);color:#fff;box-shadow:0 0 calc(var(--u)*1.2) var(--brass-glow)}
-.pillar b{display:block;font:800 calc(var(--u)*1.3)/1.25 var(--f-body);color:var(--brass-light)}
-.pillar span{display:block;font-size:calc(var(--u)*1.0);color:#cbd5e1;line-height:1.35}
-.members-strip{position:absolute;bottom:0;left:0;right:0;padding:calc(var(--u)*0.8) 0;background:linear-gradient(90deg,transparent,rgba(6,9,19,0.94) 10%,rgba(6,9,19,0.94) 90%,transparent);border-top:1px solid rgba(212,175,55,0.25);overflow:hidden;z-index:10}
-.members-strip-inner{display:flex;gap:calc(var(--u)*3.5);width:max-content;animation:marquee 32s linear infinite;white-space:nowrap}
-.members-strip-inner span{font:700 calc(var(--u)*1.3) var(--f-body);color:rgba(248,250,252,0.9)}
+.ring.r1{width:calc(var(--u)*76);height:calc(var(--u)*76);border:1.5px dashed rgba(212,175,55,0.26);animation:spinC 140s linear infinite}
+.ring.r2{width:calc(var(--u)*56);height:calc(var(--u)*56);border:1.5px solid rgba(56,189,248,0.18);animation:spinC 95s linear infinite reverse}
+.ring.r3{width:calc(var(--u)*40);height:calc(var(--u)*40);border:1px dashed rgba(212,175,55,0.2);animation:spinC 65s linear infinite}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*1.2);width:100%;margin-top:calc(var(--u)*1.3)}
+.pillar{background:linear-gradient(145deg,rgba(14,22,46,0.92),rgba(8,13,28,0.96));border:1px solid rgba(212,175,55,0.38);border-radius:calc(var(--u)*0.9);padding:calc(var(--u)*0.8) calc(var(--u)*1);display:flex;align-items:center;gap:calc(var(--u)*0.9);text-align:left;cursor:pointer;transition:transform 0.45s var(--pop),border-color 0.45s}
+.pillar:hover{transform:translateY(calc(var(--u)*-0.4)) scale(1.03);border-color:var(--brass-light)}
+.pillar-num{width:calc(var(--u)*3.1);height:calc(var(--u)*3.1);border-radius:50%;background:linear-gradient(135deg,var(--brass-dark),var(--brass));display:grid;place-items:center;flex-shrink:0;font:900 calc(var(--u)*1.2) var(--f-ser);color:#fff;box-shadow:0 0 calc(var(--u)*1.2) var(--brass-glow)}
+.pillar b{display:block;font:800 calc(var(--u)*1.25)/1.25 var(--f-body);color:var(--brass-light)}
+.pillar span{display:block;font-size:calc(var(--u)*0.98);color:#cbd5e1;line-height:1.35}
+.members-strip{position:absolute;bottom:0;left:0;right:0;padding:calc(var(--u)*0.75) 0;background:linear-gradient(90deg,transparent,rgba(6,9,19,0.94) 10%,rgba(6,9,19,0.94) 90%,transparent);border-top:1px solid rgba(212,175,55,0.25);overflow:hidden;z-index:10}
+.members-strip-inner{display:flex;gap:calc(var(--u)*3.5);width:max-content;animation:marquee 52s linear infinite;white-space:nowrap}
+.members-strip-inner span{font:700 calc(var(--u)*1.25) var(--f-body);color:rgba(248,250,252,0.9)}
 .members-strip-inner span::before{content:"◈ ";color:var(--brass)}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* Members slide */
 .members-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:calc(var(--u)*1.4);height:100%}
-.member-card{background:linear-gradient(145deg,rgba(14,22,46,0.92),rgba(8,13,28,0.96));border:1px solid rgba(212,175,55,0.3);border-radius:calc(var(--u)*1);padding:calc(var(--u)*1) calc(var(--u)*1.2);display:flex;align-items:center;gap:calc(var(--u)*1.2);box-shadow:0 calc(var(--u)*0.8) calc(var(--u)*2.5) rgba(0,0,0,0.5);transition:transform 0.35s var(--pop),border-color 0.35s;opacity:0}
-.sc.on .member-card{animation:cardIn 0.7s var(--pop) calc(0.4s + var(--mi,0) * 0.07s) both}
-@keyframes cardIn{0%{opacity:0;transform:scale(0.7) translateY(calc(var(--u)*1.5))}100%{opacity:1;transform:none}}
-.member-card:hover{transform:translateY(calc(var(--u)*-0.5)) scale(1.04);border-color:var(--brass)}
+.member-card{background:linear-gradient(145deg,rgba(14,22,46,0.92),rgba(8,13,28,0.96));border:1px solid rgba(212,175,55,0.3);border-radius:calc(var(--u)*1);padding:calc(var(--u)*1) calc(var(--u)*1.2);display:flex;align-items:center;gap:calc(var(--u)*1.2);box-shadow:0 calc(var(--u)*0.8) calc(var(--u)*2.5) rgba(0,0,0,0.5);transition:transform 0.45s var(--pop),border-color 0.45s;opacity:0}
+.sc.on .member-card{animation:cardIn 1.15s var(--pop) calc(0.45s + var(--mi,0) * 0.1s) both}
+@keyframes cardIn{0%{opacity:0;transform:scale(0.8) translateY(calc(var(--u)*1.4))}100%{opacity:1;transform:none}}
+.member-card:hover{transform:translateY(calc(var(--u)*-0.4)) scale(1.03);border-color:var(--brass)}
 .member-avatar{position:relative;width:calc(var(--u)*5);height:calc(var(--u)*5);border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--brass-dark),var(--brass),var(--brass-light));display:grid;place-items:center;font:900 calc(var(--u)*2) var(--f-ser);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.5);box-shadow:0 0 calc(var(--u)*1.5) var(--brass-glow)}
-.member-avatar::before{content:"";position:absolute;inset:calc(var(--u)*-0.5);border-radius:50%;border:1.5px dashed rgba(56,189,248,0.7);animation:spin 9s linear infinite}
+.member-avatar::before{content:"";position:absolute;inset:calc(var(--u)*-0.5);border-radius:50%;border:1.5px dashed rgba(56,189,248,0.7);animation:spin 16s linear infinite}
 .member-num{font:800 calc(var(--u)*0.95) var(--f-body);color:var(--brass);letter-spacing:0.12em}
 .member-name{font:800 calc(var(--u)*1.6)/1.25 var(--f-body);color:#fff}
 
@@ -217,52 +222,133 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .cinema-box{position:relative;height:100%;aspect-ratio:16/9;margin:0 auto;border-radius:calc(var(--u)*1.2);overflow:hidden;border:2px solid var(--brass);background:#000;box-shadow:0 0 calc(var(--u)*5) var(--brass-glow),0 calc(var(--u)*3) calc(var(--u)*9) rgba(0,0,0,0.9)}
 .cinema-box video{width:100%;height:100%;object-fit:contain;background:#000;display:block}
 .rec-badge{position:absolute;top:calc(var(--u)*1);left:calc(var(--u)*1.3);display:flex;align-items:center;gap:calc(var(--u)*0.7);font:700 calc(var(--u)*0.95) var(--f-body);color:var(--brass-light);background:rgba(4,7,18,0.85);padding:calc(var(--u)*0.35) calc(var(--u)*1);border-radius:99px;border:1px solid var(--border-glass);z-index:5;pointer-events:none}
-.rec-dot{width:calc(var(--u)*0.7);aspect-ratio:1;border-radius:50%;background:#ef4444;animation:recPulse 1.3s ease-in-out infinite}
+.rec-dot{width:calc(var(--u)*0.7);aspect-ratio:1;border-radius:50%;background:#ef4444;animation:recPulse 1.8s ease-in-out infinite}
 @keyframes recPulse{50%{opacity:0.15}}
 
 /* Parchment */
-.parchment-sheet{background:linear-gradient(148deg,#fdf9ef,#f5ecda 60%,#ede0c4);border:1px solid #c9b98a;border-radius:calc(var(--u)*1.1);padding:calc(var(--u)*2.2);color:#1c1917;box-shadow:0 calc(var(--u)*2) calc(var(--u)*5) rgba(0,0,0,0.5),inset 0 0 calc(var(--u)*3) rgba(205,185,138,0.35);position:relative;overflow:hidden}
+.parchment-sheet{background:linear-gradient(148deg,#fdf9ef,#f5ecda 60%,#ede0c4);border:1px solid #c9b98a;border-radius:calc(var(--u)*1.1);padding:calc(var(--u)*2.0);color:#1c1917;box-shadow:0 calc(var(--u)*2) calc(var(--u)*5) rgba(0,0,0,0.5),inset 0 0 calc(var(--u)*3) rgba(205,185,138,0.35);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
 
 /* Timeline rows (Mở đầu) */
-.milestone{display:flex;align-items:center;gap:calc(var(--u)*1.3);padding:calc(var(--u)*1.1) calc(var(--u)*1.3);border-radius:calc(var(--u)*0.8)}
-.milestone .num{font:900 calc(var(--u)*2.8) var(--f-ser);line-height:1}
-.milestone b{display:block;font:800 calc(var(--u)*1.5)/1.3 var(--f-body)}
-.milestone span{display:block;font-size:calc(var(--u)*1.25);color:#dbe3ee;line-height:1.5}
+.milestone{display:flex;align-items:center;gap:calc(var(--u)*1.3);padding:calc(var(--u)*1.0) calc(var(--u)*1.3);border-radius:calc(var(--u)*0.8)}
+.milestone .num{font:900 calc(var(--u)*2.6) var(--f-ser);line-height:1}
+.milestone b{display:block;font:800 calc(var(--u)*1.45)/1.3 var(--f-body)}
+.milestone span{display:block;font-size:calc(var(--u)*1.2);color:#dbe3ee;line-height:1.48}
 
 /* Tribute (Kết luận) */
-.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*1.1);margin-top:calc(var(--u)*1)}
-.tri div{padding:calc(var(--u)*1) calc(var(--u)*1.1);background:rgba(10,18,42,0.8);border:1px solid var(--border-glass);border-radius:calc(var(--u)*0.8);text-align:center}
-.tri b{display:block;font:700 calc(var(--u)*1.5) var(--f-head);letter-spacing:0.06em;margin-bottom:3px}
-.tri span{font-size:calc(var(--u)*1.15);color:#e2e8f0;line-height:1.4;display:block}
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*1.0);margin-top:calc(var(--u)*0.6)}
+.tri div{padding:calc(var(--u)*0.75) calc(var(--u)*0.9);background:rgba(10,18,42,0.8);border:1px solid var(--border-glass);border-radius:calc(var(--u)*0.7);text-align:center}
+.tri b{display:block;font:700 calc(var(--u)*1.38) var(--f-head);letter-spacing:0.06em;margin-bottom:2px}
+.tri span{font-size:calc(var(--u)*1.06);color:#e2e8f0;line-height:1.35;display:block}
 
 /* ===================================================================
-   5. TRANSITION — GRAVITATIONAL CURTAIN
+   5. TRANSITION — GENTLE GRAVITATIONAL LIGHT SWEEP
    =================================================================== */
-#grav-curtain{position:absolute;inset:0;z-index:50;pointer-events:none;background:radial-gradient(ellipse at 50% 90%,#101830,#060913 80%);transform:translateY(-100%)}
-#grav-curtain.anim-fwd{animation:curtainFwd 1.28s var(--g) both}
-#grav-curtain.anim-bwd{animation:curtainBwd 1.12s var(--e) both}
-@keyframes curtainFwd{0%{transform:translateY(-100%)}44%,56%{transform:translateY(0)}100%{transform:translateY(100%)}}
-@keyframes curtainBwd{0%{transform:translateY(100%)}44%,56%{transform:translateY(0)}100%{transform:translateY(-100%)}}
-.impact-wave{position:absolute;left:50%;top:50%;width:calc(var(--u)*14);aspect-ratio:1;border-radius:50%;border:2px solid var(--brass);transform:translate(-50%,-50%) scale(0.1);animation:impactRing 0.95s ease-out forwards;pointer-events:none;z-index:45}
-@keyframes impactRing{to{transform:translate(-50%,-50%) scale(9);opacity:0}}
+#grav-curtain{position:absolute;inset:0;z-index:50;pointer-events:none;opacity:0;
+  background:radial-gradient(ellipse at 50% 50%,rgba(56,189,248,0.08),rgba(212,175,55,0.06) 45%,transparent 75%)}
+#grav-curtain.anim-fwd,#grav-curtain.anim-bwd{animation:veilPulse 1.55s var(--e) both}
+@keyframes veilPulse{0%{opacity:0}40%,60%{opacity:1}100%{opacity:0}}
+#grav-beam{position:absolute;left:0;right:0;height:calc(var(--u)*8);pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(56,189,248,0.14) 40%,rgba(246,224,130,0.45) 50%,rgba(56,189,248,0.14) 60%,transparent);
+  transform:translateY(-120%);opacity:0}
+#grav-curtain.anim-fwd #grav-beam{animation:beamDown 1.55s cubic-bezier(0.22,1,0.36,1) both}
+#grav-curtain.anim-bwd #grav-beam{animation:beamUp 1.55s cubic-bezier(0.22,1,0.36,1) both}
+@keyframes beamDown{0%{transform:translateY(-120%);opacity:0}25%{opacity:0.85}75%{opacity:0.85}100%{transform:translateY(1200%);opacity:0}}
+@keyframes beamUp{0%{transform:translateY(1200%);opacity:0}25%{opacity:0.85}75%{opacity:0.85}100%{transform:translateY(-120%);opacity:0}}
+#trans-badge{display:none}
+.impact-wave{position:absolute;left:50%;top:50%;width:calc(var(--u)*12);aspect-ratio:1;border-radius:50%;border:1.5px solid rgba(212,175,55,0.55);transform:translate(-50%,-50%) scale(0.2);animation:impactRing 1.6s var(--e) forwards;pointer-events:none;z-index:45}
+.impact-wave.w2{border-color:rgba(56,189,248,0.45);animation-delay:0.2s;border-width:1px}
+@keyframes impactRing{to{transform:translate(-50%,-50%) scale(7.5);opacity:0}}
+
+/* Physics visual strips inside slides */
+.phys-strip{margin-top:calc(var(--u)*0.85);padding:calc(var(--u)*0.75) calc(var(--u)*1.05);border-radius:calc(var(--u)*0.8);background:linear-gradient(135deg,rgba(8,15,34,0.92),rgba(14,25,52,0.88));border:1px solid rgba(56,189,248,0.35);box-shadow:inset 0 0 calc(var(--u)*2) rgba(56,189,248,0.08)}
+.phys-strip-head{display:flex;justify-content:space-between;align-items:center;font:800 calc(var(--u)*0.9) var(--f-body);letter-spacing:0.12em;text-transform:uppercase;color:#7dd3fc;margin-bottom:calc(var(--u)*0.5)}
+.force-compare{display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*0.85)}
+.force-box{display:flex;align-items:center;gap:calc(var(--u)*0.75);padding:calc(var(--u)*0.5) calc(var(--u)*0.75);border-radius:calc(var(--u)*0.6);background:rgba(4,8,20,0.75);border:1px solid rgba(212,175,55,0.28);position:relative;overflow:hidden}
+.force-box.cyan{border-color:rgba(56,189,248,0.38)}
+.force-svg{width:calc(var(--u)*3.6);height:calc(var(--u)*4.5);flex-shrink:0}
+.force-info b{display:block;font:800 calc(var(--u)*1.08) var(--f-body);color:var(--brass-light)}
+.force-box.cyan .force-info b{color:#7dd3fc}
+.force-info span{display:block;font-size:calc(var(--u)*0.96);line-height:1.35;color:#cbd5e1}
+.vec-pulse{animation:vecPulse 2.4s ease-in-out infinite alternate}
+@keyframes vecPulse{from{opacity:0.65;transform:translateY(-1px)}to{opacity:1;transform:translateY(2px)}}
+.air-up{stroke-dasharray:4 4;animation:airFlowUp 2.2s linear infinite}
+@keyframes airFlowUp{to{stroke-dashoffset:8}}
+
+/* Interactive Pisa Drop Mini-Sim & Strobe Track */
+.pisa-sim{margin-top:calc(var(--u)*0.55);padding:calc(var(--u)*0.6) calc(var(--u)*0.95);border-radius:calc(var(--u)*0.7);background:rgba(4,9,22,0.86);border:1px solid rgba(212,175,55,0.42);display:flex;align-items:center;justify-content:space-between;gap:calc(var(--u)*0.8)}
+.sim-track{flex:1;height:calc(var(--u)*2.2);background:rgba(15,23,42,0.92);border:1px solid rgba(56,189,248,0.4);border-radius:99px;position:relative;overflow:hidden;display:flex;align-items:center;padding:0 calc(var(--u)*0.7)}
+.sim-lane{position:relative;width:100%;height:100%;background:repeating-linear-gradient(90deg,transparent 0 18%,rgba(255,255,255,0.07) 18% 18.5%)}
+.sim-ball-heavy,.sim-ball-light{position:absolute;left:2%;border-radius:50%;animation:simRace 6.2s cubic-bezier(.42,0,.85,.5) infinite}
+.sim-ball-heavy{top:15%;width:calc(var(--u)*0.95);height:calc(var(--u)*0.95);background:radial-gradient(circle at 30% 30%,#fde047,#b45309);box-shadow:0 0 8px var(--brass)}
+.sim-ball-light{bottom:13%;width:calc(var(--u)*0.68);height:calc(var(--u)*0.68);background:radial-gradient(circle at 30% 30%,#e0f2fe,#0284c7);box-shadow:0 0 8px var(--cyan)}
+@keyframes simRace{0%,14%{left:3%}65%,88%{left:90%}100%{left:3%}}
+.sim-finish{position:absolute;right:6%;top:10%;bottom:10%;width:2px;background:linear-gradient(180deg,var(--brass),var(--cyan));box-shadow:0 0 6px var(--cyan)}
+.sim-tag{font:800 calc(var(--u)*0.88) var(--f-body);color:var(--brass-light);white-space:nowrap}
+.exp-btn{padding:calc(var(--u)*0.32) calc(var(--u)*0.8);border-radius:99px;background:rgba(56,189,248,0.18);border:1px solid var(--cyan);color:#bae6fd;font:800 calc(var(--u)*0.82) var(--f-body);transition:all 0.25s;white-space:nowrap}
+.exp-btn:hover,.exp-btn.active{background:var(--cyan);color:#020617;box-shadow:0 0 calc(var(--u)*1.2) var(--cyan-glow)}
+.exp-btn.gold{background:rgba(212,175,55,0.18);border-color:var(--brass);color:var(--brass-light)}
+.exp-btn.gold:hover,.exp-btn.gold.active{background:var(--brass);color:#020617;box-shadow:0 0 calc(var(--u)*1.2) var(--brass-glow)}
+
+/* Interactive Live Drop Chamber (Slide 4 & Slide 7) */
+.exp-chamber{margin-top:calc(var(--u)*0.6);padding:calc(var(--u)*0.65) calc(var(--u)*0.95);border-radius:calc(var(--u)*0.75);background:rgba(4,9,22,0.88);border:1px solid rgba(56,189,248,0.38);display:flex;flex-direction:column;gap:calc(var(--u)*0.5)}
+.exp-chamber-top{display:flex;justify-content:space-between;align-items:center;gap:calc(var(--u)*0.6)}
+.exp-tube-horiz{position:relative;height:calc(var(--u)*2.5);border-radius:calc(var(--u)*0.6);background:linear-gradient(90deg,rgba(8,24,48,0.9),rgba(12,34,64,0.85));border:1.5px solid rgba(56,189,248,0.45);overflow:hidden;transition:border-color 0.4s,background 0.4s}
+.exp-tube-horiz.is-vac{background:rgba(4,8,18,0.95);border-color:var(--brass)}
+.exp-air-dots{position:absolute;inset:0;background:radial-gradient(circle,rgba(125,211,252,0.45) 1.5px,transparent 2px) 0 0/calc(var(--u)*1.6) calc(var(--u)*1.1);animation:airDotsLeft 2.4s linear infinite;transition:opacity 0.5s}
+.exp-tube-horiz.is-vac .exp-air-dots{opacity:0}
+@keyframes airDotsLeft{to{background-position:calc(var(--u)*-3.2) 0}}
+.exp-obj-stone{position:absolute;top:14%;left:4%;width:calc(var(--u)*1.0);height:calc(var(--u)*0.95);border-radius:45% 55% 40% 60%;background:radial-gradient(circle at 35% 30%,#cbd5e1,#334155);border:1px solid var(--brass-light);animation:expFast 5.8s cubic-bezier(.42,0,.85,.5) infinite}
+.exp-obj-feather{position:absolute;bottom:12%;left:4%;width:calc(var(--u)*1.25);height:calc(var(--u)*0.7);border-radius:80% 20% 80% 20%;background:linear-gradient(90deg,#fff,#bae6fd);box-shadow:0 0 6px rgba(255,255,255,0.6);animation:expSlow 5.8s cubic-bezier(.25,.1,.5,1) infinite}
+.exp-tube-horiz.is-vac .exp-obj-feather{animation:expFast 5.8s cubic-bezier(.42,0,.85,.5) infinite}
+@keyframes expFast{0%,12%{left:4%}52%,88%{left:90%}100%{left:4%}}
+@keyframes expSlow{0%,12%{left:4%;transform:rotate(0deg)}50%{transform:rotate(-14deg)}88%{left:86%;transform:rotate(8deg)}100%{left:4%;transform:rotate(0deg)}}
+.exp-impact-line{position:absolute;right:5%;top:8%;bottom:8%;width:2.5px;background:var(--brass-light);box-shadow:0 0 8px var(--brass)}
+
+/* Interactive Virtual Physics Lab Modal (#lab-modal) */
+#lab-modal{position:fixed;inset:0;z-index:125;background:rgba(2,5,14,0.94);display:none;place-items:center;padding:3vh 3vw;backdrop-filter:blur(14px)}
+#lab-modal.active{display:grid}
+.lab-window{width:min(1100px,94vw);height:min(680px,88vh);background:linear-gradient(145deg,#081026,#040814);border:1.5px solid var(--brass);border-radius:16px;box-shadow:0 24px 80px rgba(0,0,0,0.9),0 0 40px rgba(212,175,55,0.2);display:grid;grid-template-columns:320px 1fr;overflow:hidden}
+.lab-sidebar{padding:20px;border-right:1px solid rgba(212,175,55,0.25);display:flex;flex-direction:column;justify-content:space-between;background:rgba(4,7,18,0.6)}
+.lab-sidebar h3{font:800 18px var(--f-head);color:var(--brass-light);letter-spacing:0.08em;margin-bottom:4px}
+.lab-group{margin-top:14px}
+.lab-group label{display:block;font:700 11px var(--f-body);text-transform:uppercase;letter-spacing:0.14em;color:#7dd3fc;margin-bottom:7px}
+.lab-opts{display:flex;flex-direction:column;gap:6px}
+.lab-opt{padding:9px 12px;border-radius:8px;border:1px solid rgba(212,175,55,0.3);background:rgba(12,20,44,0.8);text-align:left;font:600 13px var(--f-body);color:#e2e8f0;transition:all 0.2s}
+.lab-opt:hover{border-color:var(--cyan)}
+.lab-opt.active{background:linear-gradient(135deg,rgba(212,175,55,0.25),rgba(56,189,248,0.2));border-color:var(--brass-light);color:#fff;box-shadow:0 0 14px rgba(212,175,55,0.25)}
+.lab-run-btn{width:100%;padding:12px;border-radius:10px;background:linear-gradient(135deg,#8b5e08,var(--brass),#ca8a04);color:#fff;font:800 14px var(--f-body);letter-spacing:0.08em;text-transform:uppercase;box-shadow:0 6px 20px rgba(212,175,55,0.4);margin-top:14px;transition:transform 0.2s}
+.lab-run-btn:hover{transform:translateY(-2px)}
+.lab-stage-wrap{position:relative;display:flex;flex-direction:column;background:radial-gradient(ellipse at 50% 30%,#0c1938,#030611 75%)}
+.lab-topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-bottom:1px solid rgba(212,175,55,0.2);font:700 13px var(--f-body);color:var(--brass-light)}
+#lab-canvas{flex:1;width:100%;height:100%;display:block}
+
+/* Newton Vacuum Meter */
+.vac-bar{margin-top:calc(var(--u)*0.6);padding:calc(var(--u)*0.6) calc(var(--u)*0.95);border-radius:calc(var(--u)*0.7);background:rgba(4,10,24,0.88);border:1px solid rgba(56,189,248,0.4);display:flex;align-items:center;gap:calc(var(--u)*0.85)}
+.vac-gauge{width:calc(var(--u)*2.9);height:calc(var(--u)*2.9);border-radius:50%;border:2px solid var(--cyan);position:relative;flex-shrink:0;background:radial-gradient(circle,#082f49,#020617)}
+.vac-needle{position:absolute;left:50%;bottom:50%;width:2px;height:38%;background:var(--brass-light);transform-origin:bottom center;animation:needleSweep 7.5s ease-in-out infinite alternate}
+@keyframes needleSweep{0%,25%{transform:rotate(48deg)}65%,100%{transform:rotate(-52deg)}}
 
 /* ===================================================================
-   6. CHROME
+   6. CHROME & INTERACTIVE SLIDE DOCK
    =================================================================== */
 #ornament-frame{position:absolute;inset:calc(var(--u)*1.6);z-index:25;pointer-events:none;border:1px solid rgba(212,175,55,0.22)}
 #ornament-frame::before{content:"";position:absolute;inset:calc(var(--u)*0.5);border:0.5px solid rgba(212,175,55,0.1)}
-.nosx-crest{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);padding:calc(var(--u)*0.25) calc(var(--u)*1.4);background:#060913;border:1px solid rgba(212,175,55,0.45);border-radius:99px;font:800 calc(var(--u)*0.82)/1 var(--f-body);letter-spacing:0.26em;text-transform:uppercase;color:var(--brass-light);box-shadow:0 0 calc(var(--u)*1.4) rgba(212,175,55,0.25);white-space:nowrap}
-.nosx-crest b{color:var(--cyan);font-weight:900}
 .bracket{position:absolute;width:calc(var(--u)*2.6);height:calc(var(--u)*2.6);color:var(--brass)}
 .bracket.tl{top:-2px;left:-2px}.bracket.tr{top:-2px;right:-2px;transform:rotate(90deg)}
 .bracket.br{bottom:-2px;right:-2px;transform:rotate(180deg)}.bracket.bl{bottom:-2px;left:-2px;transform:rotate(270deg)}
-#ui-chrome{position:absolute;inset:0;z-index:30;pointer-events:none;transition:opacity 0.5s}
-body.hero-slide #ui-chrome{opacity:0}
+#ui-chrome{position:absolute;inset:0;z-index:30;pointer-events:none;transition:opacity 0.6s}
+body.hero-slide #ui-chrome,body.hero-slide #slide-dock{opacity:0;pointer-events:none}
 #counter{position:absolute;left:calc(var(--u)*4.2);bottom:calc(var(--u)*2.5);font:800 calc(var(--u)*1.1) var(--f-body);letter-spacing:0.24em;color:var(--brass)}
 #progress{position:absolute;left:calc(var(--u)*4.2);bottom:calc(var(--u)*2.1);width:calc(var(--u)*14);height:3px;background:rgba(255,255,255,0.12);border-radius:99px;overflow:hidden}
-#progress i{display:block;height:100%;background:linear-gradient(90deg,var(--brass),var(--cyan));transform-origin:left;transform:scaleX(0.11);transition:transform 0.65s var(--e)}
-#nosx-watermark{position:absolute;right:calc(var(--u)*4.2);bottom:calc(var(--u)*2.3);font:800 calc(var(--u)*0.95) var(--f-body);letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,229,171,0.75)}
-#nosx-watermark b{color:var(--cyan)}
+#progress i{display:block;height:100%;background:linear-gradient(90deg,var(--brass),var(--cyan));transform-origin:left;transform:scaleX(0.11);transition:transform 0.9s var(--e)}
+#slide-dock{position:absolute;left:50%;bottom:calc(var(--u)*1.9);transform:translateX(-50%);display:flex;align-items:center;gap:calc(var(--u)*0.55);padding:calc(var(--u)*0.3) calc(var(--u)*0.85);border-radius:99px;background:rgba(6,10,24,0.85);border:1px solid rgba(212,175,55,0.3);pointer-events:auto;backdrop-filter:blur(8px);transition:opacity 0.5s}
+.dock-arrow{width:calc(var(--u)*1.8);height:calc(var(--u)*1.8);border-radius:50%;display:grid;place-items:center;font:800 calc(var(--u)*1.0) var(--f-body);color:var(--brass-light);transition:background 0.25s,transform 0.25s}
+.dock-arrow:hover{background:rgba(212,175,55,0.25);transform:scale(1.15)}
+.dock-dot{width:calc(var(--u)*0.75);height:calc(var(--u)*0.75);border-radius:99px;background:rgba(255,255,255,0.22);transition:width 0.45s var(--pop),background 0.45s,box-shadow 0.45s;position:relative}
+.dock-dot:hover{background:var(--cyan)}
+.dock-dot.on{width:calc(var(--u)*2.3);background:linear-gradient(90deg,var(--brass),var(--cyan));box-shadow:0 0 calc(var(--u)*1) var(--cyan-glow)}
+#nosx-watermark{position:absolute;right:calc(var(--u)*4.2);bottom:calc(var(--u)*2.3);font:700 calc(var(--u)*0.82) var(--f-body);letter-spacing:0.18em;text-transform:lowercase;color:rgba(243,229,171,0.45)}
+#nosx-watermark b{color:rgba(56,189,248,0.65);font-weight:800}
 #feather-canvas,#dust{position:absolute;inset:0;pointer-events:none}
 #feather-canvas{z-index:7}#dust{z-index:8}
 
@@ -303,9 +389,11 @@ body.edit-mode #editor-panel{display:flex}
   <div id="deck"></div>
   <canvas id="feather-canvas" aria-hidden="true"></canvas>
   <canvas id="dust" aria-hidden="true"></canvas>
-  <div id="grav-curtain" aria-hidden="true"></div>
+  <div id="grav-curtain" aria-hidden="true">
+    <div id="grav-beam"></div>
+    <div id="trans-badge"><span class="tb-num" id="tb-num">SLIDE 01</span><span class="tb-name" id="tb-name">CHÀO MỪNG</span></div>
+  </div>
   <div id="ornament-frame" aria-hidden="true">
-    <div class="nosx-crest">POWERED BY <b>NOSXLAB</b></div>
     <svg class="bracket tl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 22V2h20"/></svg>
     <svg class="bracket tr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 22V2h20"/></svg>
     <svg class="bracket br" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 22V2h20"/></svg>
@@ -314,17 +402,62 @@ body.edit-mode #editor-panel{display:flex}
   <div id="ui-chrome">
     <div id="counter">01 / 09</div>
     <div id="progress"><i></i></div>
-    <div id="nosx-watermark">POWERED BY <b>NOSXLAB</b></div>
+    <div id="slide-dock"></div>
+    <div id="nosx-watermark">powered by <b>nosxlab</b></div>
   </div>
 </div>
 
 <div id="lightbox" role="dialog"><button id="lightbox-close" aria-label="Đóng">✕</button><img id="lightbox-img" src="" alt=""></div>
 <div id="modal-grid" role="dialog"><div class="grid-shelf" id="grid-shelf"></div></div>
+<div id="lab-modal" role="dialog" aria-label="Phòng thí nghiệm ảo">
+  <div class="lab-window">
+    <div class="lab-sidebar">
+      <div>
+        <h3>🔬 PHÒNG THÍ NGHIỆM ẢO</h3>
+        <p style="font-size:12px;color:#94a3b8;line-height:1.45;">Mô phỏng trực quan sự rơi của các vật trong không khí và trong chân không.</p>
+        <div class="lab-group">
+          <label>1. Chọn môi trường thí nghiệm</label>
+          <div class="lab-opts" id="lab-env-opts">
+            <button class="lab-opt active" data-env="air">🌬️ Trong không khí (Có sức cản)</button>
+            <button class="lab-opt" data-env="thin">☁️ Không khí loãng (Sức cản nhỏ)</button>
+            <button class="lab-opt" data-env="vac">✨ Chân không (Không có sức cản)</button>
+          </div>
+        </div>
+        <div class="lab-group">
+          <label>2. Chọn cặp vật thả</label>
+          <div class="lab-opts" id="lab-pair-opts">
+            <button class="lab-opt active" data-pair="newton">🪶 Hòn đá &amp; Lông chim (Ống Newton)</button>
+            <button class="lab-opt" data-pair="pisa">🏛️ Quả cầu sắt &amp; Quả cầu gỗ (Tháp Pisa)</button>
+          </div>
+        </div>
+        <div class="lab-group">
+          <label>3. Chế độ quan sát</label>
+          <div class="lab-opts">
+            <button class="lab-opt active" id="lab-strobe-btn">📸 Hiện bóng chớp hoạt nghiệm</button>
+            <button class="lab-opt active" id="lab-vec-btn">🏹 Hiện mũi tên Trọng lực &amp; Sức cản</button>
+          </div>
+        </div>
+        <button class="lab-run-btn" id="lab-drop-btn">▶ THẢ VẬT THÍ NGHIỆM</button>
+      </div>
+      <div style="font-size:11.5px;color:#cbd5e1;background:rgba(15,23,42,0.8);padding:10px 12px;border-radius:8px;border-left:3px solid var(--brass);" id="lab-conclusion">
+        <b>Kết quả:</b> Trong không khí, lông chim chịu sức cản lớn nên rơi chậm hơn hòn đá.
+      </div>
+    </div>
+    <div class="lab-stage-wrap">
+      <div class="lab-topbar">
+        <span id="lab-status-text">MÔI TRƯỜNG: KHÔNG KHÍ THƯỜNG · CÓ SỨC CẢN</span>
+        <button id="lab-close" style="color:#fff;font-size:18px;padding:2px 10px;border-radius:6px;background:rgba(255,255,255,0.12);">✕ Đóng (Esc)</button>
+      </div>
+      <canvas id="lab-canvas"></canvas>
+    </div>
+  </div>
+</div>
 <div id="notes-drawer" role="region" aria-label="Lời dẫn">
   <header><span id="notes-title">LỜI DẪN</span><button id="notes-close" style="color:#fff">✕</button></header>
   <div id="notes-content"></div>
 </div>
 <div class="floating-btns">
+  <button class="floating-btn" id="btn-lab-toggle">🔬 Thí nghiệm ảo (L)</button>
   <button class="floating-btn" id="btn-notes-toggle">Lời dẫn (N)</button>
   <button class="floating-btn" id="btn-grid-toggle">Slide (G)</button>
   <button class="floating-btn" id="btn-editor-open">Chỉnh sửa (S)</button>
@@ -448,6 +581,41 @@ function dropRuler(style,vac,flip,label){
   </div>`;
 }
 
+/* Physics visual diagram: Gravity downward vs Air Resistance upward (no formulas) */
+function forceDiagramHTML(){
+  return `<div class="phys-strip">
+    <div class="phys-strip-head"><span>⚡ Phân tích hai lực tác dụng khi rơi trong không khí</span><span style="color:var(--brass-light);">↓ Trọng lực · ↑ Sức cản</span></div>
+    <div class="force-compare">
+      <div class="force-box">
+        <svg class="force-svg" viewBox="0 0 60 76">
+          <line class="air-up" x1="12" y1="70" x2="12" y2="10" stroke="rgba(56,189,248,0.45)" stroke-width="1.5"/>
+          <line class="air-up" x1="48" y1="70" x2="48" y2="10" stroke="rgba(56,189,248,0.45)" stroke-width="1.5"/>
+          <g class="vec-pulse"><line x1="30" y1="26" x2="30" y2="10" stroke="#38bdf8" stroke-width="2.2"/><polygon points="30,5 25,13 35,13" fill="#38bdf8"/></g>
+          <circle cx="30" cy="36" r="11" fill="#64748b" stroke="#f6e082" stroke-width="1.5"/>
+          <g class="vec-pulse"><line x1="30" y1="47" x2="30" y2="69" stroke="#f6e082" stroke-width="3.2"/><polygon points="30,75 23,65 37,65" fill="#f6e082"/></g>
+        </svg>
+        <div class="force-info">
+          <b>Hòn đá (Nặng, gọn)</b>
+          <span>Trọng lực rất lớn so với sức cản không khí → <b>Rơi nhanh</b></span>
+        </div>
+      </div>
+      <div class="force-box cyan">
+        <svg class="force-svg" viewBox="0 0 60 76">
+          <line class="air-up" x1="10" y1="72" x2="10" y2="8" stroke="rgba(56,189,248,0.75)" stroke-width="1.8"/>
+          <line class="air-up" x1="50" y1="72" x2="50" y2="8" stroke="rgba(56,189,248,0.75)" stroke-width="1.8"/>
+          <g class="vec-pulse"><line x1="30" y1="30" x2="30" y2="7" stroke="#38bdf8" stroke-width="3.2"/><polygon points="30,2 23,12 37,12" fill="#38bdf8"/></g>
+          <g transform="translate(30 39) scale(0.75)">${featherSVG()}</g>
+          <g class="vec-pulse"><line x1="30" y1="50" x2="30" y2="66" stroke="#f6e082" stroke-width="2.2"/><polygon points="30,72 25,64 35,64" fill="#f6e082"/></g>
+        </svg>
+        <div class="force-info">
+          <b>Lông chim (Nhẹ, bề mặt rộng)</b>
+          <span>Sức cản không khí lớn giữ lại → <b>Rơi chậm, chao đảo</b></span>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
 /* ===================================================================
    2. SLIDES DATA (9 slides)
    =================================================================== */
@@ -475,9 +643,8 @@ const SLIDES=[
           <div class="pillar" onclick="goToSlideIndex(5)"><div class="pillar-num" style="background:linear-gradient(135deg,#0284c7,#38bdf8);">II</div><div><b style="color:#7dd3fc;">Galileo</b><span>Tháp nghiêng Pisa</span></div></div>
           <div class="pillar" onclick="goToSlideIndex(6)"><div class="pillar-num">III</div><div><b>Newton</b><span>Ống chân không</span></div></div>
         </div>
-        <div class="rv" style="--i:5;margin-top:calc(var(--u)*1.6);display:flex;gap:calc(var(--u)*1.2);align-items:center;">
+        <div class="rv" style="--i:5;margin-top:calc(var(--u)*1.5);">
           <span class="gold-badge">Nhóm thuyết trình Vật Lý 10</span>
-          <span class="gold-badge cyan">⚡ Powered by nosxlab</span>
         </div>
       </div>
       ${marquee()}`
@@ -527,15 +694,29 @@ Hôm nay, chúng ta hãy cùng ngược dòng thời gian để khám phá hành
       <div class="content"><div class="grid2" style="grid-template-columns:1.1fr 1fr;">
         <div class="glass-card rv" style="--i:2;">
           <div class="card-kicker">Câu hỏi hàng nghìn năm</div>
-          <div class="card-title">Tại sao hòn đá chạm đất nhanh, còn lông chim lại rơi chậm?</div>
-          <p class="txt">Khi thả <b>hòn đá</b> và <b>lông chim</b> cùng lúc, hòn đá chạm đất nhanh còn lông chim rơi chậm. Tại sao lại khác nhau? Hiện tượng này tưởng đơn giản nhưng đã theo chân nhân loại <em>hàng nghìn năm</em>. Chúng ta cùng khám phá quy luật đằng sau, từ <em>Aristotle</em> đến <em>Galileo</em> và <em>Newton</em>.</p>
+          <div class="card-title" style="font-size:calc(var(--u)*2.25);margin:calc(var(--u)*0.4) 0 calc(var(--u)*0.7);">Tại sao hòn đá chạm đất nhanh, còn lông chim lại rơi chậm?</div>
+          <p class="txt" style="font-size:calc(var(--u)*1.42);line-height:1.58;">Khi thả <b>hòn đá</b> và <b>lông chim</b> cùng lúc, hòn đá chạm đất nhanh còn lông chim rơi chậm. Tại sao lại khác nhau? Hiện tượng này tưởng đơn giản nhưng đã theo chân nhân loại <em>hàng nghìn năm</em>. Chúng ta cùng khám phá quy luật đằng sau, từ <em>Aristotle</em> đến <em>Galileo</em> và <em>Newton</em>.</p>
+          ${forceDiagramHTML()}
         </div>
         <div class="glass-card rv" style="--i:3;">
-          <div class="card-kicker" style="margin-bottom:calc(var(--u)*1);">Ba cột mốc lịch sử</div>
-          <div style="display:flex;flex-direction:column;gap:calc(var(--u)*1);">
-            <div class="milestone" style="background:rgba(217,119,6,0.13);border:1px solid rgba(217,119,6,0.35);"><div class="num" style="color:#fb923c;">01</div><div><b style="color:var(--brass-light);">Cổ đại — Aristotle</b><span>Quan sát bằng trực giác và tư duy triết học.</span></div></div>
-            <div class="milestone" style="background:rgba(212,175,55,0.13);border:1px solid rgba(212,175,55,0.4);"><div class="num" style="color:var(--brass);">02</div><div><b style="color:var(--brass-light);">Phục Hưng — Galileo</b><span>Thí nghiệm tháp Pisa, tách bạch sức cản không khí.</span></div></div>
-            <div class="milestone" style="background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.4);"><div class="num" style="color:var(--cyan);">03</div><div><b style="color:#7dd3fc;">Cơ học cổ điển — Newton</b><span>Thí nghiệm ống chân không kiểm chứng.</span></div></div>
+          <div>
+            <div class="card-kicker" style="margin-bottom:calc(var(--u)*0.75);">Ba cột mốc lịch sử</div>
+            <div style="display:flex;flex-direction:column;gap:calc(var(--u)*0.75);">
+              <div class="milestone" style="background:rgba(217,119,6,0.13);border:1px solid rgba(217,119,6,0.35);"><div class="num" style="color:#fb923c;">01</div><div><b style="color:var(--brass-light);">Cổ đại — Aristotle</b><span>Quan sát bằng trực giác và tư duy triết học.</span></div></div>
+              <div class="milestone" style="background:rgba(212,175,55,0.13);border:1px solid rgba(212,175,55,0.4);"><div class="num" style="color:var(--brass);">02</div><div><b style="color:var(--brass-light);">Phục Hưng — Galileo</b><span>Thí nghiệm tháp Pisa, tách bạch sức cản không khí.</span></div></div>
+              <div class="milestone" style="background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.4);"><div class="num" style="color:var(--cyan);">03</div><div><b style="color:#7dd3fc;">Cơ học cổ điển — Newton</b><span>Thí nghiệm ống chân không kiểm chứng.</span></div></div>
+            </div>
+          </div>
+          <div class="exp-chamber">
+            <div class="exp-chamber-top">
+              <span style="font:800 calc(var(--u)*0.88) var(--f-body);color:#7dd3fc;">🔬 THỬ NGHIỆM NHANH: ĐÁ &amp; LÔNG CHIM</span>
+              <div style="display:flex;gap:calc(var(--u)*0.4);">
+                <button class="exp-btn active" onclick="toggleInlineTube(this,false)">Không khí</button>
+                <button class="exp-btn gold" onclick="toggleInlineTube(this,true)">Chân không</button>
+                <button class="exp-btn" onclick="openLabModal()">Mở Lab ⤢</button>
+              </div>
+            </div>
+            <div class="exp-tube-horiz"><div class="exp-air-dots"></div><span class="exp-obj-stone"></span><span class="exp-obj-feather"></span><span class="exp-impact-line"></span></div>
           </div>
         </div>
       </div></div>`
@@ -555,8 +736,15 @@ Quan niệm này nghe hợp lý và đã thống trị tư tưởng khoa học s
         <div class="glass-card rv" style="--i:2;">
           <div class="card-kicker">Quan niệm cổ đại</div>
           <div class="card-title">Vật nặng rơi nhanh hơn vật nhẹ</div>
-          <p class="txt" style="margin-bottom:calc(var(--u)*1.2);">Dựa trên quan sát hàng ngày, <b>Aristotle</b> cho rằng vật nặng rơi nhanh hơn vật nhẹ, <b>tốc độ tỉ lệ thuận với trọng lượng</b>. Ông cũng nhận ra không khí cản trở chuyển động. Quan niệm này nghe hợp lý, thống trị tư tưởng khoa học suốt gần <em>2000 năm</em> cho đến khi có thực nghiệm kiểm chứng.</p>
-          <div class="note-box red"><b style="color:#fca5a5;">Hạn chế:</b> Chỉ dựa vào quan sát cảm tính, thiếu thực nghiệm kiểm chứng.</div>
+          <p class="txt" style="margin-bottom:calc(var(--u)*1.0);font-size:calc(var(--u)*1.45);">Dựa trên quan sát hàng ngày, <b>Aristotle</b> cho rằng vật nặng rơi nhanh hơn vật nhẹ, <b>tốc độ tỉ lệ thuận với trọng lượng</b>. Ông cũng nhận ra không khí cản trở chuyển động. Quan niệm này nghe hợp lý, thống trị tư tưởng khoa học suốt gần <em>2000 năm</em> cho đến khi có thực nghiệm kiểm chứng.</p>
+          <div class="note-box red" style="margin-bottom:calc(var(--u)*0.8);"><b style="color:#fca5a5;">Hạn chế:</b> Chỉ dựa vào quan sát cảm tính, thiếu thực nghiệm kiểm chứng.</div>
+          <div class="phys-strip" style="margin-top:0;border-color:rgba(217,119,6,0.45);">
+            <div class="phys-strip-head"><span style="color:#fbbf24;">⚖ Góc nhìn Vật lý: Trực giác vs. Bản chất</span><span>Thế kỷ IV TCN</span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*0.8);font-size:calc(var(--u)*1.08);color:#e2e8f0;">
+              <div style="padding:calc(var(--u)*0.55) calc(var(--u)*0.8);background:rgba(239,68,68,0.12);border-radius:6px;border-left:3px solid #ef4444;"><b style="color:#fca5a5;display:block;">Ngộ nhận của trực giác</b>Cho rằng trọng lượng quyết định tốc độ rơi nhanh hay chậm.</div>
+              <div style="padding:calc(var(--u)*0.55) calc(var(--u)*0.8);background:rgba(56,189,248,0.12);border-radius:6px;border-left:3px solid var(--cyan);"><b style="color:#7dd3fc;display:block;">Nguyên nhân thực sự</b>Lực cản không khí làm chậm các vật nhẹ, diện tích tiếp xúc lớn.</div>
+            </div>
+          </div>
         </div>
         <div class="parchment-sheet rv" style="--i:3;">
           <div style="font:800 calc(var(--u)*1.05) var(--f-body);color:#854d0e;letter-spacing:0.18em;text-transform:uppercase;">Học thuyết tự nhiên — Hy Lạp cổ đại</div>
@@ -585,12 +773,18 @@ Galileo đã tách bạch hai yếu tố: xu hướng rơi tự nhiên do trọn
           <div class="card-kicker">Bước ngoặt thực nghiệm lịch sử</div>
           <h3 style="font-family:var(--f-ser);font-size:calc(var(--u)*2.05);color:var(--brass-light);margin:calc(var(--u)*0.6) 0 calc(var(--u)*0.9);line-height:1.3;">Thả Hai Vật Khối Lượng Khác Nhau<br>Chạm Đất Gần Như Cùng Lúc</h3>
           <p style="font-size:calc(var(--u)*1.28);color:#e2e8f0;line-height:1.72;margin-bottom:calc(var(--u)*1.1);"><b>Galileo Galilei</b> có rất nhiều các thí nghiệm chứng minh cho giả thiết này, nổi bật là thí nghiệm tại <b>tháp nghiêng Pisa</b>. Ông thả hai vật có khối lượng khác nhau từ trên cao, kết quả chúng chạm đất gần như cùng lúc.</p>
-          <div style="display:flex;flex-direction:column;gap:calc(var(--u)*0.75);">
-            <div style="padding:calc(var(--u)*0.85) calc(var(--u)*1.15);background:rgba(56,189,248,0.12);border-left:3px solid var(--cyan);border-radius:4px;font-size:calc(var(--u)*1.14);"><b>Tách bạch 2 yếu tố:</b> Xu hướng rơi tự nhiên do trọng lực &amp; sự cản trở của môi trường không khí xung quanh.</div>
-            <div style="padding:calc(var(--u)*0.85) calc(var(--u)*1.15);background:rgba(212,175,55,0.12);border-left:3px solid var(--brass);border-radius:4px;font-size:calc(var(--u)*1.14);"><b>Ý nghĩa vĩ đại:</b> Chứng minh sự rơi không phụ thuộc khối lượng vật, bác bỏ quan niệm sai lầm của Aristotle tồn tại hàng nghìn năm và đặt nền móng cho lý thuyết chuyển động cổ điển.</div>
+          <div style="display:flex;flex-direction:column;gap:calc(var(--u)*0.7);">
+            <div style="padding:calc(var(--u)*0.75) calc(var(--u)*1.1);background:rgba(56,189,248,0.12);border-left:3px solid var(--cyan);border-radius:4px;font-size:calc(var(--u)*1.12);"><b>Tách bạch 2 yếu tố:</b> Xu hướng rơi tự nhiên do trọng lực &amp; sự cản trở của môi trường không khí xung quanh.</div>
+            <div style="padding:calc(var(--u)*0.75) calc(var(--u)*1.1);background:rgba(212,175,55,0.12);border-left:3px solid var(--brass);border-radius:4px;font-size:calc(var(--u)*1.12);"><b>Ý nghĩa vĩ đại:</b> Chứng minh sự rơi không phụ thuộc khối lượng vật, bác bỏ quan niệm sai lầm của Aristotle tồn tại hàng nghìn năm và đặt nền móng cho lý thuyết chuyển động cổ điển.</div>
+          </div>
+          <div class="pisa-sim">
+            <div class="sim-tag">⚡ Hoạt nghiệm 2 quả cầu:</div>
+            <div class="sim-track"><div class="sim-lane"><span class="sim-ball-heavy"></span><span class="sim-ball-light"></span><span class="sim-finish"></span></div></div>
+            <button class="exp-btn" onclick="restartSim(this)">↻ Thả lại</button>
+            <button class="exp-btn gold" onclick="openLabModal('pisa')">🔬 Mở Lab</button>
           </div>
         </div>
-        <div class="rv" style="--i:3;display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*1.6);height:calc(var(--u)*36);">
+        <div class="rv" style="--i:3;display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*1.6);height:100%;">
           <div class="media-frame" onclick="openLightbox('12.jpg')"><img src="12.jpg" alt="Tháp nghiêng Pisa"><div class="media-caption"><span>Tháp Pisa</span><span class="zoom-hint">⤢</span></div></div>
           <div class="media-frame" onclick="openLightbox('13.jpg')"><img src="13.jpg" alt="Thực nghiệm Galileo"><div class="media-caption"><span>Thực nghiệm</span><span class="zoom-hint">⤢</span></div></div>
         </div>
@@ -611,10 +805,23 @@ Bằng thí nghiệm ống chân không: Trong ống có không khí, hòn đá 
         <div class="glass-card rv" style="--i:2;">
           <div class="card-kicker">Có không khí vs. Chân không</div>
           <div class="card-title">Vai trò của sức cản không khí</div>
-          <div style="display:flex;flex-direction:column;gap:calc(var(--u)*1);">
+          <div style="display:flex;flex-direction:column;gap:calc(var(--u)*0.85);">
             <div class="note-box red"><b style="color:#fca5a5;display:block;">1. Ống có không khí</b>Hòn đá rơi nhanh chạm đáy trước, lông chim rơi chậm.</div>
             <div class="note-box cyan"><b style="color:#7dd3fc;display:block;">2. Rút hết không khí</b>Tạo chân không — cả hai rơi cùng tốc độ, chạm đáy cùng lúc!</div>
             <div class="note-box"><b style="color:var(--brass-light);">Kết luận:</b> Sự khác biệt tốc độ rơi trong thực tế hoàn toàn do <b>sức cản không khí</b>, không phải trọng lượng.</div>
+          </div>
+          <div class="exp-chamber">
+            <div class="exp-chamber-top">
+              <div style="display:flex;align-items:center;gap:calc(var(--u)*0.6);">
+                <div class="vac-gauge" style="width:calc(var(--u)*2.2);height:calc(var(--u)*2.2);"><div class="vac-needle"></div></div>
+                <span style="font:800 calc(var(--u)*0.86) var(--f-body);color:#7dd3fc;">BƠM CHÂN KHÔNG ỐNG NEWTON</span>
+              </div>
+              <div style="display:flex;gap:calc(var(--u)*0.4);">
+                <button class="exp-btn active" onclick="toggleInlineTube(this,false)">Có không khí</button>
+                <button class="exp-btn gold" onclick="toggleInlineTube(this,true)">Hút chân không</button>
+              </div>
+            </div>
+            <div class="exp-tube-horiz"><div class="exp-air-dots"></div><span class="exp-obj-stone"></span><span class="exp-obj-feather"></span><span class="exp-impact-line"></span></div>
           </div>
         </div>
         <div class="rv" style="--i:3;height:100%;position:relative;border-radius:calc(var(--u)*1.2);overflow:hidden;border:2px solid var(--brass);background:#000;box-shadow:0 0 calc(var(--u)*4) var(--brass-glow);">
@@ -642,13 +849,17 @@ Bài học quan trọng: Những gì mắt thấy chưa hẳn là chân lý, c�
             <div style="border-color:var(--brass);"><b style="color:var(--brass-light);">GALILEO</b><span>Tách bạch sức cản, lập quy luật</span></div>
             <div style="border-color:var(--cyan);"><b style="color:var(--cyan);">NEWTON</b><span>Thực nghiệm chứng minh</span></div>
           </div>
-          <p class="txt" style="margin-top:calc(var(--u)*1.0);font-size:calc(var(--u)*1.45);line-height:1.6;">Nhân loại mới hiểu đúng hiện tượng: sự khác biệt tốc độ rơi trong thực tế hoàn toàn do <b>sức cản không khí</b>, không phải trọng lượng.</p>
-          <div style="margin-top:calc(var(--u)*1.0);background:linear-gradient(135deg,rgba(212,175,55,0.22),rgba(56,189,248,0.15));padding:calc(var(--u)*1.1) calc(var(--u)*1.4);border-radius:calc(var(--u)*0.8);border:1px solid var(--border-glass);">
-            <b style="color:var(--brass-light);font-size:calc(var(--u)*1.35);display:block;margin-bottom:calc(var(--u)*0.3);">★ Bài học quan trọng</b>
-            <p style="font-family:var(--f-ser);font-size:calc(var(--u)*1.75);color:#fff;line-height:1.42;font-style:italic;font-weight:700;">"Những gì mắt thấy chưa hẳn là chân lý, cần phân tích khoa học và kiểm chứng thực nghiệm."</p>
+          <p class="txt" style="margin-top:calc(var(--u)*0.85);font-size:calc(var(--u)*1.4);line-height:1.55;">Nhân loại mới hiểu đúng hiện tượng: sự khác biệt tốc độ rơi trong thực tế hoàn toàn do <b>sức cản không khí</b>, không phải trọng lượng.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*0.8);margin-top:calc(var(--u)*0.75);font-size:calc(var(--u)*1.05);">
+            <div style="padding:calc(var(--u)*0.55) calc(var(--u)*0.85);background:rgba(212,175,55,0.12);border-left:3px solid var(--brass);border-radius:5px;"><b style="color:var(--brass-light);">↓ Trọng lực Trái Đất:</b> Kéo mọi vật nặng nhẹ rơi xuống như nhau.</div>
+            <div style="padding:calc(var(--u)*0.55) calc(var(--u)*0.85);background:rgba(56,189,248,0.12);border-left:3px solid var(--cyan);border-radius:5px;"><b style="color:#7dd3fc;">↑ Sức cản không khí:</b> Cản trở vật nhẹ nhiều hơn, gây ra chênh lệch tốc độ.</div>
+          </div>
+          <div style="margin-top:calc(var(--u)*0.8);background:linear-gradient(135deg,rgba(212,175,55,0.22),rgba(56,189,248,0.15));padding:calc(var(--u)*0.95) calc(var(--u)*1.3);border-radius:calc(var(--u)*0.8);border:1px solid var(--border-glass);">
+            <b style="color:var(--brass-light);font-size:calc(var(--u)*1.3);display:block;margin-bottom:calc(var(--u)*0.2);">★ Bài học quan trọng</b>
+            <p style="font-family:var(--f-ser);font-size:calc(var(--u)*1.68);color:#fff;line-height:1.4;font-style:italic;font-weight:700;">"Những gì mắt thấy chưa hẳn là chân lý, cần phân tích khoa học và kiểm chứng thực nghiệm."</p>
           </div>
         </div>
-        <div class="rv" style="--i:3;display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*1.6);height:calc(var(--u)*36);">
+        <div class="rv" style="--i:3;display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*1.6);height:100%;">
           <div class="media-frame" onclick="openLightbox('33.jpg')"><img src="33.jpg" alt="Tổng kết"><div class="media-caption"><span>Lịch sử</span><span class="zoom-hint">⤢</span></div></div>
           <div class="media-frame" onclick="openLightbox('34.jpg')"><img src="34.jpg" alt="Bài học"><div class="media-caption"><span>Kết luận</span><span class="zoom-hint">⤢</span></div></div>
         </div>
@@ -678,10 +889,9 @@ Bài học quan trọng: Những gì mắt thấy chưa hẳn là chân lý, c�
           <div class="pillar"><div class="pillar-num" style="background:linear-gradient(135deg,#0284c7,#38bdf8);">II</div><div><b style="color:#7dd3fc;">Galileo</b><span>Tách bạch sức cản</span></div></div>
           <div class="pillar"><div class="pillar-num">III</div><div><b>Newton</b><span>Thực nghiệm chứng minh</span></div></div>
         </div>
-        <div class="rv" style="--i:5;margin-top:calc(var(--u)*1.6);display:flex;gap:calc(var(--u)*1.2);align-items:center;">
+        <div class="rv" style="--i:5;margin-top:calc(var(--u)*1.5);display:flex;gap:calc(var(--u)*1.4);align-items:center;">
           <span class="gold-badge">💬 Mời đặt câu hỏi</span>
           <button class="gold-badge cyan" onclick="goToSlideIndex(0)">↺ Xem lại từ đầu</button>
-          <span class="gold-badge" style="background:rgba(14,22,46,0.9);border:1.5px solid var(--brass);color:var(--brass-light);">⚡ Powered by nosxlab</span>
         </div>
       </div>
       ${marquee()}`
@@ -740,58 +950,85 @@ function makeCanvas(id,count,make,draw){
   function tick(){ctx.clearRect(0,0,W,H);P.forEach((p,i)=>{if(draw(ctx,p,W,H))P[i]=make(W,H);});requestAnimationFrame(tick);}
   return{init,resize,tick};
 }
-const Feathers=makeCanvas('feather-canvas',18,
-  (W,H)=>({x:Math.random()*W,y:-30,vx:(Math.random()-0.5)*0.4,vy:0.3+Math.random()*0.5,a:Math.random()*6.28,av:(Math.random()-0.5)*0.02,len:14+Math.random()*18,al:0.1+Math.random()*0.25,s:Math.random()*6.28,ss:0.008+Math.random()*0.012}),
-  (ctx,f,W,H)=>{f.s+=f.ss;f.x+=f.vx+Math.sin(f.s)*0.6;f.y+=f.vy;f.a+=f.av;
+const Feathers=makeCanvas('feather-canvas',14,
+  (W,H)=>({x:Math.random()*W,y:-30,vx:(Math.random()-0.5)*0.22,vy:0.15+Math.random()*0.25,a:Math.random()*6.28,av:(Math.random()-0.5)*0.009,len:14+Math.random()*18,al:0.1+Math.random()*0.22,s:Math.random()*6.28,ss:0.004+Math.random()*0.006}),
+  (ctx,f,W,H)=>{f.s+=f.ss;f.x+=f.vx+Math.sin(f.s)*0.35;f.y+=f.vy;f.a+=f.av;
     ctx.save();ctx.translate(f.x,f.y);ctx.rotate(f.a);ctx.globalAlpha=f.al;ctx.strokeStyle='rgba(243,234,216,0.9)';ctx.lineWidth=0.8;
     ctx.beginPath();ctx.moveTo(0,-f.len/2);ctx.lineTo(0,f.len/2);ctx.stroke();ctx.lineWidth=0.5;
     const st=Math.floor(f.len/2.2);for(let i=0;i<st;i++){const y=-f.len/2+i*2.2,sp=f.len*0.38*(1-Math.abs(i/st-0.5)*1.6);ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(-sp,y+sp*0.5);ctx.moveTo(0,y);ctx.lineTo(sp,y+sp*0.5);ctx.stroke();}
     ctx.restore();return f.y>H+30;});
 const Dust=makeCanvas('dust',36,
-  (W,H)=>({x:Math.random()*W,y:-5,r:0.6+Math.random()*1.6,vx:(Math.random()-0.5)*0.25,vy:0.15+Math.random()*0.35,al:0.3+Math.random()*0.5}),
-  (ctx,p,W,H)=>{p.x+=p.vx;p.y+=p.vy;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.283);ctx.fillStyle=`rgba(212,175,55,${p.al})`;ctx.fill();return p.y>H+5;});
+  (W,H)=>({x:Math.random()*W,y:Math.random()*H,r:0.7+Math.random()*1.5,vx:(Math.random()-0.5)*0.12,vy:Math.random()<0.28?-(0.28+Math.random()*0.45):(0.09+Math.random()*0.18),al:0.22+Math.random()*0.4,stream:Math.random()<0.28}),
+  (ctx,p,W,H)=>{p.x+=p.vx;p.y+=p.vy;
+    if(p.stream){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x,p.y+12);ctx.strokeStyle=`rgba(56,189,248,${p.al*0.45})`;ctx.lineWidth=1;ctx.stroke();if(p.y<-20){p.y=H+15;p.x=Math.random()*W;}return false;}
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.283);ctx.fillStyle=`rgba(212,175,55,${p.al})`;ctx.fill();return p.y>H+5;});
 
 /* Pointer parallax */
 let mx=0,my=0,smx=0,smy=0;
 stage.addEventListener('mousemove',e=>{const r=stage.getBoundingClientRect();mx=(e.clientX-r.left)/r.width*2-1;my=(e.clientY-r.top)/r.height*2-1;});
-(function parallax(){smx+=(mx-smx)*0.07;smy+=(my-smy)*0.07;
-  document.querySelectorAll('.sc.on .parallax-layer').forEach(el=>{el.style.transform=`translate(${smx*5}px,${smy*3}px)`;});
+(function parallax(){smx+=(mx-smx)*0.04;smy+=(my-smy)*0.04;
+  document.querySelectorAll('.sc.on .parallax-layer').forEach(el=>{el.style.transform=`translate3d(${(smx*3.5).toFixed(2)}px,${(smy*2.2).toFixed(2)}px,0)`;});
   requestAnimationFrame(parallax);})();
 
 /* ===================================================================
-   5. NAVIGATION
+   5. NAVIGATION & SMOOTH CINEMATIC TRANSITION
    =================================================================== */
 const notesDrawer=document.getElementById('notes-drawer');
+const dockEl=document.getElementById('slide-dock');
+function buildDock(){
+  dockEl.innerHTML=`<button class="dock-arrow" id="dock-prev" title="Slide trước">‹</button>`+
+    SLIDES.map((s,i)=>`<button class="dock-dot ${i===cur?'on':''}" data-i="${i}" title="${String(i+1).padStart(2,'0')} · ${s.name}"></button>`).join('')+
+    `<button class="dock-arrow" id="dock-next" title="Slide tiếp">›</button>`;
+  dockEl.querySelector('#dock-prev').onclick=()=>goTo(cur-1,-1);
+  dockEl.querySelector('#dock-next').onclick=()=>goTo(cur+1,1);
+  dockEl.querySelectorAll('.dock-dot').forEach(b=>b.onclick=()=>window.goToSlideIndex(+b.dataset.i));
+}
 function updateUI(){
   counterEl.textContent=`${String(cur+1).padStart(2,'0')} / ${String(SLIDES.length).padStart(2,'0')}`;
   progressEl.style.transform=`scaleX(${(cur+1)/SLIDES.length})`;
   document.body.classList.toggle('hero-slide',!!SLIDES[cur].hero);
   document.getElementById('notes-title').textContent='LỜI DẪN: '+SLIDES[cur].name.toUpperCase();
   document.getElementById('notes-content').textContent=SLIDES[cur].notes||'';
+  dockEl.querySelectorAll('.dock-dot').forEach((d,i)=>d.classList.toggle('on',i===cur));
   history.replaceState(null,'','#slide-'+String(cur+1).padStart(2,'0'));
 }
+let lastNavTime=0;
 function goTo(idx,dir=1){
   if(navigating||idx===cur||idx<0||idx>=SLIDES.length)return;
   navigating=true;
+  lastNavTime=performance.now();
   ['player-vid01','player-2mp4'].forEach(id=>{const v=document.getElementById(id);if(v)v.pause();});
   const secs=document.querySelectorAll('.sc');
+  const prevSec=secs[cur],nextSec=secs[idx];
+  fitIn(nextSec);
   curtain.className=dir>0?'anim-fwd':'anim-bwd';
+  prevSec.classList.remove('on');
+  prevSec.classList.add(dir>0?'out-fwd':'out-bwd');
+  if(dir<0)nextSec.classList.add('in-from-top');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    nextSec.classList.remove('in-from-top');
+    nextSec.classList.add('on');
+    cur=idx;updateUI();
+    ['impact-wave','impact-wave w2'].forEach(cls=>{
+      const ring=document.createElement('div');ring.className=cls;stage.appendChild(ring);setTimeout(()=>ring.remove(),1650);
+    });
+  }));
   setTimeout(()=>{
-    secs[cur].classList.remove('on');
-    secs[idx].classList.add('on');
-    cur=idx;updateUI();fitIn(secs[idx]);
-    const ring=document.createElement('div');ring.className='impact-wave';stage.appendChild(ring);setTimeout(()=>ring.remove(),950);
-  },560);
-  setTimeout(()=>{curtain.className='';navigating=false;},1300);
+    prevSec.classList.remove('out-fwd','out-bwd');
+    curtain.className='';
+    navigating=false;
+  },1600);
 }
 window.goToSlideIndex=i=>goTo(i,i>cur?1:-1);
 
 let wDelta=0,wTimer=null;
+const labModal=document.getElementById('lab-modal');
 window.addEventListener('wheel',e=>{
-  if(document.body.classList.contains('edit-mode')||document.getElementById('lightbox').classList.contains('active')||e.target.closest('#notes-drawer'))return;
-  e.preventDefault();if(navigating)return;
-  wDelta+=e.deltaY;clearTimeout(wTimer);wTimer=setTimeout(()=>{wDelta=0},140);
-  if(Math.abs(wDelta)>55){const d=wDelta>0?1:-1;wDelta=0;goTo(cur+d,d);}
+  if(document.body.classList.contains('edit-mode')||document.getElementById('lightbox').classList.contains('active')||labModal.classList.contains('active')||e.target.closest('#notes-drawer'))return;
+  e.preventDefault();
+  if(navigating||performance.now()-lastNavTime<1850){wDelta=0;return;}
+  wDelta+=e.deltaY;clearTimeout(wTimer);wTimer=setTimeout(()=>{wDelta=0},200);
+  if(Math.abs(wDelta)>85){const d=wDelta>0?1:-1;wDelta=0;goTo(cur+d,d);}
 },{passive:false});
 let tY=0;
 window.addEventListener('touchstart',e=>{tY=e.touches[0].clientY},{passive:true});
@@ -800,10 +1037,12 @@ window.addEventListener('keydown',e=>{
   if(e.target.matches('textarea,input'))return;
   if(e.target.tagName==='VIDEO'&&e.key===' ')return;
   if(e.key==='Escape'){closeAll();return;}
+  if(labModal.classList.contains('active')){if(e.key===' '){e.preventDefault();startLabDrop();}return;}
   if(['ArrowDown','ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();goTo(cur+1,1);}
   else if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();goTo(cur-1,-1);}
   else if(e.key==='Home'){e.preventDefault();goTo(0,-1);}
   else if(e.key==='End'){e.preventDefault();goTo(SLIDES.length-1,1);}
+  else if(e.key==='l'||e.key==='L')toggleLab();
   else if(e.key==='g'||e.key==='G')toggleGrid();
   else if(e.key==='n'||e.key==='N')notesDrawer.classList.toggle('active');
   else if(e.key==='s'||e.key==='S')toggleEditor();
@@ -811,8 +1050,174 @@ window.addEventListener('keydown',e=>{
 });
 window.addEventListener('hashchange',()=>{const m=location.hash.match(/slide-(\d+)/);if(m)window.goToSlideIndex(parseInt(m[1],10)-1);});
 
+/* Inline experiment helpers on slides */
+window.toggleInlineTube=function(btn,isVac){
+  const chamber=btn.closest('.exp-chamber');
+  if(!chamber)return;
+  chamber.querySelectorAll('.exp-btn').forEach(b=>{if(b.textContent.includes('Không khí')||b.textContent.includes('không khí')||b.textContent.includes('Chân không')||b.textContent.includes('chân không'))b.classList.remove('active');});
+  btn.classList.add('active');
+  const tube=chamber.querySelector('.exp-tube-horiz');
+  tube.classList.toggle('is-vac',isVac);
+  tube.querySelectorAll('.exp-obj-stone,.exp-obj-feather').forEach(el=>{
+    el.style.animation='none';void el.offsetWidth;el.style.animation='';
+  });
+};
+window.restartSim=function(btn){
+  const sim=btn.closest('.pisa-sim');
+  if(!sim)return;
+  sim.querySelectorAll('.sim-ball-heavy,.sim-ball-light').forEach(el=>{
+    el.style.animation='none';void el.offsetWidth;el.style.animation='';
+  });
+};
+
 /* ===================================================================
-   6. LIGHTBOX · GRID · NOTES · EDITOR
+   6. VIRTUAL PHYSICS LAB ENGINE (#lab-modal)
+   =================================================================== */
+const labCv=document.getElementById('lab-canvas'),labCtx=labCv.getContext('2d');
+let labEnv='air',labPair='newton',labStrobe=true,labVec=true;
+let labRunning=false,labT=0,labGhosts=[],labWaves=[],labAir=[];
+function resizeLab(){
+  const r=labCv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);
+  if(!r.width)return;
+  labCv.width=Math.round(r.width*d);labCv.height=Math.round(r.height*d);
+  labCtx.setTransform(d,0,0,d,0,0);
+  if(!labAir.length){for(let i=0;i<55;i++)labAir.push({x:Math.random()*r.width,y:Math.random()*r.height,s:0.4+Math.random()*0.8});}
+}
+function startLabDrop(){
+  resizeLab();
+  labT=0;labGhosts=[];labWaves=[];labRunning=true;
+}
+function updateLabInfo(){
+  const envNames={air:'MÔI TRƯỜNG: KHÔNG KHÍ THƯỜNG · SỨC CẢN LỚN',thin:'MÔI TRƯỜNG: KHÔNG KHÍ LOÃNG · SỨC CẢN NHỎ',vac:'MÔI TRƯỜNG: CHÂN KHÔNG · KHÔNG CÓ SỨC CẢN'};
+  document.getElementById('lab-status-text').textContent=envNames[labEnv];
+  const conc=document.getElementById('lab-conclusion');
+  if(labEnv==='vac')conc.innerHTML='<b>Kết quả (Chân không):</b> Khi rút hết không khí, không còn sức cản — cả hai vật rơi cùng tốc độ và chạm đáy <b>cùng một lúc</b>!';
+  else if(labPair==='pisa')conc.innerHTML='<b>Kết quả (Tháp Pisa):</b> Hai quả cầu đặc và nặng nên sức cản không khí rất nhỏ so với trọng lực — chúng chạm đất <b>gần như cùng lúc</b>!';
+  else if(labEnv==='thin')conc.innerHTML='<b>Kết quả (Khí loãng):</b> Sức cản giảm đi, lông chim rơi nhanh hơn đáng kể và bám sát hòn đá.';
+  else conc.innerHTML='<b>Kết quả (Không khí):</b> Hòn đá thắng sức cản rơi nhanh, còn lông chim bị sức cản không khí lớn giữ lại nên rơi chậm.';
+  startLabDrop();
+}
+function toggleLab(pair){
+  if(pair&&typeof pair==='string'){
+    labPair=pair;
+    document.querySelectorAll('#lab-pair-opts .lab-opt').forEach(b=>b.classList.toggle('active',b.dataset.pair===pair));
+  }
+  if(labModal.classList.toggle('active')){updateLabInfo();}
+}
+window.openLabModal=pair=>{if(!labModal.classList.contains('active'))toggleLab(pair);};
+document.getElementById('btn-lab-toggle').onclick=()=>toggleLab();
+document.getElementById('lab-close').onclick=()=>labModal.classList.remove('active');
+labModal.onclick=e=>{if(e.target===labModal)labModal.classList.remove('active');};
+document.querySelectorAll('#lab-env-opts .lab-opt').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#lab-env-opts .lab-opt').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');labEnv=b.dataset.env;updateLabInfo();
+});
+document.querySelectorAll('#lab-pair-opts .lab-opt').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#lab-pair-opts .lab-opt').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');labPair=b.dataset.pair;updateLabInfo();
+});
+document.getElementById('lab-strobe-btn').onclick=function(){labStrobe=this.classList.toggle('active');};
+document.getElementById('lab-vec-btn').onclick=function(){labVec=this.classList.toggle('active');};
+document.getElementById('lab-drop-btn').onclick=startLabDrop;
+
+(function tickLab(){
+  if(labModal.classList.contains('active')){
+    const W=labCv.clientWidth,H=labCv.clientHeight;
+    if(W&&H){
+      labCtx.clearRect(0,0,W,H);
+      const topY=58,botY=H-48,dist=botY-topY;
+      const x1=W*0.36,x2=W*0.64;
+      /* Chamber tube frame */
+      labCtx.strokeStyle=labEnv==='vac'?'rgba(246,224,130,0.6)':'rgba(56,189,248,0.45)';
+      labCtx.lineWidth=2;
+      labCtx.strokeRect(W*0.18,topY-28,W*0.64,dist+44);
+      /* Ruler ticks on left wall */
+      labCtx.fillStyle='rgba(212,175,55,0.55)';labCtx.font='600 11px Be Vietnam Pro, sans-serif';
+      for(let i=0;i<=5;i++){
+        const ty=topY+dist*(i/5);
+        labCtx.fillRect(W*0.18,ty,12,1.5);
+        labCtx.fillText((i*20)+'%',W*0.18+16,ty+4);
+      }
+      /* Air particles */
+      if(labEnv!=='vac'){
+        const cnt=labEnv==='air'?55:20;
+        labCtx.fillStyle=labEnv==='air'?'rgba(125,211,252,0.45)':'rgba(125,211,252,0.25)';
+        for(let i=0;i<cnt;i++){
+          const p=labAir[i];p.y-=p.s*(labRunning?1.4:0.4);
+          if(p.y<topY-20)p.y=botY;
+          labCtx.beginPath();labCtx.arc(W*0.2+((p.x)%(W*0.6)),p.y,1.8,0,6.28);labCtx.fill();
+        }
+      }
+      /* Progress of 2 objects */
+      if(labRunning)labT+=0.0045;
+      const p1=Math.min(1,labT*labT*2.2);
+      let slowFactor=1;
+      if(labEnv==='air')slowFactor=labPair==='newton'?0.38:0.94;
+      else if(labEnv==='thin')slowFactor=labPair==='newton'?0.68:0.98;
+      const p2=Math.min(1,labEnv==='vac'?p1:(labPair==='newton'&&labEnv==='air'?Math.min(1,labT*0.72):Math.min(1,labT*labT*2.2*slowFactor)));
+      const y1=topY+dist*p1,y2=topY+dist*p2;
+      if(labStrobe&&labRunning&&Math.floor(labT*100)%14===0&&labGhosts.length<12&&(p1<1||p2<1)){
+        if(!labGhosts.length||Math.abs(labGhosts[labGhosts.length-1].t-labT)>0.05)labGhosts.push({y1,y2,t:labT});
+      }
+      if(p1>=1&&!labWaves.some(w=>w.id===1))labWaves.push({id:1,x:x1,y:botY,r:4,al:1,c:'#f6e082'});
+      if(p2>=1&&!labWaves.some(w=>w.id===2))labWaves.push({id:2,x:x2,y:botY,r:4,al:1,c:'#38bdf8'});
+      if(p1>=1&&p2>=1&&labT>1.75)startLabDrop();
+      /* Strobe ghosts */
+      if(labStrobe){
+        labGhosts.forEach(g=>{
+          labCtx.globalAlpha=0.22;
+          labCtx.fillStyle='#f6e082';labCtx.beginPath();labCtx.arc(x1,g.y1,11,0,6.28);labCtx.fill();
+          labCtx.fillStyle='#38bdf8';labCtx.beginPath();labCtx.arc(x2,g.y2,8,0,6.28);labCtx.fill();
+          labCtx.globalAlpha=1;
+        });
+      }
+      /* Force vectors */
+      const drawArrow=(x,y,dy,col,lbl)=>{
+        labCtx.strokeStyle=col;labCtx.fillStyle=col;labCtx.lineWidth=2.5;
+        labCtx.beginPath();labCtx.moveTo(x,y);labCtx.lineTo(x,y+dy);labCtx.stroke();
+        const s=dy>0?1:-1;
+        labCtx.beginPath();labCtx.moveTo(x,y+dy+s*6);labCtx.lineTo(x-5,y+dy-s*2);labCtx.lineTo(x+5,y+dy-s*2);labCtx.closePath();labCtx.fill();
+        labCtx.font='700 10.5px Be Vietnam Pro, sans-serif';labCtx.fillText(lbl,x+10,y+dy*0.6);
+      };
+      if(labVec){
+        if(p1<1){drawArrow(x1,y1+14,28,'#f6e082','Trọng lực');if(labEnv!=='vac')drawArrow(x1,y1-14,-10,'#38bdf8','Sức cản nhỏ');}
+        if(p2<1){
+          drawArrow(x2,y2+14,labPair==='newton'?18:24,'#f6e082','Trọng lực');
+          if(labEnv!=='vac')drawArrow(x2,y2-14,labPair==='newton'?(labEnv==='air'?-28:-16):-11,'#38bdf8',labPair==='newton'?'Sức cản lớn':'Sức cản nhỏ');
+        }
+      }
+      /* Object 1 (Stone / Heavy Sphere) */
+      labCtx.fillStyle='#94a3b8';labCtx.strokeStyle='#f6e082';labCtx.lineWidth=2;
+      labCtx.beginPath();labCtx.arc(x1,y1,14,0,6.28);labCtx.fill();labCtx.stroke();
+      labCtx.fillStyle='#fff';labCtx.font='700 12px Be Vietnam Pro, sans-serif';
+      labCtx.fillText(labPair==='newton'?'Hòn đá':'Quả cầu nặng',x1-34,topY-10);
+      /* Object 2 (Feather / Light Sphere) */
+      const swayX=(labPair==='newton'&&labEnv!=='vac'&&p2<1)?Math.sin(labT*18)*10:0;
+      labCtx.save();labCtx.translate(x2+swayX,y2);
+      if(labPair==='newton'){
+        labCtx.rotate(swayX*0.03);
+        labCtx.fillStyle='#f8fafc';labCtx.beginPath();labCtx.ellipse(0,0,6,15,0,0,6.28);labCtx.fill();
+        labCtx.strokeStyle='#d4af37';labCtx.lineWidth=1.5;labCtx.beginPath();labCtx.moveTo(0,-15);labCtx.lineTo(0,16);labCtx.stroke();
+      }else{
+        labCtx.fillStyle='#bae6fd';labCtx.strokeStyle='#38bdf8';labCtx.lineWidth=2;
+        labCtx.beginPath();labCtx.arc(0,0,9,0,6.28);labCtx.fill();labCtx.stroke();
+      }
+      labCtx.restore();
+      labCtx.fillStyle='#7dd3fc';labCtx.fillText(labPair==='newton'?'Lông chim':'Quả cầu nhẹ',x2-32,topY-10);
+      /* Impact waves */
+      labWaves.forEach(w=>{
+        w.r+=1.8;w.al*=0.94;
+        labCtx.strokeStyle=w.c;labCtx.globalAlpha=w.al;labCtx.lineWidth=2;
+        labCtx.beginPath();labCtx.ellipse(w.x,w.y,w.r,w.r*0.25,0,0,6.28);labCtx.stroke();
+        labCtx.globalAlpha=1;
+      });
+    }
+  }
+  requestAnimationFrame(tickLab);
+})();
+
+/* ===================================================================
+   7. LIGHTBOX · GRID · NOTES · EDITOR
    =================================================================== */
 const lightbox=document.getElementById('lightbox');
 window.openLightbox=src=>{document.getElementById('lightbox-img').src=src;lightbox.classList.add('active');};
@@ -826,7 +1231,7 @@ function toggleGrid(){
   shelf.querySelectorAll('.grid-thumb').forEach(t=>t.onclick=()=>{modalGrid.classList.remove('active');window.goToSlideIndex(+t.dataset.i);});
 }
 function toggleEditor(){if(document.body.classList.toggle('edit-mode'))buildEditor();}
-function closeAll(){lightbox.classList.remove('active');modalGrid.classList.remove('active');notesDrawer.classList.remove('active');document.body.classList.remove('edit-mode');}
+function closeAll(){lightbox.classList.remove('active');modalGrid.classList.remove('active');labModal.classList.remove('active');notesDrawer.classList.remove('active');document.body.classList.remove('edit-mode');}
 document.getElementById('btn-notes-toggle').onclick=()=>notesDrawer.classList.toggle('active');
 document.getElementById('notes-close').onclick=()=>notesDrawer.classList.remove('active');
 document.getElementById('btn-grid-toggle').onclick=toggleGrid;
@@ -859,15 +1264,17 @@ document.getElementById('btn-save-html').onclick=()=>{
    7. INIT
    =================================================================== */
 renderSlides();
+buildDock();
 Feathers.init();Feathers.tick();
 Dust.init();Dust.tick();
 const start=(location.hash.match(/slide-(\d+)/)||[])[1];
 cur=start?Math.min(Math.max(parseInt(start,10)-1,0),SLIDES.length-1):0;
 const secs=document.querySelectorAll('.sc');
+const fitAll=()=>document.querySelectorAll('.sc').forEach(fitIn);
 secs[cur].classList.add('on');
-updateUI();fitIn(secs[cur]);
-if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>fitIn(document.querySelectorAll('.sc')[cur]));
-window.addEventListener('resize',()=>{Feathers.resize();Dust.resize();fitIn(document.querySelectorAll('.sc')[cur]);});
+updateUI();fitAll();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitAll);
+window.addEventListener('resize',()=>{Feathers.resize();Dust.resize();resizeLab();fitAll();});
 })();
 </script>
 </body>
